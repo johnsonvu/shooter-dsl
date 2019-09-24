@@ -1,0 +1,39 @@
+## 2 person shooter
+
+## declare and initialize game
+make game shooter2ppl(height=800, width=600) {
+
+    ## make projectiles
+    make projectile bullet
+    make projectile doubleBullet
+    make player p1
+    make player p2
+    make item upgrade
+    
+    ## win condition
+    if (p1 health<=0) {
+        win p2
+    } else {
+        win p1
+    }
+}
+
+## override default properties
+bullet(damage=3, icon=lib.bulletShell) {
+}
+
+doubleBullet(damage=5, icon=lib.bulletShell) {
+    shoot bullet 85 degree
+    shoot bullet 95 degree
+}
+
+upgrade(onTouch=event.player.changeProjectile(doubleBullet)) {
+    spawn random every 2 minutes
+}
+
+p1(move=w,a,s,d, shoot=1, health=100, projectile=bullet, spawn=bottom) {
+}
+
+p2(move=i,j,k,l, shoot=0, health=100, projectile=bullet, spawn=top, orientationOffset=180) {
+}
+
