@@ -1,0 +1,44 @@
+## declae and initialize game
+make game defaultGame(){
+	
+	##Initilize objects
+	make player p1   		
+	make bullets bullets1
+	make bullets doubleBullets
+	make alien a1
+	make item item1
+	make item item2
+	
+	p1 gets bullets1		#links the bullets to p1
+	
+	#Create and modify win conditions
+	make winCondition win	#default win condition
+	win = if(p1 health <= 0){
+			if(p1.killed >= 50){
+			win()
+			}
+		}
+}
+
+##Modify properties/methods of objects
+bullets1(damage=3, icon=lib.bulletShell){}
+
+bullets1(damage=3, icon=lib.bulletShell){
+	shoot bullet 85 degree
+	shoot bullet 95 degree
+}
+
+item1(){
+	p1.bullets = doubleBullets
+}
+
+item2(){
+	p1.health = 100
+}
+
+a1(health = 200, speed = 2){
+	if (a1.Xposition >= 100){
+		a1.Xposition = 0
+	}
+}
+

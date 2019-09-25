@@ -1,0 +1,14 @@
+## declae and initialize game
+make game defaultGame(){
+	
+	#make players
+	make player p1   		#Uses default sprite, and default control keys
+	make bullets bullets1	#Default bullts
+	make alien a1			#Default aliens with their default speed
+	make item item        	#Default items should be health
+	
+	p1 gets bullets1		#links the bullets to p1
+	
+	##
+	make winCondition win	#default win condition
+}
