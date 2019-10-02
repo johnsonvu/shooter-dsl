@@ -3,7 +3,7 @@ package ast;
 import visitor.Visitor;
 
 public class GameDef extends ASTNode{
-    public String identifier;
+    public String name;
     public int height;
     public int width;
     public String statement;

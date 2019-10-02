@@ -1,7 +1,6 @@
 package parser;
 
-import ast.ASTNode;
-import ast.Program;
+import ast.*;
 import tokenizer.Tokenizer;
 import visitor.Visitor;
 
@@ -19,6 +18,13 @@ public class ParseVisitor implements Visitor<ASTNode> {
     }
 
     @Override
+    public ASTNode visit(Program p) {
+        GameDef gd = new GameDef();
+        p.game = (GameDef) gd.accept(this);
+        return p;
+    }
+
+    @Override
     public ASTNode visit(GameDef gd) {
 
         tokenizer.getAndCheckNext("make");
@@ -26,11 +32,35 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
         gd.name = tokenizer.getNext();
 
-
         tokenizer.getAndCheckNext("height");
         tokenizer.getAndCheckNext("=");
 
-        gd.height = tokenizer.getNext(); //convert to int
+        gd.height = Integer.valueOf(tokenizer.getNext());
         return gd;
+    }
+
+    @Override
+    public ASTNode visit(ObjectDef gd) {
+        return null;
+    }
+
+    @Override
+    public ASTNode visit(GameStatement gs) {
+        return null;
+    }
+
+    @Override
+    public ASTNode visit(MakeStatement ms) {
+        return null;
+    }
+
+    @Override
+    public ASTNode visit(FunctionDec fd) {
+        return null;
+    }
+
+    @Override
+    public ASTNode visit(FunctionCall fc) {
+        return null;
     }
 }
