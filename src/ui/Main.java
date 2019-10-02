@@ -8,7 +8,7 @@ public class Main {
         String[] reservedWords = {};
         Tokenizer tokenizer = Tokenizer.getInstance("game.txt", reservedWords);
         Parser parser = new Parser();
-        parser.makeAST();
+//        parser.makeAST();
 
     }
 }
