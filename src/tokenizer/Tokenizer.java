@@ -7,18 +7,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class Tokenizer {
     private static Tokenizer tokenizer;
     private String filePath;
     private String program;
     private String[] reservedWords;
     private String[] tokens;
+    private int currentToken;
 
     private Tokenizer(Path filePath, String[] reservedWords)
     {
+        currentToken = 0;
         this.reservedWords = reservedWords;
         try{
-            program = Files.readString(filePath, StandardCharsets.UTF_8);
+            program = Files.readString(filePath, UTF_8);
         }
         catch(IOException ioEx)
         {
@@ -28,12 +32,17 @@ public class Tokenizer {
 
     public void tokenize()
     {
+        program = program.replaceAll("\\(", " ( ");
+        program = program.replaceAll("\\)", " ) ");
+        program = program.replaceAll("\\{", " { ");
+        program = program.replaceAll("\\}", " } ");
+
         program = program.replaceAll("\\s", " ");
 
 //        for(String resWord: reservedWords){
 //            program.replace(resWord, resWord.replace(" ", ""));
 //        }
-        tokens = program.split("\\s");
+        tokens = program.split(" ");
 
     }
 
@@ -50,5 +59,21 @@ public class Tokenizer {
         else {
             return tokenizer;
         }
+    }
+
+    public boolean checkNext(String expectedToken)
+    {
+        return tokens[currentToken] == expectedToken;
+    }
+
+    public String getNext()
+    {
+        currentToken++;
+        return tokens[currentToken-1];
+    }
+
+    public Boolean getAndCheckNext(String expectedToken) {
+        currentToken++;
+        return tokens[currentToken-1] == expectedToken;
     }
 }
