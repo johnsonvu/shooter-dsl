@@ -31,6 +31,6 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext("=");
 
         gd.height = tokenizer.getNext(); //convert to int
-        return null;
+        return gd;
     }
 }
