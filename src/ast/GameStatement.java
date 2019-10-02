@@ -2,8 +2,8 @@ package ast;
 
 import visitor.Visitor;
 
-public class GameStatement extends ASTNode{
-    public String statement;
+public class GameStatement extends Statement{
+    public Statement statement;
 
     @Override
     public <T> T accept(Visitor<T> v) {

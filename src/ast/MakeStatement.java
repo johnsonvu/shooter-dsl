@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class MakeStatement extends ASTNode{
+public class MakeStatement extends Statement {
     public Number number;
     public Type type;
     public Identifier identifier;
