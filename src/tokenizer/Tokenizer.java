@@ -32,17 +32,13 @@ public class Tokenizer {
 
     public void tokenize()
     {
-        program = program.replaceAll("\\(", " ( ");
-        program = program.replaceAll("\\)", " ) ");
-        program = program.replaceAll("\\{", " { ");
-        program = program.replaceAll("\\}", " } ");
+        for (String resWord : reservedWords)
+        {
+            String resWordWithSpaces = " " + resWord + " ";
+            program = program.replaceAll(resWord, resWordWithSpaces);
+        }
 
-        program = program.replaceAll("\\s", " ");
-
-//        for(String resWord: reservedWords){
-//            program.replace(resWord, resWord.replace(" ", ""));
-//        }
-        tokens = program.split(" ");
+        tokens = program.split("\\s+");
 
     }
 
@@ -72,7 +68,8 @@ public class Tokenizer {
         return tokens[currentToken-1];
     }
 
-    public Boolean getAndCheckNext(String expectedToken) {
+    public Boolean getAndCheckNext(String expectedToken)
+    {
         currentToken++;
         return tokens[currentToken-1] == expectedToken;
     }

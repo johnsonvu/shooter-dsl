@@ -5,8 +5,9 @@ import tokenizer.Tokenizer;
 
 public class Main {
     public static void main(String[] args) {
-        String[] reservedWords = {};
+        String[] reservedWords = {"\\(", "\\)", "\\{", "\\}", ","};
         Tokenizer tokenizer = Tokenizer.getInstance("game.txt", reservedWords);
+        tokenizer.tokenize();
         Parser parser = new Parser();
 //        parser.makeAST();
 
