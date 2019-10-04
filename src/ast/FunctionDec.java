@@ -5,9 +5,9 @@ import visitor.Visitor;
 import java.util.ArrayList;
 
 public class FunctionDec extends ASTNode{
-    public String identifier;
-    public ArrayList<String> arguments;
-    public String block;
+    public String name;
+    public ArrayList<String> parameters;
+    public Block block;
 
     @Override
     public <T> T accept(Visitor<T> v) {

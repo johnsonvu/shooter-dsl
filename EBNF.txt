@@ -37,6 +37,8 @@ GAME_STATE ::= win | lose
 
 TYPE ::= "player" | "projectile" | "enemy" | "item"
 
+STATEMENT ::= STRING
+
 IDENTIFIER ::= [A-Z|a-z|0-9]+
 
 NUMBER ::= [0-9]+

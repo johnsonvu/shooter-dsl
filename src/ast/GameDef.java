@@ -6,7 +6,7 @@ public class GameDef extends ASTNode{
     public String name;
     public int height;
     public int width;
-    public String statement;
+    public Statement statement;
 
     @Override
     public <T> T accept(Visitor<T> v) {

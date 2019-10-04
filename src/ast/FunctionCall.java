@@ -5,7 +5,7 @@ import visitor.Visitor;
 import java.util.ArrayList;
 
 public class FunctionCall extends ASTNode{
-    public String identifier;
+    public String name;
     public ArrayList<String> arguments;
 
     @Override
