@@ -2,8 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class Statement extends ASTNode {
-    public String value;
+public abstract class Statement extends ASTNode {
 
     @Override
     public <T> T accept(Visitor<T> v) {

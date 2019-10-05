@@ -4,7 +4,7 @@ import visitor.Visitor;
 
 import java.util.Map;
 
-public class PropertyStatemnet extends ASTNode{
+public class PropertyStatement extends Statement{
     public Map propertyMap;
     public FunctionDec func;
 

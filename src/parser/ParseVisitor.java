@@ -51,7 +51,20 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(Statement s) {
-        return null;
+        if(tokenizer.checkNext("make")){
+            GameStatement gs = new GameStatement();
+            s =  (GameStatement) gs.accept(this);
+        }
+        if(tokenizer.checkNext("move")||tokenizer.checkNext("shoot")){
+            BehaveStatement bs = new BehaveStatement();
+            s = (BehaveStatement) bs.accept(this);
+        }
+        if(tokenizer.checkNext("damage")||tokenizer.checkNext("health")){
+            PropertyStatement ps = new PropertyStatement();
+            s = (PropertyStatement) ps.accept(this);
+        }
+
+        return s;
     }
 
     @Override
@@ -65,7 +78,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visit(PropertyStatemnet ps) {
+    public ASTNode visit(PropertyStatement ps) {
         return null;
     }
 

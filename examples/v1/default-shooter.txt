@@ -1,4 +1,4 @@
-## declae and initialize game
+## declare and initialize game
 make game defaultGame(){
 	
 	#make players

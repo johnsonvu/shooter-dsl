@@ -4,7 +4,7 @@ import visitor.Visitor;
 
 public class ObjectDef extends ASTNode{
     public Identifier identifier;
-    public PropertyStatemnet propertyStatemnet;
+    public PropertyStatement propertyStatement;
 
     @Override
     public <T> T accept(Visitor<T> v) {

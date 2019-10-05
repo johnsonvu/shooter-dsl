@@ -18,7 +18,7 @@ public interface Visitor<T> {
 
     public T visit(MakeStatement ms);
 
-    public T visit(PropertyStatemnet ps);
+    public T visit(PropertyStatement ps);
 
     public T visit(FunctionDec fd);
 

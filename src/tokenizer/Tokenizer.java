@@ -50,11 +50,9 @@ public class Tokenizer {
     {
         if(tokenizer == null) {
             Path path = Paths.get(fileName);
-            return new Tokenizer(path, reservedWords);
+            tokenizer = new Tokenizer(path, reservedWords);
         }
-        else {
-            return tokenizer;
-        }
+        return tokenizer;
     }
 
     public boolean checkNext(String expectedToken)
@@ -64,14 +62,17 @@ public class Tokenizer {
 
     public String getNext()
     {
-        currentToken++;
-        return tokens[currentToken-1];
+        return tokens[currentToken++];
     }
 
     public Boolean getAndCheckNext(String expectedToken)
     {
-        currentToken++;
-        return tokens[currentToken-1] == expectedToken;
+        return tokens[currentToken++] == expectedToken;
+    }
+
+    public Boolean hasMoreTokens ()
+    {
+        return currentToken < tokens.length;
     }
 	
 }

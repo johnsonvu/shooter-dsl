@@ -1,5 +1,6 @@
 package ui;
 
+import ast.ASTNode;
 import parser.Parser;
 import tokenizer.Tokenizer;
 
@@ -9,7 +10,7 @@ public class Main {
         Tokenizer tokenizer = Tokenizer.getInstance("game.txt", reservedWords);
         tokenizer.tokenize();
         Parser parser = new Parser();
-//        parser.makeAST();
+        ASTNode ast = parser.parse();
 
     }
 }

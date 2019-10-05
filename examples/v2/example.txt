@@ -1,0 +1,50 @@
+make game SampleGame
+{
+    height = 100,
+    width = 100
+}
+{
+	make player buddy
+	make bullets lazers
+	make alien ian
+	make alien justin
+	make item powerUp
+}
+
+define buddy{
+    damage = 5
+    health = 10
+}
+
+define ian{
+    damage = 1
+    health = 100
+    behave = ianBehaviour    //Run after every tick in the game
+}
+
+define justin{
+    damage = 100
+    health = 1
+    behave = justinBehaviour    //Run after every tick in the game
+}
+
+define ianBehaviour ()
+{
+    move down
+    shoot down
+    damage = damage +1;
+}
+
+define justinBehaviour ()
+{
+    move down
+    shoot down
+    damage = call doubleDamage(damage);
+}
+
+define doubleDamage(dmg){
+    return 2 * dmg
+}
+
+
+define addDamage
