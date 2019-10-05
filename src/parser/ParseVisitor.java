@@ -51,9 +51,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
         gd.statements = new ArrayList<GameStatement>();
 
+        // TODO: Add support for LOOPS
         while(tokenizer.checkNext("make")){
-            GameStatement gs = new GameStatement();
-            gd.statements.add((GameStatement) gs.accept(this));
+            GameStatement gs = new MakeStatement();
+            gd.statements.add((MakeStatement) gs.accept(this));
         }
         tokenizer.getAndCheckNext("}");
         return gd;
@@ -66,15 +67,23 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(Statement s) {
-        if(tokenizer.checkNext("set")){
-            GameStatement gs = new GameStatement();
-            s =  (GameStatement) gs.accept(this);
+        if(tokenizer.checkNext("make")){
+            GameStatement gs = new MakeStatement();
+            s =  (MakeStatement) gs.accept(this);
         }
-        if(tokenizer.checkNext("move")||tokenizer.checkNext("shoot")){
-            BehaveStatement bs = new BehaveStatement();
-            s = (BehaveStatement) bs.accept(this);
+        else if(tokenizer.checkNext("move")){
+            BehaveStatement bs = new MovementStatement();
+            s = (MovementStatement) bs.accept(this);
         }
-        if(tokenizer.checkNext("damage")||tokenizer.checkNext("health")){
+        else if(tokenizer.checkNext("shoot")){
+            BehaveStatement bs = new ShootStatement();
+            s = (ShootStatement) bs.accept(this);
+        }
+        else if(tokenizer.checkNext("damage")){
+            PropertyStatement ps = new PropertyStatement();
+            s = (PropertyStatement) ps.accept(this);
+        }
+        else if(tokenizer.checkNext("health")){
             PropertyStatement ps = new PropertyStatement();
             s = (PropertyStatement) ps.accept(this);
         }
