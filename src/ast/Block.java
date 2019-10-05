@@ -1,11 +1,10 @@
 package ast;
 
 import visitor.Visitor;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Block extends ASTNode{
-    public ArrayList<Statement> statements;
+    public List<Statement> statements;
     
     @Override
     public <T> T accept(Visitor<T> v) {

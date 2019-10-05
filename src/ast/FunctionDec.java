@@ -1,12 +1,11 @@
 package ast;
 
 import visitor.Visitor;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionDec extends ASTNode{
-    public String name;
-    public ArrayList<String> parameters;
+    public Identifier name;
+    public List<Identifier> parameters;
     public Block block;
 
     @Override
