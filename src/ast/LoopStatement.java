@@ -3,7 +3,7 @@ package ast;
 import visitor.Visitor;
 
 public class LoopStatement extends Statement {
-    public int iterations;
+    public Number iterations;
     public Block block;
 
     @Override

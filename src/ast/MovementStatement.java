@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class MovementStatement extends ASTNode{
+public class MovementStatement extends BehaveStatement {
     public Number number;
     public Direction direction;
 

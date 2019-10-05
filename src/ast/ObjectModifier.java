@@ -4,7 +4,7 @@ import visitor.Visitor;
 
 import java.util.List;
 
-public class ObjectDef extends ASTNode{
+public class ObjectModifier extends ASTNode{
     public Identifier identifier;
     public List<PropertyStatement> propertyStatements;
 

@@ -1,12 +1,11 @@
 package ast;
 
 import visitor.Visitor;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionCall extends ASTNode{
-    public String name;
-    public ArrayList<String> arguments;
+    public Identifier name;
+    public List<Number> arguments; //should be expr
 
     @Override
     public <T> T accept(Visitor<T> v) {

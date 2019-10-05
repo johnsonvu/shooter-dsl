@@ -60,13 +60,13 @@ public class ParseVisitor implements Visitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visit(ObjectDef gd) {
+    public ASTNode visit(ObjectModifier gd) {
         return null;
     }
 
     @Override
     public ASTNode visit(Statement s) {
-        if(tokenizer.checkNext("make")){
+        if(tokenizer.checkNext("set")){
             GameStatement gs = new GameStatement();
             s =  (GameStatement) gs.accept(this);
         }

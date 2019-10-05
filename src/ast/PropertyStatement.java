@@ -1,12 +1,11 @@
 package ast;
 
+import lib.PROPERTY;
 import visitor.Visitor;
 
-import java.util.Map;
-
 public class PropertyStatement extends Statement{
-    public Map propertyMap;
-    public FunctionDec func;
+    public PROPERTY property;
+    public Number value;
 
 
     @Override
