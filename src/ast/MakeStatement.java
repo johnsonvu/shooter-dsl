@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class MakeStatement extends Statement {
+public class MakeStatement extends GameStatement {
     public Number number;
     public Type type;
     public Identifier identifier;

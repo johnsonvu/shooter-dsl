@@ -5,9 +5,9 @@ make game SampleGame
 }
 {
 	make player buddy
-	make bullets lazers
-	make alien ian
-	make alien justin
+	make projectile lazers
+	make enemy ian
+	make enemy justin
 	make item powerUp
 }
 

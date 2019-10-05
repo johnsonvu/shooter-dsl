@@ -5,6 +5,8 @@ import ast.Number;
 import tokenizer.Tokenizer;
 import visitor.Visitor;
 
+import java.util.ArrayList;
+
 public class ParseVisitor implements Visitor<ASTNode> {
     Tokenizer tokenizer;
 
@@ -27,12 +29,12 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(GameDef gd) {
-
         tokenizer.getAndCheckNext("make");
         tokenizer.getAndCheckNext("game");
 
         gd.name = tokenizer.getNext();
 
+        tokenizer.getAndCheckNext("{");
         tokenizer.getAndCheckNext("height");
         tokenizer.getAndCheckNext("=");
 
@@ -41,6 +43,19 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext(",");
         tokenizer.getAndCheckNext("width");
         tokenizer.getAndCheckNext("=");
+
+        gd.width = Integer.valueOf(tokenizer.getNext());
+
+        tokenizer.getAndCheckNext("}");
+        tokenizer.getAndCheckNext("{");
+
+        gd.statements = new ArrayList<GameStatement>();
+
+        while(tokenizer.checkNext("make")){
+            GameStatement gs = new GameStatement();
+            gd.statements.add((GameStatement) gs.accept(this));
+        }
+        tokenizer.getAndCheckNext("}");
         return gd;
     }
 
@@ -69,12 +84,25 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(GameStatement gs) {
-        return null;
+        if(tokenizer.checkNext("make")){
+            MakeStatement msPaint = new MakeStatement();
+            gs = (MakeStatement) msPaint.accept(this);
+        }
+        return gs;
     }
 
     @Override
     public ASTNode visit(MakeStatement ms) {
-        return null;
+        tokenizer.getAndCheckNext("make");
+        if(tokenizer.checkNext("\\d+")){
+            tokenizer.getNext();
+        }
+
+        //Type t = new Type();
+        //ms.type = tokenizer.getNext();
+        Identifier id = new Identifier(tokenizer.getNext());
+        ms.identifier = id;
+        return ms;
     }
 
     @Override
