@@ -3,7 +3,7 @@ A DSL to quickly prototype shooter games. A CPSC 410 project.
 
 ## EBNF
 ```
-PROGRAM ::= GAME_DEF OBJECT_DEF* FUNCTION_DEC*
+PROGRAM ::= GAME_DEF OBJECT_MODIFIER* FUNCTION_DEC*
 
 GAME_DEF ::= "make game" IDENTIFIER "{" "height = " NUMBER ", width = " NUMBER" "}" "{" GAME_STATEMENT* "}"
 

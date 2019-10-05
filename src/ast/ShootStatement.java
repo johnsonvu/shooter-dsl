@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class ShootStatement extends ASTNode{
+public class ShootStatement extends BehaveStatement{
     public Direction direction;
 
     @Override
