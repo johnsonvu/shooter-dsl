@@ -1,10 +1,9 @@
 package ast;
 
-import lib.PROPERTY;
 import visitor.Visitor;
 
 public class PropertyStatement extends Statement{
-    public PROPERTY property;
+    public Property property;
     public Number value;
 
 
