@@ -8,6 +8,8 @@ import tokenizer.Tokenizer;
 import visitor.Visitor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ParseVisitor implements Visitor<ASTNode> {
     Tokenizer tokenizer;
@@ -133,38 +135,32 @@ public class ParseVisitor implements Visitor<ASTNode> {
     public ASTNode visit(FunctionDec fd) {
         tokenizer.getAndCheckNext("define");
         fd.name = new Identifier(tokenizer.getNext());
-        // TODO: FINISH THIS LATER HERGH
-        return null;
+        tokenizer.getAndCheckNext("(");
+        String parameters = tokenizer.getNext();
+        ArrayList<String> params = new ArrayList<String>(Arrays.asList(parameters.split("\\ *,\\ *")));
+        fd.parameters = new ArrayList<Identifier>();
+        params.forEach(stringParam -> fd.parameters.add(new Identifier(stringParam)));
+        tokenizer.getAndCheckNext(")");
+        fd.block = tokenizeBlock(new Block());
+        return fd;
     }
 
     @Override
     public ASTNode visit(FunctionCall fc) {
-        return null;
+        tokenizer.getAndCheckNext("call");
+        fc.name = new Identifier(tokenizer.getNext());
+        tokenizer.getAndCheckNext("(");
+        String parameters = tokenizer.getNext();
+        ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(parameters.split("\\ *,\\ *")));
+        fc.arguments = new ArrayList<Number>();
+        arguments.forEach(stringParam -> fc.arguments.add(new Number(Integer.valueOf(stringParam))));
+        tokenizer.getAndCheckNext(")");
+        return fc;
     }
 
     @Override
     public ASTNode visit(Block b) {
-        tokenizer.getAndCheckNext("{");
-
-        Statement statement;
-        while (!tokenizer.checkNext("}")) {
-            if (tokenizer.checkNext("make")) {
-                statement = new MakeStatement();
-                b.statements.add((MakeStatement) statement.accept(this));
-            } else if (tokenizer.checkNext("move")) {
-                statement = new MovementStatement();
-                b.statements.add((MovementStatement) statement.accept(this));
-            } else if (tokenizer.checkNext("shoot")) {
-                statement = new ShootStatement();
-                b.statements.add((ShootStatement) statement.accept(this));
-            } else if (tokenizer.checkNext("health") || tokenizer.checkNext("damage")) {
-                statement = new PropertyStatement();
-                b.statements.add((PropertyStatement) statement.accept(this));
-            }
-        }
-
-        tokenizer.getAndCheckNext("}");
-        return b;
+        return tokenizeBlock(b);
     }
 
     @Override
@@ -235,5 +231,28 @@ public class ParseVisitor implements Visitor<ASTNode> {
     @Override
     public ASTNode visit(Number n) {
         return null;
+    }
+
+    private Block tokenizeBlock(Block b) {
+        tokenizer.getAndCheckNext("{");
+
+        Statement statement;
+        while (!tokenizer.checkNext("}")) {
+            if (tokenizer.checkNext("make")) {
+                statement = new MakeStatement();
+                b.statements.add((MakeStatement) statement.accept(this));
+            } else if (tokenizer.checkNext("move")) {
+                statement = new MovementStatement();
+                b.statements.add((MovementStatement) statement.accept(this));
+            } else if (tokenizer.checkNext("shoot")) {
+                statement = new ShootStatement();
+                b.statements.add((ShootStatement) statement.accept(this));
+            } else if (tokenizer.checkNext("health") || tokenizer.checkNext("damage")) {
+                statement = new PropertyStatement();
+                b.statements.add((PropertyStatement) statement.accept(this));
+            }
+        }
+        tokenizer.getAndCheckNext("}");
+        return b;
     }
 }
