@@ -118,16 +118,22 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(PropertyStatement ps) {
-        ps.property = new Property(tokenizer.getNext());
-
+        String property = tokenizer.getNext();
+        ps.property = new Property(property);
         tokenizer.getAndCheckNext("=");
-        ps.value = new Number(Integer.valueOf(tokenizer.getNext()));
+        // TODO: Add support for DIRECTION
+        if (tokenizer.checkNext("[0-9]+")) {
+            ps.value = new Number(Integer.valueOf(tokenizer.getNext()));
+        }
 
         return ps;
     }
 
     @Override
     public ASTNode visit(FunctionDec fd) {
+        tokenizer.getAndCheckNext("define");
+        fd.name = new Identifier(tokenizer.getNext());
+        // TODO: FINISH THIS LATER HERGH
         return null;
     }
 
@@ -177,7 +183,9 @@ public class ParseVisitor implements Visitor<ASTNode> {
     @Override
     public ASTNode visit(MovementStatement ms) {
         tokenizer.getAndCheckNext("move");
-        ms.number = new Number(Integer.valueOf(tokenizer.getNext()));
+        if (tokenizer.checkNext("[0-9]+")) {
+            ms.number = new Number(Integer.valueOf(tokenizer.getNext()));
+        }
         ms.direction = new Direction(tokenizer.getNext());
 
         return ms;

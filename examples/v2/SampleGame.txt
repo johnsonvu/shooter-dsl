@@ -1,9 +1,10 @@
 make game SampleGame
 {
-    height = 100,
-    width = 100
+    height = 800,
+    width = 600
 }
 {
+    // create game objects
 	make player buddy
 	make projectile lazers
 	make enemy ian
@@ -11,40 +12,37 @@ make game SampleGame
 	make item powerUp
 }
 
-define buddy{
+// modify objects
+set buddy{
     damage = 5
     health = 10
 }
 
-define ian{
+set ian{
     damage = 1
     health = 100
     behave = ianBehaviour    //Run after every tick in the game
 }
 
-define justin{
+set justin{
     damage = 100
     health = 1
     behave = justinBehaviour    //Run after every tick in the game
 }
 
-define ianBehaviour ()
-{
+set ianBehaviour {
     move down
     shoot down
-    damage = damage +1;
+    damage = damage+1
 }
 
-define justinBehaviour ()
-{
+set justinBehaviour {
     move down
     shoot down
-    damage = call doubleDamage(damage);
+    damage = call doubleDamage(damage)
 }
 
+// function def
 define doubleDamage(dmg){
     return 2 * dmg
 }
-
-
-define addDamage

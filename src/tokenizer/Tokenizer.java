@@ -55,9 +55,9 @@ public class Tokenizer {
         return tokenizer;
     }
 
-    public boolean checkNext(String expectedToken)
+    public boolean checkNext(String expectedTokenRegExp)
     {
-        return tokens[currentToken].matches(expectedToken);
+        return tokens[currentToken].matches(expectedTokenRegExp);
     }
 
     public String getNext()
