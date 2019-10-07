@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class VarSet extends ASTNode{
+public class VarSet extends Statement{
     public Identifier id;
     public Expression value;
 

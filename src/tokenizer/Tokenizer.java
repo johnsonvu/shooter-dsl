@@ -66,6 +66,17 @@ public class Tokenizer {
         return tokens[currentToken].matches(expectedTokenRegExp);
     }
 
+    /**
+     * checkNext
+     * @param expectedTokenRegExp
+     * @param lookAhead
+     * @return this returns next token looking ahead: Example: lookAhead 2 will look 1 token past current token
+     */
+    public boolean checkNext(String expectedTokenRegExp, int lookAhead)
+    {
+        return tokens[currentToken+lookAhead-1].matches(expectedTokenRegExp);
+    }
+
     public String getNext()
     {
         return tokens[currentToken++];

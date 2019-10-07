@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class VarDec extends ASTNode{
+public class VarDec extends Statement{
     public String name;
 
     @Override

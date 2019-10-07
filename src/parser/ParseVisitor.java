@@ -107,6 +107,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(Statement s) {
+
         if(tokenizer.checkNext("make")){
             GameStatement gs = new MakeStatement();
             s =  (MakeStatement) gs.accept(this);
@@ -118,6 +119,14 @@ public class ParseVisitor implements Visitor<ASTNode> {
         else if(tokenizer.checkNext("damage") || tokenizer.checkNext("health")){
             PropertyStatement ps = new PropertyStatement();
             s = (PropertyStatement) ps.accept(this);
+        }
+        else if(tokenizer.checkNext("[A-Z|a-z|0-9]+") && tokenizer.checkNext("=",2)){
+            VarSet vs = new VarSet();
+            s = (VarSet) vs.accept(this);
+        }
+        else if(tokenizer.checkNext("new")) {
+            VarDec vd = new VarDec();
+            s = (VarDec) vd.accept(this);
         }
 
         return s;
@@ -154,7 +163,8 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext("=");
         // TODO: Add support for DIRECTION
         if (tokenizer.checkNext("[0-9]+")) {
-            ps.value = new Number(Integer.valueOf(tokenizer.getNext()));
+            Expression e = new Expression();
+            ps.expr = (Expression) e.accept(this);
         }
 
         return ps;
