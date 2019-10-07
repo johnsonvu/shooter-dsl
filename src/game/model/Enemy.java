@@ -1,24 +1,27 @@
 package game.model;
 
-public class Enemy {
+import java.awt.*;
+
+public class Enemy extends GameObject {
     private String enemyId;
-    private  int number;
+    private int number;
     private Projectile projectile;
 
     private int health;
     private int damage;
 
-    public Enemy(String id) {
-        enemyId = id;
-        number = 1;
+    public Enemy(int x, int y, String id) {
+        super(x,y,id);
+        this.enemyId = id;
+        this.number = 1;
 
-        projectile = new Projectile();
-        health = 1;
-        damage = 1;
+        this.projectile = new Projectile(0,0); // is this needed?
+        this.health = 1;
+        this.damage = 1;
     }
 
-    public Enemy(String id, int number) {
-        this(id);
+    public Enemy(int x, int y, String id, int number) {
+        this(x,y,id);
         this.number = number;
     }
 
@@ -32,5 +35,20 @@ public class Enemy {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
     }
 }
