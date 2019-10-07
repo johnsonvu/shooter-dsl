@@ -2,7 +2,12 @@ package evaluate;
 
 import ast.*;
 import ast.Number;
-import game.Game;
+import game.view.Game;
+import game.model.Enemy;
+import game.model.Item;
+import game.model.Player;
+import game.model.Projectile;
+
 import ui.Main;
 import visitor.Visitor;
 
@@ -52,14 +57,16 @@ public class EvaluateVisitor implements Visitor<Game> {
         for(PropertyStatement ps : gd.propertyStatements){
             switch(ps.property.property){
                 case DAMAGE:
-                    game.modifyDamage(gd.identifier.name, ps.value.number);
+                    //TODO: search in hashmap and change the GameObject of the object with the same identifier name
+                    //game.modifyDamage(gd.identifier.name, ps.value.number);
                 case HEALTH:
-                    game.modifyHealth(gd.identifier.name, ps.value.number);
+                    //TODO: search in hashmap and change the GameObject of the object with the same identifier name
+                    //game.modifyHealth(gd.identifier.name, ps.value.number);
                 default:
                     //TODO: default case
             }
-
         }
+        //TODO: set behaviour
         return null;
     }
 
@@ -80,20 +87,25 @@ public class EvaluateVisitor implements Visitor<Game> {
     public Game visit(MakeStatement ms) {
         switch(ms.type.type){
             case PLAYER:
-                Player play = new Player();
-                //game.makePlayer(ms.identifier.name, ms.number.number);
+                Player play = new Player(ms.identifier.name);
                 break;
             case ENEMY:
-                Enemy enemy = new Enemy();
-                //game.makeEnemy(ms.identifier.name, ms.number.number);
+                for(int i = 0; i < ms.number.number; i++) {
+                    Enemy enemy = new Enemy(ms.identifier.name);
+                    Main.gameObjectTable.put(ms.identifier.name + Integer.toString(i),  enemy);  //enemy should implement GameObject
+                }
                 break;
             case PROJECTILE:
-                Projectile projectile = new Projectile();
-                //game.makeProjectile(ms.identifier.name, ms.number.number);
+                for(int i = 0; i< ms.number.number; i++) {
+                    Projectile projectile = new Projectile(ms.identifier.name);
+                    Main.gameObjectTable.put(ms.identifier.name + Integer.toString(i) ,projectile);
+                }
                 break;
             case ITEM:
-                Item item = new Item();
-                //game.makeItem(ms.identifier.name, ms.number.number);
+                for(int i = 0; i< ms.number.number; i++) {
+                    Item item = new Item(ms.identifier.name);
+                    Main.gameObjectTable.put(ms.identifier.name + Integer.toString(i) ,item);
+                }
                 break;
             default:
 
