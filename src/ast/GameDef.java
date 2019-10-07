@@ -6,8 +6,8 @@ import java.util.List;
 
 public class GameDef extends ASTNode{
     public String name;
-    public int height;
     public int width;
+    public int height;
     public List<GameStatement> statements;
 
     @Override

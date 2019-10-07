@@ -54,16 +54,16 @@ public class ParseVisitor implements Visitor<ASTNode> {
         gd.name = tokenizer.getNext();
 
         tokenizer.getAndCheckNext("{");
-        tokenizer.getAndCheckNext("height");
-        tokenizer.getAndCheckNext("=");
-
-        gd.height = Integer.valueOf(tokenizer.getNext());
-
-        tokenizer.getAndCheckNext(",");
         tokenizer.getAndCheckNext("width");
         tokenizer.getAndCheckNext("=");
 
         gd.width = Integer.valueOf(tokenizer.getNext());
+
+        tokenizer.getAndCheckNext(",");
+        tokenizer.getAndCheckNext("height");
+        tokenizer.getAndCheckNext("=");
+        gd.height = Integer.valueOf(tokenizer.getNext());
+
 
         tokenizer.getAndCheckNext("}");
         tokenizer.getAndCheckNext("{");
