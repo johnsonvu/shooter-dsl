@@ -3,6 +3,7 @@ package evaluate;
 import ast.*;
 import ast.Number;
 import game.Game;
+import ui.Main;
 import visitor.Visitor;
 
 import java.util.HashMap;
@@ -48,6 +49,17 @@ public class EvaluateVisitor implements Visitor<Game> {
 
     @Override
     public Game visit(ObjectModifier gd) {
+        for(PropertyStatement ps : gd.propertyStatements){
+            switch(ps.property.property){
+                case DAMAGE:
+                    game.modifyDamage(gd.identifier.name, ps.value.number);
+                case HEALTH:
+                    game.modifyHealth(gd.identifier.name, ps.value.number);
+                default:
+                    //TODO: default case
+            }
+
+        }
         return null;
     }
 
@@ -68,16 +80,20 @@ public class EvaluateVisitor implements Visitor<Game> {
     public Game visit(MakeStatement ms) {
         switch(ms.type.type){
             case PLAYER:
-                game.makePlayer(ms.identifier.name, ms.number.number);
+                Player play = new Player();
+                //game.makePlayer(ms.identifier.name, ms.number.number);
                 break;
             case ENEMY:
-                game.makeEnemy(ms.identifier.name, ms.number.number);
+                Enemy enemy = new Enemy();
+                //game.makeEnemy(ms.identifier.name, ms.number.number);
                 break;
             case PROJECTILE:
-                game.makeProjectile(ms.identifier.name, ms.number.number);
+                Projectile projectile = new Projectile();
+                //game.makeProjectile(ms.identifier.name, ms.number.number);
                 break;
             case ITEM:
-                game.makeItem(ms.identifier.name, ms.number.number);
+                Item item = new Item();
+                //game.makeItem(ms.identifier.name, ms.number.number);
                 break;
             default:
 
