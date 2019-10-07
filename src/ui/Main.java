@@ -12,5 +12,6 @@ public class Main {
         Parser parser = new Parser();
         ASTNode ast = parser.parse();
 
+        System.out.println("dones");
     }
 }

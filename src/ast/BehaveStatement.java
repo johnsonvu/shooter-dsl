@@ -1,4 +1,10 @@
 package ast;
 
-public abstract class BehaveStatement extends Statement {
+import visitor.Visitor;
+
+public class BehaveStatement extends Statement {
+    @Override
+    public <T> T accept(Visitor<T> v) {
+        return v.visit(this);
+    }
 }
