@@ -1,24 +1,21 @@
 package game;
 
-import ast.Identifier;
-import ast.Number;
-
 public class Player {
-    private Identifier playerId;
-    private Number number;
+    private String playerId;
+    private int number;
     private Projectile projectile;
-    private Number health;
-    private Number damage;
+    private int health;
+    private int damage;
 
-    public Player(Identifier id) {
+    public Player(String id) {
         playerId = id;
 
         projectile = new Projectile();
-        health = new Number(1);
-        damage = new Number(1);
+        health = 1;
+        damage = 1;
     }
 
-    public Player(Identifier id, Number number) {
+    public Player(String id, int number) {
         this(id);
         this.number = number;
     }
@@ -27,11 +24,11 @@ public class Player {
         this.projectile = projectile;
     }
 
-    public void setHealth(Number health) {
+    public void setHealth(int health) {
         this.health = health;
     }
 
-    public void setDamage(Number damage) {
+    public void setDamage(int damage) {
         this.damage = damage;
     }
 }

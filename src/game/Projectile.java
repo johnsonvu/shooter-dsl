@@ -1,17 +1,24 @@
 package game;
 
-import ast.Identifier;
 
 public class Projectile {
-    private  static Identifier DEFAULT_PROJECTILE = new Identifier("bullet");
+    private  static String DEFAULT_PROJECTILE = "bullet";
 
-    private Identifier projectileId;
+    private String projectileId;
+    private int number;
 
     public Projectile() {
         projectileId = DEFAULT_PROJECTILE;
+        number = 1;
     }
 
-    public Projectile(Identifier id) {
+    public Projectile(String id) {
         projectileId = id;
+        number = 1;
+    }
+
+    public Projectile(String id, int number) {
+        this(id);
+        this.number = number;
     }
 }

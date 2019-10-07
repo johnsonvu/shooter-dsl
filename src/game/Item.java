@@ -1,13 +1,11 @@
 package game;
 
-import ast.Identifier;
-
 public class Item {
-    private Identifier itemId;
-    private Number number;
+    private String itemId;
+    private int number;
     // add coordinate?
 
-    public Item(Identifier id, Number number) {
+    public Item(String id, int number) {
         itemId = id;
         this.number = number;
     }
