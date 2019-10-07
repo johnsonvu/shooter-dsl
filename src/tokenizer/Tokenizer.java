@@ -32,6 +32,8 @@ public class Tokenizer {
 
     public void tokenize()
     {
+        removeComments();
+
         for (String resWord : reservedWords)
         {
             String resWordWithSpaces = " " + resWord + " ";
@@ -40,6 +42,10 @@ public class Tokenizer {
 
         tokens = program.split("\\s+");
 
+    }
+
+    private void removeComments() {
+        program = program.replaceAll("\\/\\/.*\\r\\n", "");
     }
 
     public static Tokenizer getInstance() {
@@ -67,7 +73,7 @@ public class Tokenizer {
 
     public Boolean getAndCheckNext(String expectedToken)
     {
-        return tokens[currentToken++] == expectedToken;
+        return tokens[currentToken++].equals(expectedToken);
     }
 
     public Boolean hasMoreTokens ()
