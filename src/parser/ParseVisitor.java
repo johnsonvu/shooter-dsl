@@ -2,6 +2,7 @@ package parser;
 
 import ast.*;
 import ast.Number;
+import lib.OPERATION;
 import lib.PROPERTY;
 import lib.TYPE;
 import tokenizer.Tokenizer;
@@ -54,16 +55,15 @@ public class ParseVisitor implements Visitor<ASTNode> {
         gd.name = tokenizer.getNext();
 
         tokenizer.getAndCheckNext("{");
-        tokenizer.getAndCheckNext("height");
-        tokenizer.getAndCheckNext("=");
-
-        gd.height = Integer.valueOf(tokenizer.getNext());
-
-        tokenizer.getAndCheckNext(",");
         tokenizer.getAndCheckNext("width");
         tokenizer.getAndCheckNext("=");
 
         gd.width = Integer.valueOf(tokenizer.getNext());
+
+        tokenizer.getAndCheckNext("height");
+        tokenizer.getAndCheckNext("=");
+
+        gd.height = Integer.valueOf(tokenizer.getNext());
 
         tokenizer.getAndCheckNext("}");
         tokenizer.getAndCheckNext("{");
@@ -286,5 +286,38 @@ public class ParseVisitor implements Visitor<ASTNode> {
             n.number = Integer.parseInt(tokenizer.getNext());
         }
         return n;
+    }
+
+    public ASTNode visit(VarDec vd) {
+        tokenizer.getAndCheckNext("new");
+        vd.name = tokenizer.getNext();
+        return vd;
+    }
+
+    public ASTNode visit(VarSet vs) {
+        vs.id = new Identifier(tokenizer.getNext());
+        tokenizer.getAndCheckNext("=");
+        Expression expression = new Expression();
+        vs.value = (Expression) expression.accept(this);
+        return vs;
+    }
+
+    public ASTNode visit(Expression expr) {
+        if(tokenizer.checkNext("\\d")){
+            expr.ex1 = new Number(Integer.valueOf(tokenizer.getNext()));
+        }
+
+        else if(tokenizer.checkNext("[A-Z|a-z|0-9]*")){
+            expr.ex1 = new Identifier(tokenizer.getNext());
+        }
+
+        if(tokenizer.checkNext("\\+|\\-|\\*|\\/")){
+            if(tokenizer.checkNext("[0-9]+")){
+                expr.op = new Operation(tokenizer.getNext());
+            }
+            Expression secondExpr = new Expression();
+            expr.ex2 = (Expression) secondExpr.accept(this);
+        }
+        return expr;
     }
 }

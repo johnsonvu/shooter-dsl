@@ -3,7 +3,7 @@ package ast;
 import visitor.Visitor;
 import java.util.List;
 
-public class FunctionCall extends ASTNode{
+public class FunctionCall extends Expression{
     public Identifier name;
     public List<Number> arguments; //should be expr
 

@@ -1,7 +1,7 @@
 make game SampleGame
 {
-    height = 800,
-    width = 600
+    width = 800
+    height = 600
 }
 {
     // create game objects
@@ -37,7 +37,7 @@ define ianBehaviour() {
 }
 
 define justinBehaviour() {
-    move down
+    move right
     shoot down
     damage = call doubleDamage(damage)
 }
