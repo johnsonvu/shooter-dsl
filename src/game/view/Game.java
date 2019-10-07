@@ -5,10 +5,13 @@ import game.model.Item;
 import game.model.Player;
 import game.model.Projectile;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game extends JPanel implements ActionListener {
     private static Game game;
 
     private String name;
@@ -20,7 +23,7 @@ public class Game {
     private List<Item> itemList;
     private List<Projectile> projectileList;
 
-    private Game() {
+    public Game() {
         name = "ShootingGame";
         height = 800;
         width = 600;
@@ -45,22 +48,22 @@ public class Game {
     }
 
     public void makePlayer(String name, int num){
-        Player player = new Player(name, num);
+        Player player = new Player(0,0, name, num); // TODO: figure out coordinate mechanic
         playerList.add(player);
     }
 
     public void makeEnemy(String name, int num){
-        Enemy enemy = new Enemy(name, num);
+        Enemy enemy = new Enemy(0,0, name, num); // TODO: figure out coordinate mechanic
         enemyList.add(enemy);
     }
 
     public void makeProjectile(String name, int num){
-        Projectile projectile = new Projectile(name, num);
+        Projectile projectile = new Projectile(0,0, name, num); // TODO: figure out coordinate mechanic
         projectileList.add(projectile);
     }
 
     public void makeItem(String name, int num){
-        Item item = new Item(name, num);
+        Item item = new Item(0,0, name, num); // TODO: figure out coordinate mechanic
         itemList.add(item);
     }
 
@@ -78,5 +81,10 @@ public class Game {
 
     public void removeItem(Item item) {
         itemList.remove(item);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+
     }
 }
