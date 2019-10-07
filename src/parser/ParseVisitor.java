@@ -162,10 +162,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
         ps.property = new Property(property);
         tokenizer.getAndCheckNext("=");
         // TODO: Add support for DIRECTION
-        if (tokenizer.checkNext("[0-9]+")) {
+//        if (tokenizer.checkNext("[0-9]+")) {
             Expression e = new Expression();
             ps.expr = (Expression) e.accept(this);
-        }
+//        }
 
         return ps;
     }
@@ -197,10 +197,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
         fc.name = new Identifier(tokenizer.getNext());
         tokenizer.getAndCheckNext("(");
 
-        fc.arguments = new ArrayList<Number>();
-        while (!tokenizer.checkNext(")")) {
-            int arg = Integer.valueOf(tokenizer.getNext());
-            fc.arguments.add(new Number(arg));
+        fc.arguments = new ArrayList<Expression>();
+        while (!tokenizer.checkNext("\\)")) {
+            Expression expr = new Expression();
+            fc.arguments.add((Expression) expr.accept(this));
             if (!tokenizer.checkNext(",")) break;
         }
         tokenizer.getAndCheckNext(")");
@@ -317,14 +317,19 @@ public class ParseVisitor implements Visitor<ASTNode> {
             expr.ex1 = new Number(Integer.valueOf(tokenizer.getNext()));
         }
 
+        else if(tokenizer.checkNext("call")) {
+            FunctionCall fc = new FunctionCall();
+            expr.ex1 = (FunctionCall) fc.accept(this);
+        }
+
         else if(tokenizer.checkNext("[A-Z|a-z|0-9]*")){
             expr.ex1 = new Identifier(tokenizer.getNext());
         }
 
         if(tokenizer.checkNext("\\+|\\-|\\*|\\/")){
-            if(tokenizer.checkNext("[0-9]+")){
+//            if(tokenizer.checkNext("[0-9]+")){
                 expr.op = new Operation(tokenizer.getNext());
-            }
+//            }
             Expression secondExpr = new Expression();
             expr.ex2 = (Expression) secondExpr.accept(this);
         }
