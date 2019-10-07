@@ -25,6 +25,6 @@ public class KeyInput extends KeyAdapter {
         int key = e.getKeyCode();
 
         // TODO: Add key release logic
-        
+
     }
 }
