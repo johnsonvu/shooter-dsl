@@ -1,4 +1,4 @@
-package game;
+package game.model;
 
 public class Item {
     private String itemId;

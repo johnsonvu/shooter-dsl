@@ -1,4 +1,9 @@
-package game;
+package game.view;
+
+import game.model.Enemy;
+import game.model.Item;
+import game.model.Player;
+import game.model.Projectile;
 
 import java.util.ArrayList;
 import java.util.List;
