@@ -36,6 +36,12 @@ public interface Visitor<T> {
 
     public T visit(Property p);
 
+    public T visit(VarDec vd);
+
+    public T visit(VarSet vs);
+
+    public T visit(Expression expr);
+
     public T visit(Type t);
 
     public T visit(Identifier id);
