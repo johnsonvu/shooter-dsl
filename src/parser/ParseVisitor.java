@@ -188,6 +188,13 @@ public class ParseVisitor implements Visitor<ASTNode> {
         Block block = new Block();
 
         fd.block = (Block) block.accept(this);
+
+        if(tokenizer.checkNext("return")) {
+            tokenizer.getAndCheckNext("return");
+            Expression ex = new Expression();
+            fd.retExpr = (Expression) ex.accept(this);
+        }
+
         return fd;
     }
 
@@ -213,7 +220,8 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext("{");
 
         b.statements = new ArrayList<>();
-        while (!tokenizer.checkNext("}")) {
+        while (!tokenizer.checkNext("\\}")) {
+            if(tokenizer.checkNext("return")) return b;
             Statement statement = new Statement();
             b.statements.add((Statement) statement.accept(this));
         }
