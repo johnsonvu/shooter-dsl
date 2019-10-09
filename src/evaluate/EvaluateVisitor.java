@@ -14,7 +14,7 @@ import visitor.Visitor;
 import java.util.HashMap;
 import java.util.function.Function;
 
-public class EvaluateVisitor implements Visitor<Game> {
+public class EvaluateVisitor implements Visitor<Integer> {
     ASTNode ast;
     Game game;
 
@@ -23,13 +23,13 @@ public class EvaluateVisitor implements Visitor<Game> {
     }
 
     @Override
-    public Game visit(ASTNode v) {
-        return null;
+    public Integer visit(ASTNode v) {
+        return 0;
     }
 
     @Override
     //PROGRAM ::= GAME_DEF OBJECT_MODIFIER* FUNCTION_DEC*
-    public Game visit(Program p) {
+    public Integer visit(Program p) {
         game = new Game();
         p.game.accept(this);
         for(ObjectModifier om : p.objects){
@@ -38,22 +38,22 @@ public class EvaluateVisitor implements Visitor<Game> {
         for(FunctionDec fn : p.functions){
             fn.accept(this);
         }
-        return game;
+        return 0;
     }
 
     @Override
     //GAME_DEF ::= "make game" IDENTIFIER "{" "height = " NUMBER ", width = " NUMBER" "}" "{" GAME_STATEMENT* "}"
-    public Game visit(GameDef gd) {
+    public Integer visit(GameDef gd) {
         game.setWindow(gd.name, gd.height, gd.width);
         for(GameStatement gs : gd.statements) {
             gs.accept(this);
         }
 
-        return null;
+        return 0;
     }
 
     @Override
-    public Game visit(ObjectModifier gd) {
+    public Integer visit(ObjectModifier gd) {
         for(PropertyStatement ps : gd.propertyStatements){
             switch(ps.property.property){
                 case DAMAGE:
@@ -67,24 +67,24 @@ public class EvaluateVisitor implements Visitor<Game> {
             }
         }
         //TODO: set behaviour
-        return null;
+        return 0;
     }
 
     @Override
-    public Game visit(Statement s) {
-        return null;
+    public Integer visit(Statement s) {
+        return 0;
     }
 
     @Override
     //GAME_STATEMENT ::= MAKE_STATEMENT | FOR_LOOP
-    public Game visit(GameStatement gs) {
+    public Integer visit(GameStatement gs) {
         gs.accept(this);
-        return null;
+        return 0;
     }
 
     @Override
     //MAKE_STATEMENT ::=  "make" NUMBER? TYPE IDENTIFIER
-    public Game visit(MakeStatement ms) {
+    public Integer visit(MakeStatement ms) {
         switch(ms.type.type){
             case PLAYER:
                 Player play = new Player(ms.identifier.name);
@@ -110,61 +110,61 @@ public class EvaluateVisitor implements Visitor<Game> {
             default:
 
         }
+        return 0;
+    }
+
+    @Override
+    public Integer visit(PropertyStatement ps) {
         return null;
     }
 
     @Override
-    public Game visit(PropertyStatement ps) {
+    public Integer visit(FunctionDec fd) {
         return null;
     }
 
     @Override
-    public Game visit(FunctionDec fd) {
+    public Integer visit(FunctionCall fc) {
         return null;
     }
 
     @Override
-    public Game visit(FunctionCall fc) {
+    public Integer visit(Block b) {
         return null;
     }
 
     @Override
-    public Game visit(Block b) {
+    public Integer visit(BehaveStatement bs) {
         return null;
     }
 
     @Override
-    public Game visit(BehaveStatement bs) {
+    public Integer visit(MovementStatement ms) {
         return null;
     }
 
     @Override
-    public Game visit(MovementStatement ms) {
+    public Integer visit(ShootStatement ss) {
         return null;
     }
 
     @Override
-    public Game visit(ShootStatement ss) {
+    public Integer visit(Property p) {
         return null;
     }
 
     @Override
-    public Game visit(Property p) {
+    public Integer visit(Type t) {
         return null;
     }
 
     @Override
-    public Game visit(Type t) {
-        return null;
+    public Integer visit(Identifier id) {
+        return Main.varTable.get(id.name);
     }
 
     @Override
-    public Game visit(Identifier id) {
-        return null;
-    }
-
-    @Override
-    public Game visit(Number n) {
-        return null;
+    public Integer visit(Number n) {
+        return n.number;
     }
 }
