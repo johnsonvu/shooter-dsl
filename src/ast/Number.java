@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class Number extends ASTNode{
+public class Number extends Expression{
     public int number;
 
     public Number(int number) {

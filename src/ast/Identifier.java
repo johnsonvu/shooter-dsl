@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class Identifier extends ASTNode{
+public class Identifier extends Expression{
     public String name;
 
     public Identifier(String id){

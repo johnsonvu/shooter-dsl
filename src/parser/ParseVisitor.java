@@ -2,6 +2,7 @@ package parser;
 
 import ast.*;
 import ast.Number;
+import lib.OPERATION;
 import lib.PROPERTY;
 import lib.TYPE;
 import tokenizer.Tokenizer;
@@ -58,8 +59,6 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext("=");
 
         gd.width = Integer.valueOf(tokenizer.getNext());
-
-        tokenizer.getAndCheckNext(",");
         tokenizer.getAndCheckNext("height");
         tokenizer.getAndCheckNext("=");
         gd.height = Integer.valueOf(tokenizer.getNext());
@@ -107,6 +106,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(Statement s) {
+
         if(tokenizer.checkNext("make")){
             GameStatement gs = new MakeStatement();
             s =  (MakeStatement) gs.accept(this);
@@ -118,6 +118,14 @@ public class ParseVisitor implements Visitor<ASTNode> {
         else if(tokenizer.checkNext("damage") || tokenizer.checkNext("health")){
             PropertyStatement ps = new PropertyStatement();
             s = (PropertyStatement) ps.accept(this);
+        }
+        else if(tokenizer.checkNext("[A-Z|a-z|0-9]+") && tokenizer.checkNext("=",2)){
+            VarSet vs = new VarSet();
+            s = (VarSet) vs.accept(this);
+        }
+        else if(tokenizer.checkNext("new")) {
+            VarDec vd = new VarDec();
+            s = (VarDec) vd.accept(this);
         }
 
         return s;
@@ -153,9 +161,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
         ps.property = new Property(property);
         tokenizer.getAndCheckNext("=");
         // TODO: Add support for DIRECTION
-        if (tokenizer.checkNext("[0-9]+")) {
-            ps.value = new Number(Integer.valueOf(tokenizer.getNext()));
-        }
+//        if (tokenizer.checkNext("[0-9]+")) {
+            Expression e = new Expression();
+            ps.expr = (Expression) e.accept(this);
+//        }
 
         return ps;
     }
@@ -178,6 +187,13 @@ public class ParseVisitor implements Visitor<ASTNode> {
         Block block = new Block();
 
         fd.block = (Block) block.accept(this);
+
+        if(tokenizer.checkNext("return")) {
+            tokenizer.getAndCheckNext("return");
+            Expression ex = new Expression();
+            fd.retExpr = (Expression) ex.accept(this);
+        }
+
         return fd;
     }
 
@@ -187,10 +203,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
         fc.name = new Identifier(tokenizer.getNext());
         tokenizer.getAndCheckNext("(");
 
-        fc.arguments = new ArrayList<Number>();
-        while (!tokenizer.checkNext(")")) {
-            int arg = Integer.valueOf(tokenizer.getNext());
-            fc.arguments.add(new Number(arg));
+        fc.arguments = new ArrayList<Expression>();
+        while (!tokenizer.checkNext("\\)")) {
+            Expression expr = new Expression();
+            fc.arguments.add((Expression) expr.accept(this));
             if (!tokenizer.checkNext(",")) break;
         }
         tokenizer.getAndCheckNext(")");
@@ -203,7 +219,8 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext("{");
 
         b.statements = new ArrayList<>();
-        while (!tokenizer.checkNext("}")) {
+        while (!tokenizer.checkNext("\\}")) {
+            if(tokenizer.checkNext("return")) return b;
             Statement statement = new Statement();
             b.statements.add((Statement) statement.accept(this));
         }
@@ -286,5 +303,43 @@ public class ParseVisitor implements Visitor<ASTNode> {
             n.number = Integer.parseInt(tokenizer.getNext());
         }
         return n;
+    }
+
+    public ASTNode visit(VarDec vd) {
+        tokenizer.getAndCheckNext("new");
+        vd.name = tokenizer.getNext();
+        return vd;
+    }
+
+    public ASTNode visit(VarSet vs) {
+        vs.id = new Identifier(tokenizer.getNext());
+        tokenizer.getAndCheckNext("=");
+        Expression expression = new Expression();
+        vs.value = (Expression) expression.accept(this);
+        return vs;
+    }
+
+    public ASTNode visit(Expression expr) {
+        if(tokenizer.checkNext("\\d")){
+            expr.ex1 = new Number(Integer.valueOf(tokenizer.getNext()));
+        }
+
+        else if(tokenizer.checkNext("call")) {
+            FunctionCall fc = new FunctionCall();
+            expr.ex1 = (FunctionCall) fc.accept(this);
+        }
+
+        else if(tokenizer.checkNext("[A-Z|a-z|0-9]*")){
+            expr.ex1 = new Identifier(tokenizer.getNext());
+        }
+
+        if(tokenizer.checkNext("\\+|\\-|\\*|\\/")){
+//            if(tokenizer.checkNext("[0-9]+")){
+                expr.op = new Operation(tokenizer.getNext());
+//            }
+            Expression secondExpr = new Expression();
+            expr.ex2 = (Expression) secondExpr.accept(this);
+        }
+        return expr;
     }
 }

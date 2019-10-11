@@ -45,3 +45,13 @@ NUMBER ::= [0-9]+
 CONDITION ::= IDENTIFIER (">"| "<" | "=") IDENTIFIER
 
 DIRECTION ::= UP | DOWN | LEFT | RIGHT
+
+VARDEC ::= "new" IDENTIFIER
+
+VARSET ::= IDENTIFIER "=" EXPR
+
+EXPR ::= EXPR OP EXPR
+
+EXPR ::= IDENTIFIER | NUMBER
+
+OP ::= "+" | "-" | "/" | "*"

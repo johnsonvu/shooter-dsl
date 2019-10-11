@@ -15,7 +15,7 @@ public class Main {
     public static HashMap<String, FunctionDec> blockTable = new HashMap<>();
 
     public static void main(String[] args) {
-        String[] reservedWords = {"\\(", "\\)", "\\{", "\\}", ","};
+        String[] reservedWords = {"\\(", "\\)", "\\{", "\\}", ",","\\+", "\\-", "\\*", "\\/"};
         Tokenizer tokenizer = Tokenizer.getInstance("game.txt", reservedWords);
         tokenizer.tokenize();
         Parser parser = new Parser();

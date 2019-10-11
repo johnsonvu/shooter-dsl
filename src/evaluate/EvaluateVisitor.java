@@ -154,6 +154,38 @@ public class EvaluateVisitor implements Visitor<Integer> {
     }
 
     @Override
+    public Integer visit(VarDec vd) {
+        return 0;
+    }
+
+    @Override
+    public Integer visit(VarSet vs) {
+        return 0;
+    }
+
+    @Override
+    public Integer visit(Expression expr) {
+        if (expr.op == null) {
+            return expr.ex1.accept(this);
+        }
+
+        switch (expr.op.operation){
+            case PLUS:
+                Integer int1 = expr.ex1.accept(this);
+                Integer int2 = expr.ex2.accept(this);
+                return int1 + int2;
+            case MINUS:
+                return expr.ex2.accept(this) - expr.ex1.accept(this);
+            case MULTIPLY:
+                Integer int2 = expr.ex2.accept(this);
+                Integer int1 = expr.ex1.accept(this);
+            case DIVIDE:
+                return expr.ex2.accept(this) + expr.ex1.accept(this);
+        }
+        return null;
+    }
+
+    @Override
     public Integer visit(Type t) {
         return null;
     }

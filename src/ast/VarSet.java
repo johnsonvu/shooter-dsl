@@ -2,10 +2,9 @@ package ast;
 
 import visitor.Visitor;
 
-public class PropertyStatement extends Statement{
-    public Property property;
-    public Expression expr;
-
+public class VarSet extends Statement{
+    public Identifier id;
+    public Expression value;
 
     @Override
     public <T> T accept(Visitor<T> v) {
