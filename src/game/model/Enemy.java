@@ -1,8 +1,8 @@
 package game.model;
 
-public class Enemy {
+public class Enemy extends GameObject{
     private String enemyId;
-    private  int number;
+    private int number;
     private Projectile projectile;
 
     private int health;

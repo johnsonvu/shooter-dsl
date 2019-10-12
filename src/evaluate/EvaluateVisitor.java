@@ -2,11 +2,8 @@ package evaluate;
 
 import ast.*;
 import ast.Number;
+import game.model.*;
 import game.view.Game;
-import game.model.Enemy;
-import game.model.Item;
-import game.model.Player;
-import game.model.Projectile;
 
 import lib.OPERATION;
 import ui.Main;
@@ -16,8 +13,10 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 public class EvaluateVisitor implements Visitor<Integer> {
-    ASTNode ast;
-    Game game;
+    private ASTNode ast;
+    private Game game;
+    private String scope = "";
+    public static HashMap<String, Integer> varTable = new HashMap<>();
 
     public EvaluateVisitor(ASTNode astNode){
         ast = astNode;
@@ -49,27 +48,17 @@ public class EvaluateVisitor implements Visitor<Integer> {
         for(GameStatement gs : gd.statements) {
             gs.accept(this);
         }
-
         return 0;
     }
 
     @Override
-    public Integer visit(ObjectModifier gd) {
-        for(PropertyStatement ps : gd.propertyStatements){
-            switch(ps.property.property){
-                case DAMAGE:
-                    //TODO: search in hashmap and change the GameObject of the object with the same identifier name
-                    //game.modifyDamage(gd.identifier.name, ps.value.number);
-                case HEALTH:
-                    //TODO: search in hashmap and change the GameObject of the object with the same identifier name
-                    //game.modifyHealth(gd.identifier.name, ps.value.number);
-                default:
-                    //TODO: default case
-            }
+    public Integer visit(ObjectModifier om) {
+        for(PropertyStatement ps : om.propertyStatements){
+            ps.accept(this);
         }
-        //TODO: set behaviour
         return 0;
     }
+
 
     @Override
     public Integer visit(Statement s) {
@@ -91,24 +80,19 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 Player play = new Player(ms.identifier.name);
                 break;
             case ENEMY:
-                for(int i = 0; i < ms.number.number; i++) {
-                    Enemy enemy = new Enemy(ms.identifier.name);
-                    Main.gameObjectTable.put(ms.identifier.name + Integer.toString(i),  enemy);  //enemy should implement GameObject
-                }
+                Enemy enemy = new Enemy(ms.identifier.name, ms.number == null? 1 : ms.number.number);
+                Main.gameObjectTable.put(ms.identifier.name, enemy);  //enemy should implement GameObject
                 break;
             case PROJECTILE:
-                for(int i = 0; i< ms.number.number; i++) {
-                    Projectile projectile = new Projectile(ms.identifier.name);
-                    Main.gameObjectTable.put(ms.identifier.name + Integer.toString(i) ,projectile);
-                }
+                Projectile projectile = new Projectile(ms.identifier.name, ms.number == null? 1 : ms.number.number);
+                Main.gameObjectTable.put(ms.identifier.name, projectile);
                 break;
             case ITEM:
-                for(int i = 0; i< ms.number.number; i++) {
-                    Item item = new Item(ms.identifier.name);
-                    Main.gameObjectTable.put(ms.identifier.name + Integer.toString(i) ,item);
-                }
+                Item item = new Item(ms.identifier.name, ms.number == null? 1: ms.number.number);
+                Main.gameObjectTable.put(ms.identifier.name, item);
                 break;
             default:
+                //TODO: Default case
 
         }
         return 0;
@@ -116,6 +100,14 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(PropertyStatement ps) {
+        switch(ps.property.property){
+            case DAMAGE:
+                varTable.put(scope + "_damage", ps.expr.accept(this));
+            case HEALTH:
+                varTable.put(scope + "_health", ps.expr.accept(this));
+            default:
+                //TODO: default case
+        }
         return null;
     }
 
@@ -145,12 +137,16 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        return null; //TODO
+        GameObject go = Main.gameObjectTable.get(scope);
+        go.move(ms.direction.direction, ms.number.number);
+        return null;
     }
 
     @Override
     public Integer visit(ShootStatement ss) {
-        return null; //TODO
+        GameObject go = Main.gameObjectTable.get(scope);
+        go.shootDirection(ss.direction.direction);
+        return null;
     }
 
     @Override
@@ -160,13 +156,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(VarDec vd) {
-        Main.varTable.put(vd.name, null);
+        varTable.put(vd.name, null);
         return 0;
     }
 
     @Override
     public Integer visit(VarSet vs) {
-        Main.varTable.put(vs.id.name, vs.value.accept(this));
+        varTable.put(vs.id.name, vs.value.accept(this));
         return 0;
     }
 
@@ -207,7 +203,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(Identifier id) {
-        return Main.varTable.get(id.name);
+        return varTable.get(id.name);
     }
 
     @Override

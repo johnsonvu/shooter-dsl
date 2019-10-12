@@ -10,7 +10,7 @@ public interface Visitor<T> {
 
     public T visit(GameDef gd);
 
-    public T visit(ObjectModifier gd);
+    public T visit(ObjectModifier om);
 
     public T visit(Statement s);
 

@@ -1,6 +1,8 @@
 package game.model;
 
-public class Player {
+import game.view.Game;
+
+public class Player extends GameObject{
     private String playerId;
     private int number;
     private Projectile projectile;

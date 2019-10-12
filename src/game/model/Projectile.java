@@ -1,7 +1,7 @@
 package game.model;
 
 
-public class Projectile {
+public class Projectile extends GameObject{
     private  static String DEFAULT_PROJECTILE = "bullet";
 
     private String projectileId;

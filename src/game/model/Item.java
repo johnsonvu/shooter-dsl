@@ -1,6 +1,6 @@
 package game.model;
 
-public class Item {
+public class Item extends  GameObject{
     private String itemId;
     private int number;
     // add coordinate?
