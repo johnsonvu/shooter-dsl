@@ -8,6 +8,7 @@ import game.model.Item;
 import game.model.Player;
 import game.model.Projectile;
 
+import lib.OPERATION;
 import ui.Main;
 import visitor.Visitor;
 
@@ -125,11 +126,15 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(FunctionCall fc) {
+
         return null;
     }
 
     @Override
     public Integer visit(Block b) {
+        for (Statement s: b.statements) {
+            s.accept(this);
+        }
         return null;
     }
 
@@ -140,12 +145,12 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        return null;
+        return null; //TODO
     }
 
     @Override
     public Integer visit(ShootStatement ss) {
-        return null;
+        return null; //TODO
     }
 
     @Override
@@ -155,11 +160,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(VarDec vd) {
+        Main.varTable.put(vd.name, null);
         return 0;
     }
 
     @Override
     public Integer visit(VarSet vs) {
+        Main.varTable.put(vs.id.name, vs.value.accept(this));
         return 0;
     }
 
@@ -169,21 +176,29 @@ public class EvaluateVisitor implements Visitor<Integer> {
             return expr.ex1.accept(this);
         }
 
-        switch (expr.op.operation){
-            case PLUS:
-                Integer int1 = expr.ex1.accept(this);
-                Integer int2 = expr.ex2.accept(this);
-                return int1 + int2;
-            case MINUS:
-                return expr.ex2.accept(this) - expr.ex1.accept(this);
-            case MULTIPLY:
-                Integer int2 = expr.ex2.accept(this);
-                Integer int1 = expr.ex1.accept(this);
-            case DIVIDE:
-                return expr.ex2.accept(this) + expr.ex1.accept(this);
+        if(expr.op != null){
+            Expression myExpr = new Expression();
+            switch (expr.op.operation) {
+                case PLUS:
+                    return expr.ex1.accept(this) + expr.ex2.accept(this);
+                case MINUS:
+                    return expr.ex1.accept(this) - expr.ex2.accept(this);
+                case MULTIPLY:
+                    myExpr.ex1 = new Number(expr.ex1.accept(this) * expr.ex2.ex1.accept(this));
+                    myExpr.op = expr.ex2.op;
+                    myExpr.ex2 = expr.ex2.ex2;
+                    return myExpr.accept(this);
+                case DIVIDE:
+                    myExpr.ex1 = new Number(expr.ex1.accept(this) / expr.ex2.ex1.accept(this));
+                    myExpr.op = expr.ex2.op;
+                    myExpr.ex2 = expr.ex2.ex2;
+                    return myExpr.accept(this);
+                }
         }
         return null;
     }
+
+
 
     @Override
     public Integer visit(Type t) {
