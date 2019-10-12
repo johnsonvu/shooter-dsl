@@ -12,8 +12,6 @@ import tokenizer.Tokenizer;
 import java.util.HashMap;
 
 public class Main {
-    public static HashMap<String, GameObject> gameObjectTable = new HashMap<>();
-    public static HashMap<String, FunctionBlock> blockTable = new HashMap<>();
 
     public static void main(String[] args) {
         String[] reservedWords = {"\\(", "\\)", "\\{", "\\}", ",","\\+", "\\-", "\\*", "\\/"};

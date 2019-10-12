@@ -1,5 +1,7 @@
 package game.model;
 
+import ast.FunctionBlock;
+import ast.Identifier;
 import lib.DIRECTION;
 
 public abstract class GameObject {
@@ -7,6 +9,7 @@ public abstract class GameObject {
     public int number;
     public int damage;
     public int health;
+    public Identifier behaviour;
 
 
 

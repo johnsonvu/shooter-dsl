@@ -14,10 +14,14 @@ public class EvaluateVisitor implements Visitor<Integer> {
     private ASTNode ast;
     private Game game;
     private String scope = "";
+
     public static HashMap<String, Integer> varTable = null;
-    public static HashMap<String, Integer> objectPropertiesTable = null; // faking objects
     public static HashMap<String, Integer> globalVarTable = new HashMap<>();
-    public static HashMap<String, HashMap<String, Integer>> objectTable = new HashMap<>();
+
+    public static GameObject gameObject = null;
+    public static HashMap<String, GameObject> gameObjectTable = new HashMap<>();
+
+    public static HashMap<String, FunctionBlock> blockTable = new HashMap<>();
 
     public EvaluateVisitor(ASTNode astNode){
         ast = astNode;
@@ -54,11 +58,14 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(ObjectModifier om) {
-        objectPropertiesTable = objectTable.get(om.identifier.name);
+        gameObject = gameObjectTable.get(om.identifier.name);
 
         for(PropertyStatement ps : om.propertyStatements){
             ps.accept(this);
         }
+
+        gameObject.behaviour = om.behave;
+
         return 0;
     }
 
@@ -78,29 +85,33 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     //MAKE_STATEMENT ::=  "make" EXPR? TYPE IDENTIFIER
     public Integer visit(MakeStatement ms) {
-        HashMap<String, Integer> propertiesMap = new HashMap<>();
-        propertiesMap.put("damage", 1);
-        propertiesMap.put("health", 1);
-        objectTable.put(ms.identifier.name, propertiesMap);
 
         int number = ms.number == null? 1 : ms.number.accept(this);
 
         switch(ms.type.type){
             case PLAYER:
                 Player player = new Player(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, player);
+                player.damage = 1;
+                player.health = 1;
+                gameObjectTable.put(ms.identifier.name, player);
                 break;
             case ENEMY:
                 Enemy enemy = new Enemy(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, enemy);  //enemy should implement GameObject
+                enemy.damage = 1;
+                enemy.health = 1;
+                gameObjectTable.put(ms.identifier.name, enemy);  //enemy should implement GameObject
                 break;
             case PROJECTILE:
                 Projectile projectile = new Projectile(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, projectile);
+                projectile.damage = 1;
+                projectile.health = 1;
+                gameObjectTable.put(ms.identifier.name, projectile);
                 break;
             case ITEM:
                 Item item = new Item(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, item);
+                item.damage = 1;
+                item.health = 1;
+                gameObjectTable.put(ms.identifier.name, item);
                 break;
         }
 
@@ -109,13 +120,23 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(PropertyStatement ps) {
-        objectPropertiesTable.put(ps.property.toString(), ps.expr.accept(this));
+        GameObject go = gameObjectTable.get(ps.property.toString());
+
+        switch (ps.property.property){
+            case DAMAGE:
+                go.damage = ps.expr.accept(this);
+                break;
+            case HEALTH:
+                go.damage = ps.expr.accept(this);
+                break;
+        }
+
         return null;
     }
 
     @Override
     public Integer visit(FunctionDec fd) {
-        Main.blockTable.put(fd.name.name, fd.functionBlock);
+        blockTable.put(fd.name.name, fd.functionBlock);
         return null;
     }
 
@@ -129,7 +150,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
     public Integer visit(FunctionCall fc) {
         HashMap<String, Integer> currentScope = varTable;
         varTable = new HashMap<>();
-        FunctionBlock fb =  Main.blockTable.get(fc.name.name);
+        FunctionBlock fb =  blockTable.get(fc.name.name);
         String key;
         Integer value;
         for (int i=0; i<fc.arguments.size(); i++) {
@@ -159,14 +180,14 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        GameObject go = Main.gameObjectTable.get(scope);
+        GameObject go = gameObjectTable.get(scope);
         go.move(ms.direction.direction, ms.number.number);
         return null;
     }
 
     @Override
     public Integer visit(ShootStatement ss) {
-        GameObject go = Main.gameObjectTable.get(scope);
+        GameObject go = gameObjectTable.get(scope);
         go.shoot(ss.direction.direction);
         return null;
     }
