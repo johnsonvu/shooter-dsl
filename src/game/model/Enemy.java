@@ -1,6 +1,8 @@
 package game.model;
 
-public class Enemy extends GameObject{
+import java.awt.*;
+
+public class Enemy extends GameObject {
     private String enemyId;
     private int number;
     private Projectile projectile;
@@ -8,18 +10,18 @@ public class Enemy extends GameObject{
     private int health;
     private int damage;
 
-    public Enemy(String id) {
-        enemyId = id;
-        number = 1;
+    public Enemy(int x, int y, String id) {
+        super(x,y,id);
+        this.enemyId = id;
+        this.number = 1;
 
-        projectile = new Projectile();
-        health = 1;
-        damage = 1;
+        this.projectile = new Projectile(0,0); // is this needed?
+        this.health = 1;
+        this.damage = 1;
     }
 
-    public Enemy(String id, int number) {
-        this(id);
-        this.number = number;
+    public Enemy(String id) {
+        this(1,1,id);
     }
 
     public void setProjectile(Projectile projectile) {

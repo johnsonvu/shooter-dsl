@@ -1,24 +1,22 @@
+
 package game.model;
 
 
-public class Projectile extends GameObject{
-    private  static String DEFAULT_PROJECTILE = "bullet";
+import java.awt.*;
 
+public class Projectile extends GameObject {
+    private static String DEFAULT_PROJECTILE = "bullet";
     private String projectileId;
     private int number;
 
-    public Projectile() {
-        projectileId = DEFAULT_PROJECTILE;
-        number = 1;
+    public Projectile(int x, int y) {
+        super(x, y, DEFAULT_PROJECTILE);
+        this.projectileId = DEFAULT_PROJECTILE;
+        this.number = 1;
     }
 
     public Projectile(String id) {
-        projectileId = id;
-        number = 1;
-    }
-
-    public Projectile(String id, int number) {
-        this(id);
-        this.number = number;
+        this(1, 1);
+        this.projectileId = id;
     }
 }

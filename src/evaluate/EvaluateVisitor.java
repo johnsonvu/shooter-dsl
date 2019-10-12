@@ -87,20 +87,28 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
         switch(ms.type.type){
             case PLAYER:
-                Player player = new Player(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, player);
+                for(int i =0; i<number; i++){
+                    Player player = new Player(ms.identifier.name);
+                    Main.gameObjectTable.put(ms.identifier.name, player);
+                }
                 break;
             case ENEMY:
-                Enemy enemy = new Enemy(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, enemy);  //enemy should implement GameObject
+                for(int i =0; i<number; i++) {
+                    Enemy enemy = new Enemy(ms.identifier.name);
+                    Main.gameObjectTable.put(ms.identifier.name, enemy);
+                }
                 break;
             case PROJECTILE:
-                Projectile projectile = new Projectile(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, projectile);
+                for(int i =0; i<number; i++) {
+                    Projectile projectile = new Projectile(ms.identifier.name);
+                    Main.gameObjectTable.put(ms.identifier.name, projectile);
+                }
                 break;
             case ITEM:
-                Item item = new Item(ms.identifier.name, number);
-                Main.gameObjectTable.put(ms.identifier.name, item);
+                for(int i =0; i<number; i++) {
+                    Item item = new Item(ms.identifier.name);
+                    Main.gameObjectTable.put(ms.identifier.name, item);
+                }
                 break;
         }
 

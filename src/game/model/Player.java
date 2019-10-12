@@ -1,25 +1,25 @@
 package game.model;
 
-import game.view.Game;
+import java.awt.*;
 
-public class Player extends GameObject{
+public class Player extends GameObject {
     private String playerId;
     private int number;
     private Projectile projectile;
     private int health;
     private int damage;
 
-    public Player(String id) {
+    public Player(int x, int y, String id) {
+        super(x,y,id);
         playerId = id;
 
-        projectile = new Projectile();
+        projectile = new Projectile(0,0); // is this needed?
         health = 1;
         damage = 1;
     }
 
-    public Player(String id, int number) {
-        this(id);
-        this.number = number;
+    public Player(String id) {
+        this(1,1,id);
     }
 
     public void setProjectile(Projectile projectile) {
