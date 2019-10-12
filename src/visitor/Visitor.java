@@ -22,6 +22,8 @@ public interface Visitor<T> {
 
     public T visit(FunctionDec fd);
 
+    public T visit(FunctionBlock fb);
+
     public T visit(FunctionCall fc);
 
     public T visit(Block b);

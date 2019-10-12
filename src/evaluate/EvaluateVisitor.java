@@ -113,13 +113,28 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(FunctionDec fd) {
+        Main.blockTable.put(fd.name.name, fd.functionBlock);
         return null;
     }
 
     @Override
-    public Integer visit(FunctionCall fc) {
+    public Integer visit(FunctionBlock fb) {
+        fb.block.accept(this);
+        return fb.retExpr.accept(this);
+    }
 
-        return null;
+    @Override
+    public Integer visit(FunctionCall fc) {
+        FunctionBlock fb =  Main.blockTable.get(fc.name.name);
+        String key;
+        Integer value;
+        for (int i=0; i<fc.arguments.size(); i++) {
+            key = fb.params.get(i).name;
+            value = fc.arguments.get(i).accept(this);
+            varTable.put(key, value);
+        }
+
+        return fb.accept(this);
     }
 
     @Override
