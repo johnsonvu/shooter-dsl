@@ -5,18 +5,19 @@ import ast.Number;
 import game.model.*;
 import game.view.Game;
 
-import lib.OPERATION;
 import ui.Main;
 import visitor.Visitor;
 
 import java.util.HashMap;
-import java.util.function.Function;
 
 public class EvaluateVisitor implements Visitor<Integer> {
     private ASTNode ast;
     private Game game;
     private String scope = "";
-    public static HashMap<String, Integer> varTable = new HashMap<>();
+    public static HashMap<String, Integer> varTable = null;
+    public static HashMap<String, Integer> objectPropertiesTable = null; // faking objects
+    public static HashMap<String, Integer> globalVarTable = new HashMap<>();
+    public static HashMap<String, HashMap<String, Integer>> objectTable = new HashMap<>();
 
     public EvaluateVisitor(ASTNode astNode){
         ast = astNode;
@@ -31,12 +32,12 @@ public class EvaluateVisitor implements Visitor<Integer> {
     //PROGRAM ::= GAME_DEF OBJECT_MODIFIER* FUNCTION_DEC*
     public Integer visit(Program p) {
         game = new Game();
+        for(FunctionDec fn : p.functions){
+            fn.accept(this);
+        }
         p.game.accept(this);
         for(ObjectModifier om : p.objects){
             om.accept(this);
-        }
-        for(FunctionDec fn : p.functions){
-            fn.accept(this);
         }
         return 0;
     }
@@ -53,7 +54,8 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(ObjectModifier om) {
-        //TODO use om.name for scope/object access
+        objectPropertiesTable = objectTable.get(om.identifier.name);
+
         for(PropertyStatement ps : om.propertyStatements){
             ps.accept(this);
         }
@@ -76,6 +78,11 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     //MAKE_STATEMENT ::=  "make" EXPR? TYPE IDENTIFIER
     public Integer visit(MakeStatement ms) {
+        HashMap<String, Integer> propertiesMap = new HashMap<>();
+        propertiesMap.put("damage", 1);
+        propertiesMap.put("health", 1);
+        objectTable.put(ms.identifier.name, propertiesMap);
+
         int number = ms.number == null? 1 : ms.number.accept(this);
 
         switch(ms.type.type){
@@ -96,18 +103,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 Main.gameObjectTable.put(ms.identifier.name, item);
                 break;
         }
+
         return 0;
     }
 
     @Override
     public Integer visit(PropertyStatement ps) {
-        switch(ps.property.property){
-            case DAMAGE:
-                varTable.put(scope + "_damage", ps.expr.accept(this)); //TODO: change scope, then put in varTable
-                break;
-            case HEALTH:
-                varTable.put(scope + "_health", ps.expr.accept(this));
-        }
+        objectPropertiesTable.put(ps.property.toString(), ps.expr.accept(this));
         return null;
     }
 
@@ -125,16 +127,21 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(FunctionCall fc) {
+        HashMap<String, Integer> currentScope = varTable;
+        varTable = new HashMap<>();
         FunctionBlock fb =  Main.blockTable.get(fc.name.name);
         String key;
         Integer value;
         for (int i=0; i<fc.arguments.size(); i++) {
             key = fb.params.get(i).name;
             value = fc.arguments.get(i).accept(this);
-            varTable.put(key, value);
+            store(key, value);
         }
 
-        return fb.accept(this);
+        Integer retVal = fb.accept(this);
+
+        varTable = currentScope;
+        return retVal;
     }
 
     @Override
@@ -171,13 +178,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(VarDec vd) {
-        varTable.put(vd.name, null);
+        store(vd.name, null);
         return 0;
     }
 
     @Override
     public Integer visit(VarSet vs) {
-        varTable.put(vs.id.name, vs.value.accept(this));
+        store(vs.id, vs.value.accept(this));
         return 0;
     }
 
@@ -218,11 +225,36 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(Identifier id) {
-        return varTable.get(id.name);
+        return lookup(id);
     }
 
     @Override
     public Integer visit(Number n) {
         return n.number;
     }
+
+    private Integer lookup(String key){
+        Integer value = varTable.get(key);
+        if(value == null) value = globalVarTable.get(key);
+
+        return value;
+    }
+
+    private Integer lookup(Identifier id){
+        Integer value = varTable.get(id.name);
+        if(value == null) value = globalVarTable.get(id.name);
+
+        return value;
+    }
+
+    private void store(String key, Integer value){
+        if(varTable == null) globalVarTable.put(key, value);
+        else varTable.put(key, value);
+    }
+
+    private void store(Identifier key, Integer value){
+        if(varTable == null) globalVarTable.put(key.name, value);
+        else varTable.put(key.name, value);
+    }
+
 }
