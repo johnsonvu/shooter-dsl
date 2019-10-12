@@ -14,7 +14,7 @@ public abstract class GameObject {
 
     }
 
-    public void shootDirection(DIRECTION direction){
+    public void shoot(DIRECTION direction){
 
     }
 

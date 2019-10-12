@@ -53,6 +53,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(ObjectModifier om) {
+        //TODO use om.name for scope/object access
         for(PropertyStatement ps : om.propertyStatements){
             ps.accept(this);
         }
@@ -73,27 +74,27 @@ public class EvaluateVisitor implements Visitor<Integer> {
     }
 
     @Override
-    //MAKE_STATEMENT ::=  "make" NUMBER? TYPE IDENTIFIER
+    //MAKE_STATEMENT ::=  "make" EXPR? TYPE IDENTIFIER
     public Integer visit(MakeStatement ms) {
+        int number = ms.number == null? 1 : ms.number.accept(this);
+
         switch(ms.type.type){
             case PLAYER:
-                Player play = new Player(ms.identifier.name);
+                Player player = new Player(ms.identifier.name, number);
+                Main.gameObjectTable.put(ms.identifier.name, player);
                 break;
             case ENEMY:
-                Enemy enemy = new Enemy(ms.identifier.name, ms.number == null? 1 : ms.number.number);
+                Enemy enemy = new Enemy(ms.identifier.name, number);
                 Main.gameObjectTable.put(ms.identifier.name, enemy);  //enemy should implement GameObject
                 break;
             case PROJECTILE:
-                Projectile projectile = new Projectile(ms.identifier.name, ms.number == null? 1 : ms.number.number);
+                Projectile projectile = new Projectile(ms.identifier.name, number);
                 Main.gameObjectTable.put(ms.identifier.name, projectile);
                 break;
             case ITEM:
-                Item item = new Item(ms.identifier.name, ms.number == null? 1: ms.number.number);
+                Item item = new Item(ms.identifier.name, number);
                 Main.gameObjectTable.put(ms.identifier.name, item);
                 break;
-            default:
-                //TODO: Default case
-
         }
         return 0;
     }
@@ -102,11 +103,10 @@ public class EvaluateVisitor implements Visitor<Integer> {
     public Integer visit(PropertyStatement ps) {
         switch(ps.property.property){
             case DAMAGE:
-                varTable.put(scope + "_damage", ps.expr.accept(this));
+                varTable.put(scope + "_damage", ps.expr.accept(this)); //TODO: change scope, then put in varTable
+                break;
             case HEALTH:
                 varTable.put(scope + "_health", ps.expr.accept(this));
-            default:
-                //TODO: default case
         }
         return null;
     }
@@ -160,7 +160,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     public Integer visit(ShootStatement ss) {
         GameObject go = Main.gameObjectTable.get(scope);
-        go.shootDirection(ss.direction.direction);
+        go.shoot(ss.direction.direction);
         return null;
     }
 
