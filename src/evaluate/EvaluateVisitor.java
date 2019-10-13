@@ -11,6 +11,8 @@ import ui.Main;
 import visitor.Visitor;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class EvaluateVisitor implements Visitor<Integer> {
@@ -132,14 +134,16 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(PropertyStatement ps) {
-        GameObjectProto go = objectPrototype;
+        GameObjectProto gop = objectPrototype;
 
         switch (ps.property.property){
             case DAMAGE:
-                go.damage = ps.expr.accept(this); //this is wrong because it's doing prototype, not instance
+                gop.damage = ps.expr.accept(this); //this is wrong because it's doing prototype, not instance
+                applyAll(gop, g->g.damage=gop.damage);
                 break;
             case HEALTH:
-                go.damage = ps.expr.accept(this);
+                gop.health = ps.expr.accept(this);
+                applyAll(gop, g->g.health=gop.health);
                 break;
         }
 
@@ -195,14 +199,11 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        Main.gameObjects.stream()
-                .filter(go -> go.proto.equals(objectPrototype))
-                .forEach(go -> {
-                    int times = ms.expr == null? 1 : ms.expr.accept(this);
-                    for(int i=0; i<times;i++) {
-                        go.move(ms.direction.direction);
-                    }
-                });
+        applyAll(objectPrototype, go -> {
+            int times = ms.expr == null? 1 : ms.expr.accept(this);
+            for(int i=0; i<times;i++) {
+                go.move(ms.direction.direction);
+            }});
         return null;
     }
 
@@ -246,11 +247,10 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 case MINUS:
                     return expr.ex1.accept(this) - expr.ex2.accept(this);
                 case MULTIPLY:
-//                    myExpr.ex1 = new Number(expr.ex1.accept(this) * expr.ex2.ex1.accept(this));
-//                    myExpr.op = expr.ex2.op;
-//                    myExpr.ex2 = expr.ex2.ex2;
-//                    return myExpr.accept(this);
-                    return expr.ex1.accept(this) * expr.ex2.accept(this); //TODO: fix this hack lmao
+                    myExpr.ex1 = new Number(expr.ex1.accept(this) * expr.ex2.ex1.accept(this));
+                    myExpr.op = expr.ex2.op;
+                    myExpr.ex2 = expr.ex2.ex2;
+                    return myExpr.accept(this);
                 case DIVIDE:
                     myExpr.ex1 = new Number(expr.ex1.accept(this) / expr.ex2.ex1.accept(this));
                     myExpr.op = expr.ex2.op;
@@ -335,5 +335,12 @@ public class EvaluateVisitor implements Visitor<Integer> {
         objectPrototype = go.proto;
 
         blockTable.get(id).accept(this);
+    }
+
+    public void applyAll(GameObjectProto proto, Consumer<GameObject> f){
+
+        Main.gameObjects.stream()
+                .filter(go -> go.proto.equals(objectPrototype))
+                .forEach(f);
     }
 }
