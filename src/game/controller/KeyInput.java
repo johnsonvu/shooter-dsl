@@ -3,7 +3,6 @@ package game.controller;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.*;
-import java.util.logging.Handler;
 
 import game.model.GameObject;
 import game.model.Player;
@@ -31,7 +30,6 @@ public class KeyInput extends KeyAdapter {
         for(int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObj = handler.objects.get(i);
 
-            // TODO: Add support for multiple 
             if (tempObj instanceof Player) {
                 List<Integer> keyEvents;
 
@@ -44,6 +42,7 @@ public class KeyInput extends KeyAdapter {
                     keyMap.put(tempObj, keyEvents);
                 }
 
+                // set object state key event to true to trigger movements/shoot action
 				if (key == keyEvents.get(0)) {
 					handler.setUp(tempObj, true);
 				}
@@ -55,6 +54,9 @@ public class KeyInput extends KeyAdapter {
                 }
                 if (key == keyEvents.get(3)) {
                     handler.setRight(tempObj, true);
+                }
+                if (key == keyEvents.get(4)) {
+                    handler.setShoot(tempObj, true);
                 }
             }
         }
@@ -68,7 +70,6 @@ public class KeyInput extends KeyAdapter {
         for(int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObj = handler.objects.get(i);
 
-            // TODO: Add support for multiple
             if (tempObj instanceof Player) {
                 List<Integer> keyEvents;
 
@@ -76,11 +77,12 @@ public class KeyInput extends KeyAdapter {
                 if(keyMap.containsKey(tempObj)) {
                     keyEvents = keyMap.get(tempObj);
                 } else {
-                    // initially assign a player object their key set, first time
+                    // initially assign a player object unique key set
                     keyEvents = playerKeyEventsQueue.poll();
                     keyMap.put(tempObj, keyEvents);
                 }
 
+                // set object state key event to false to stop movements/shoot action
                 if (key == keyEvents.get(0)) {
                     handler.setUp(tempObj, false);
                 }
@@ -92,6 +94,9 @@ public class KeyInput extends KeyAdapter {
                 }
                 if (key == keyEvents.get(3)) {
                     handler.setRight(tempObj, false);
+                }
+                if (key == keyEvents.get(4)) {
+                    handler.setShoot(tempObj, false);
                 }
             }
         }

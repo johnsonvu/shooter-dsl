@@ -4,6 +4,8 @@ import ast.FunctionBlock;
 import ast.Identifier;
 import lib.DIRECTION;
 
+import java.awt.*;
+
 public abstract class GameObject {
     public String name;
     public int number;
