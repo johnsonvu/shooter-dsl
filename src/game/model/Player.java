@@ -2,8 +2,12 @@ package game.model;
 
 import game.view.Game;
 import lib.DIRECTION;
+import lib.KEYINPUTTYPE;
 
 import java.awt.*;
+import java.util.HashMap;
+
+import static lib.KEYINPUTTYPE.*;
 
 public class Player extends GameObject {
     private int number;
@@ -62,22 +66,17 @@ public class Player extends GameObject {
 
     private void act() {
         HashMap<KEYINPUTTYPE, Boolean> map = handler.objectStates.get(this);
-        switch (KEYINPUTTYPE) {
-            case UP:
-                move(DIRECTION.UP);
-                break;
-            case DOWN:
-                move(DIRECTION.DOWN);
-                break;
-            case LEFT:
-                move(DIRECTION.LEFT);
-                break;
-            case RIGHT:
-                move(DIRECTION.RIGHT);
-                break;
-            default:
-                shoot();
-        }
+        if (map.get(KEYINPUTTYPE.UP))
+           move(DIRECTION.UP);
+
+        if (map.get((KEYINPUTTYPE.DOWN)))
+            move(DIRECTION.DOWN);
+
+        if (map.get((KEYINPUTTYPE.LEFT)))
+            move(DIRECTION.LEFT);
+
+        if (map.get((KEYINPUTTYPE.RIGHT)))
+            move(DIRECTION.RIGHT);
     }
 
     @Override

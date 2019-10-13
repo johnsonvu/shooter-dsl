@@ -78,7 +78,6 @@ public abstract class GameObject {
         this.id = id;
     }
 
-<<<<<<< HEAD
     public void move(DIRECTION dir) {
         switch (dir) {
             case UP:
@@ -95,8 +94,4 @@ public abstract class GameObject {
         }
     }
 
-
 }
-=======
-}
->>>>>>> master

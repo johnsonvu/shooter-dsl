@@ -1,5 +1,6 @@
 package game.model;
 
+import evaluate.Evaluator;
 import game.view.Game;
 import lib.DIRECTION;
 
@@ -42,7 +43,7 @@ public class Enemy extends GameObject {
 
     @Override
     public void tick() {
-        EvaluateVisitor eval = EvaluateVisitor.getInstance();
+        Evaluator eval = Evaluator.getInstance();
         eval.run(this.behaviour, this);
     }
 
