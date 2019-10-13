@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Random;
 
 public class Sprite {
-    private static final String PLAYER_PATH = "media/Player";
-    private static final String ENEMY_PATH = "media/Enemy";
-    private static final String ITEM_PATH = "media/Item";
-    private static final String PROJECTILE_PATH = "media/Projectile";
-    private static final String BACKGROUND_PATH = "media/Background";
+    private static final String PLAYER_PATH = "media/Player/";
+    private static final String ENEMY_PATH = "media/Enemy/";
+    private static final String ITEM_PATH = "media/Item/";
+    private static final String PROJECTILE_PATH = "media/Projectile/";
+    private static final String BACKGROUND_PATH = "media/Background/";
 
     private List<Integer> playerSpritIndex;
 
@@ -24,7 +24,7 @@ public class Sprite {
         playerSpritIndex= new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
     }
 
-    public BufferedImage loadImage(GameObject obj) {
+    public BufferedImage loadImage(Object obj) {
         try {
             String path = getPath(obj);
             return ImageIO.read(new File(path));
@@ -34,8 +34,10 @@ public class Sprite {
         return null;
     }
 
-    private String getPath(GameObject obj) {
-        if (obj instanceof Player) {
+    private String getPath(Object obj) {
+        if (obj instanceof Game) {
+            return BACKGROUND_PATH + randomInt(1, 8) + ".png";
+        } else if (obj instanceof Player) {
             int index = randomInt(0, playerSpritIndex.size() - 1);
             int value = playerSpritIndex.get(index);
             playerSpritIndex.remove(index);

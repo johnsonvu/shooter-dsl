@@ -4,6 +4,7 @@ import game.view.Game;
 import lib.DIRECTION;
 import lib.KEYINPUTTYPE;
 
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ public class Player extends GameObject {
 
         health = 1;
         damage = 1;
-        image = Game.sprit.loadImage(this);
+        image = Game.sprite.loadImage(this);
     }
 
     public Player(int x, int y, String id, int number) {
@@ -53,17 +54,29 @@ public class Player extends GameObject {
 
     private void act() {
         HashMap<KEYINPUTTYPE, Boolean> map = handler.objectStates.get(this);
-        if (map.get(KEYINPUTTYPE.UP))
-           move(DIRECTION.UP);
+        if (map.get(KEYINPUTTYPE.UP)) {
+            if (checkBound(x, y, DIRECTION.UP)) {
+                move(DIRECTION.UP);
+            }
+        }
 
-        if (map.get((KEYINPUTTYPE.DOWN)))
-            move(DIRECTION.DOWN);
+        if (map.get(KEYINPUTTYPE.DOWN)) {
+            if (checkBound(x, y, DIRECTION.DOWN))
+                move(DIRECTION.DOWN);
+        }
 
-        if (map.get((KEYINPUTTYPE.LEFT)))
-            move(DIRECTION.LEFT);
+        if (map.get(KEYINPUTTYPE.LEFT)) {
+            if (checkBound(x, y, DIRECTION.LEFT))
+                move(DIRECTION.LEFT);
+        }
 
-        if (map.get((KEYINPUTTYPE.RIGHT)))
-            move(DIRECTION.RIGHT);
+        if (map.get(KEYINPUTTYPE.RIGHT)) {
+            if (checkBound(x, y, DIRECTION.RIGHT))
+                move(DIRECTION.RIGHT);
+        }
+
+        if (map.get(KEYINPUTTYPE.SHOOT))
+            shoot();
     }
 
     @Override

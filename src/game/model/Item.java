@@ -9,7 +9,7 @@ public class Item extends GameObject {
         super(x,y,id);
         this.number = number;
 
-        image = Game.sprit.loadImage(this);
+        image = Game.sprite.loadImage(this);
 
     }
 

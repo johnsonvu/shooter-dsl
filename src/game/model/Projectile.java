@@ -2,6 +2,7 @@
 package game.model;
 
 
+import ast.Direction;
 import game.view.Game;
 import lib.DIRECTION;
 
@@ -16,7 +17,7 @@ public class Projectile extends GameObject {
         this.damage = damage;
         this.dir = dir;
 
-        image = Game.sprit.loadImage(this);
+        image = Game.sprite.loadImage(this);
 
     }
 
@@ -24,7 +25,7 @@ public class Projectile extends GameObject {
         this(x,y, id, damage, dir);
         this.number = number;
 
-        image = Game.sprit.loadImage(this);
+        image = Game.sprite.loadImage(this);
     }
 
     public int getDamage() { return damage; }
@@ -62,6 +63,14 @@ public class Projectile extends GameObject {
             handler.objects.remove(this);
     }
 
+    @Override
+    public void move(DIRECTION dir) {
+        if (checkBound(x, y, dir)) {
+            super.move(dir);
+        } else {
+            handler.objects.remove(this);
+        }
+    }
 
     @Override
     public void render(Graphics g) {

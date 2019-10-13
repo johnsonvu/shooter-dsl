@@ -2,6 +2,7 @@ package game.model;
 
 import ast.Identifier;
 import game.controller.Handler;
+import game.view.Game;
 import lib.DIRECTION;
 
 import java.awt.*;
@@ -96,4 +97,22 @@ public abstract class GameObject {
         }
     }
 
+    public boolean checkBound(int x, int y, DIRECTION dir) {
+        switch (dir) {
+            case UP:
+                return inBound(x, y - MOVE_CONSTANT);
+            case DOWN:
+                return inBound(x, y + MOVE_CONSTANT);
+            case LEFT:
+                return inBound(x - MOVE_CONSTANT, y);
+            default:
+                return inBound(x + MOVE_CONSTANT, y);
+        }
+
+    }
+
+    public boolean inBound(int x, int y) {
+        Game game = Game.getInstance();
+        return 0 <= x && x <= game.getWidth() && 0 <= y && y <= game.getWidth();
+    }
 }
