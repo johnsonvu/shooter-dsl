@@ -13,6 +13,7 @@ public class Projectile extends GameObject {
 
     public Projectile(ProjectileProto proto, String name, DIRECTION dir) {
         super(proto, name);
+        this.damage = proto.damage;
         this.dir = dir;
         image = Game.sprite.loadImage(this);
     }
@@ -42,7 +43,12 @@ public class Projectile extends GameObject {
             if (obj instanceof Enemy) {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Enemy e = (Enemy) obj;
+                    //System.out.println("Enemy = " + e.health);
+                    //System.out.println("proj = " + damage);
                     e.setHealth(e.getHealth() - damage);
+                    if(e.getHealth() <= 0){
+                        Main.gameObjects.remove(e);
+                    }
                     remove = true;
                     break;
                 }
