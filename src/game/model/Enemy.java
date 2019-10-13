@@ -45,9 +45,14 @@ public class Enemy extends GameObject {
                     Main.gameObjects.remove(this);
                 }
                 break;
+            case LEFT:
+                x = (x <= 0) ? Game.getInstance().getWidth() : x - moveSpeed;
+                break;
             default:
-                super.move(dir);
-                x = x % Game.getInstance().getWidth();
+                System.out.println(x);
+                x = (x >= Game.getInstance().getWidth()) ? 0 : x + moveSpeed;
+                System.out.println(x);
+                break;
         }
     }
 

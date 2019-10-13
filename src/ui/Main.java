@@ -27,6 +27,7 @@ public class Main {
         String[] reservedWords = {"\\(", "\\)", "\\{", "\\}", ",","\\+", "\\-", "\\*", "\\/"};
         Tokenizer tokenizer = Tokenizer.getInstance("game.txt", reservedWords);
         tokenizer.tokenize();
+
         Parser parser = new Parser();
         ASTNode ast = parser.parse();
 

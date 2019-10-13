@@ -99,8 +99,10 @@ public class Game extends JPanel implements ActionListener {
         // bg
         g.drawImage(level, 0,0,null);
 
-        // renders hp bars
+        // game objects
         Main.game.getHandler().render(g);
+
+        // hp bars
         for (GameObject go : Main.gameObjects) {
             if (go instanceof Player) {
                 // assigns each player a unique player number
