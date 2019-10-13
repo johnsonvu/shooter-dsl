@@ -3,15 +3,22 @@ package game.view;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import game.controller.BufferedImageLoader;
+import game.controller.Handler;
+import game.controller.KeyInput;
+import java.awt.image.BufferedImage;
 
 public class Game extends JPanel implements ActionListener {
     private static Game game;
-
     private String name;
     private int height;
     private int width;
-
+    private BufferedImage background;
     public static Sprite sprite;
+    private boolean isRunning = false;
+    private Timer timer;
+    private Handler handler;
+    private BufferedImage level;
 
     public Game() {
         name = "ShootingGame";
@@ -19,6 +26,14 @@ public class Game extends JPanel implements ActionListener {
         width = 600;
 
         sprite = new Sprite();
+        handler = new Handler();
+        BufferedImageLoader loader = new BufferedImageLoader();
+        level = sprite.loadImage(this);
+
+        this.setFocusable(true);
+        this.setDoubleBuffered(true);
+        this.addKeyListener(new KeyInput(handler));
+        this.start();
     }
 
     public static Game getInstance() {
@@ -34,8 +49,32 @@ public class Game extends JPanel implements ActionListener {
         this.width = width;
     }
 
+    private void start() {
+        isRunning = true;
+        timer = new Timer(10, this);
+        timer.start();
+    }
+
+    private void stop() {
+        timer.start();
+    }
+
+    public void tick() {
+        this.handler.tick();
+    }
+
+    // TODO: add health bar for all players
+    public void paint() {
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-
+        if (isRunning) {
+            tick();
+            repaint();
+        } else {
+            stop();
+        }
     }
 }
