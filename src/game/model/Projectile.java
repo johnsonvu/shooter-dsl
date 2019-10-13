@@ -5,6 +5,7 @@ import game.view.Game;
 import lib.DIRECTION;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Projectile extends GameObject {
     private int number;
@@ -37,6 +38,7 @@ public class Projectile extends GameObject {
     }
 
     private void collision() {
+        boolean remove = false;
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject obj = handler.objects.get(i);
 
@@ -44,6 +46,8 @@ public class Projectile extends GameObject {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Player p = (Player) obj;
                     p.setHealth(p.getHealth() - damage);
+                    remove = true;
+                    break;
                 }
             }
 
@@ -51,10 +55,13 @@ public class Projectile extends GameObject {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Enemy e = (Enemy) obj;
                     e.setHealth(e.getHealth() - damage);
+                    remove = true;
+                    break;
                 }
             }
-
         }
+        if (remove)
+            handler.objects.remove(this);
     }
 
 
