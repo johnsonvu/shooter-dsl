@@ -68,21 +68,22 @@ public class Player extends GameObject {
         }
 
         if (map.containsKey(KEYINPUTTYPE.LEFT) && map.get(KEYINPUTTYPE.LEFT)) {
-                move(DIRECTION.LEFT);
+            move(DIRECTION.LEFT);
         }
 
         if (map.containsKey(KEYINPUTTYPE.RIGHT) && map.get(KEYINPUTTYPE.RIGHT)) {
-                move(DIRECTION.RIGHT);
+            move(DIRECTION.RIGHT);
         }
 
         if (map.containsKey(KEYINPUTTYPE.SHOOT) && map.get(KEYINPUTTYPE.SHOOT)) {
             shoot();
         }
-
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(image, x,y, null);
+        int xCenter = x - image.getWidth(null)/2;
+        int yCenter = y - image.getHeight(null)/2;
+        g.drawImage(image, xCenter,yCenter, null);
     }
 }

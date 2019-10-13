@@ -50,7 +50,9 @@ public class Sprite {
         } else if (obj instanceof Item) {
             return ITEM_PATH + "Gem" + randomInt(1, 4) + ".gif";
         } else {
-            return PROJECTILE_PATH + randomInt(1, 14) + ".png";
+            // TODO: handle unique projectile for a player
+//            return PROJECTILE_PATH + randomInt(1, 14) + ".png";
+            return PROJECTILE_PATH + 1 + ".png";
         }
     }
 

@@ -18,7 +18,9 @@ public class Item extends GameObject {
 
     @Override
     public void render(Graphics g) {
-
+        int xCenter = x - image.getWidth(null)/2;
+        int yCenter = y - image.getHeight(null)/2;
+        g.drawImage(image, xCenter,yCenter, null);
     }
 
     @Override

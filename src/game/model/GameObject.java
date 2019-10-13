@@ -92,10 +92,10 @@ public abstract class GameObject {
                 y += moveSpeed;
                 break;
             case LEFT:
-                x = (x + image.getWidth()/2 < 0) ? game.getWidth() : x - moveSpeed;
+                x = (x < 0) ? game.getWidth() : x - moveSpeed;
                 break;
             default:
-                x = (x + image.getWidth()/2 > game.getWidth()) ? 0 : x + moveSpeed;
+                x = (x > game.getWidth()) ? 0 : x + moveSpeed;
                 break;
         }
     }

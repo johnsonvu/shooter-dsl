@@ -41,6 +41,8 @@ public class Enemy extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(image, x,y, null);
+        int xCenter = x - image.getWidth(null)/2;
+        int yCenter = y - image.getHeight(null)/2;
+        g.drawImage(image, xCenter,yCenter, null);
     }
 }
