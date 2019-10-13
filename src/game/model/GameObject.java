@@ -2,14 +2,15 @@ package game.model;
 
 import ast.FunctionBlock;
 import ast.Identifier;
+import evaluate.protoypes.GameObjectProto;
 import lib.DIRECTION;
 
 public abstract class GameObject {
-    public String name;
     public int number;
     public int damage;
     public int health;
     public Identifier behaviour;
+    public GameObjectProto proto;
 
     protected int x;
     protected int y;
@@ -18,10 +19,10 @@ public abstract class GameObject {
     protected String id;
 //    protected SpriteSheet ss;
 
-    public GameObject(int x, int y, String id) {
-        this.x = x;
-        this.y = y;
-        this.id = id;
+    public GameObject(GameObjectProto proto, String name) {
+        this.x = 1;
+        this.y = 1;
+        this.id = name;
 //        this.ss = ss;
     }
 

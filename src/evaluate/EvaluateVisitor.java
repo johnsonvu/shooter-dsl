@@ -2,26 +2,29 @@ package evaluate;
 
 import ast.*;
 import ast.Number;
+import evaluate.protoypes.*;
 import game.model.*;
 import game.view.Game;
 
-import ui.Main;
 import visitor.Visitor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class EvaluateVisitor implements Visitor<Integer> {
     private ASTNode ast;
     private Game game;
-    private String scope = "";
 
     public static HashMap<String, Integer> varTable = null;
     public static HashMap<String, Integer> globalVarTable = new HashMap<>();
 
-    public static GameObject gameObject = null;
-    public static HashMap<String, GameObject> gameObjectTable = new HashMap<>();
+    public static GameObjectProto objectPrototype = null; //Blueprints for an instance's properties (kind of like js prototypes?)
+    public static HashMap<String, GameObjectProto> objectProtoTable = new HashMap<>();
 
     public static HashMap<String, FunctionBlock> blockTable = new HashMap<>();
+
+    public static List<GameObject> gameObjects = new ArrayList<>(); //The actual instances of gameObjects
 
     public EvaluateVisitor(ASTNode astNode){
         ast = astNode;
@@ -58,13 +61,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(ObjectModifier om) {
-        gameObject = gameObjectTable.get(om.identifier.name);
+        objectPrototype = objectProtoTable.get(om.identifier.name);
 
         for(PropertyStatement ps : om.propertyStatements){
             ps.accept(this);
         }
 
-        gameObject.behaviour = om.behave;
+        objectPrototype.behaviour = om.behave;
 
         return 0;
     }
@@ -90,28 +93,41 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
         switch(ms.type.type){
             case PLAYER:
-                Player player = new Player(ms.identifier.name, number);
-                player.damage = 1;
-                player.health = 1;
-                gameObjectTable.put(ms.identifier.name, player);
+                PlayerProto playerProto = new PlayerProto(1, 1);
+                objectProtoTable.put(ms.identifier.name, playerProto);
+
+                for(int i =0; i< number; i++){
+                    Player player = new Player(playerProto, ms.identifier.name);
+                    gameObjects.add(player);
+                }
                 break;
             case ENEMY:
-                Enemy enemy = new Enemy(ms.identifier.name, number);
-                enemy.damage = 1;
-                enemy.health = 1;
-                gameObjectTable.put(ms.identifier.name, enemy);  //enemy should implement GameObject
+                EnemyProto enemyProto = new EnemyProto(1, 1);
+                objectProtoTable.put(ms.identifier.name, enemyProto);  //enemy should implement GameObject
+
+                for(int i =0; i< number; i++){
+                    Enemy enemy = new Enemy(enemyProto, ms.identifier.name);
+                    gameObjects.add(enemy);
+                }
                 break;
             case PROJECTILE:
-                Projectile projectile = new Projectile(ms.identifier.name, number);
-                projectile.damage = 1;
-                projectile.health = 1;
-                gameObjectTable.put(ms.identifier.name, projectile);
+                ProjectileProto projectileProto = new ProjectileProto(1, 1);
+                objectProtoTable.put(ms.identifier.name, projectileProto);
+
+                for(int i =0; i< number; i++){
+                    Projectile projectile = new Projectile(projectileProto, ms.identifier.name);
+                    gameObjects.add(projectile);
+                }
                 break;
+
             case ITEM:
-                Item item = new Item(ms.identifier.name, number);
-                item.damage = 1;
-                item.health = 1;
-                gameObjectTable.put(ms.identifier.name, item);
+                ItemProto itemProto = new ItemProto(1, 1);
+                objectProtoTable.put(ms.identifier.name, itemProto);
+
+                for(int i =0; i< number; i++){
+                    Item item = new Item(itemProto, ms.identifier.name);
+                    gameObjects.add(item);
+                }
                 break;
         }
 
@@ -120,7 +136,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(PropertyStatement ps) {
-        GameObject go = gameObjectTable.get(ps.property.toString());
+        GameObjectProto go = objectProtoTable.get(ps.property.toString());
 
         switch (ps.property.property){
             case DAMAGE:
@@ -180,14 +196,14 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        GameObject go = gameObjectTable.get(scope);
+        GameObject go = objectProtoTable.get(scope);
         go.move(ms.direction.direction, ms.number.number);
         return null;
     }
 
     @Override
     public Integer visit(ShootStatement ss) {
-        GameObject go = gameObjectTable.get(scope);
+        GameObject go = objectProtoTable.get(scope);
         go.shoot(ss.direction.direction);
         return null;
     }
