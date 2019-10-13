@@ -1,3 +1,4 @@
+
 package game.model;
 
 
@@ -9,7 +10,7 @@ public class Projectile extends GameObject {
     private int number;
 
     public Projectile(int x, int y) {
-        super(x,y,DEFAULT_PROJECTILE);
+        super(x, y, DEFAULT_PROJECTILE);
         this.projectileId = DEFAULT_PROJECTILE;
         this.number = 1;
     }

@@ -59,11 +59,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext("=");
 
         gd.width = Integer.valueOf(tokenizer.getNext());
-
         tokenizer.getAndCheckNext("height");
         tokenizer.getAndCheckNext("=");
-
         gd.height = Integer.valueOf(tokenizer.getNext());
+
 
         tokenizer.getAndCheckNext("}");
         tokenizer.getAndCheckNext("{");
@@ -176,10 +175,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
         fd.name = new Identifier(tokenizer.getNext());
         tokenizer.getAndCheckNext("(");
 
-        fd.parameters = new ArrayList<>();
+        fd.functionBlock.params = new ArrayList<>();
         while (!tokenizer.checkNext("\\)")) {
             Identifier param = new Identifier(tokenizer.getNext());
-            fd.parameters.add(param);
+            fd.functionBlock.params.add(param);
             if (!tokenizer.checkNext(",")) break;
         }
 
@@ -187,15 +186,20 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
         Block block = new Block();
 
-        fd.block = (Block) block.accept(this);
+        fd.functionBlock.block = (Block) block.accept(this);
 
         if(tokenizer.checkNext("return")) {
             tokenizer.getAndCheckNext("return");
             Expression ex = new Expression();
-            fd.retExpr = (Expression) ex.accept(this);
+            fd.functionBlock.retExpr = (Expression) ex.accept(this);
         }
 
         return fd;
+    }
+
+    @Override
+    public ASTNode visit(FunctionBlock fb) {
+        return null;
     }
 
     @Override
