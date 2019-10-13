@@ -9,14 +9,9 @@ import game.view.Game;
 import lib.DIRECTION;
 import ui.Main;
 import visitor.Visitor;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class EvaluateVisitor implements Visitor<Integer> {
-    private Game game;
-
     private static HashMap<String, Integer> varTable = null;
     private static HashMap<String, Integer> globalVarTable = new HashMap<>();
 
@@ -36,13 +31,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     //PROGRAM ::= GAME_DEF OBJECT_MODIFIER* FUNCTION_DEC*
     public Integer visit(Program p) {
-        game = new Game();
-        for(FunctionDec fn : p.functions){
-            fn.accept(this);
-        }
+
         p.game.accept(this);
         for(ObjectModifier om : p.objects){
             om.accept(this);
+        }
+        for(FunctionDec fn : p.functions){
+            fn.accept(this);
         }
         return 0;
     }
@@ -50,7 +45,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     //GAME_DEF ::= "make game" IDENTIFIER "{" "height = " NUMBER ", width = " NUMBER" "}" "{" GAME_STATEMENT* "}"
     public Integer visit(GameDef gd) {
-        game.setWindow(gd.name, gd.height, gd.width);
+        (new Game()).setWindow(gd.name, gd.height, gd.width);
         for(Statement s : gd.statements) {
             s.accept(this);
         }
