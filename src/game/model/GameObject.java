@@ -25,7 +25,7 @@ public abstract class GameObject {
     protected BufferedImage image;
 //    protected SpriteSheet ss;
 
-    public static final int MOVE_CONSTANT = 5;
+    public static final int MOVE_CONSTANT = 10;
 
     public GameObject(GameObjectProto proto, String name) {
         this.x = 1;
@@ -95,6 +95,7 @@ public abstract class GameObject {
                 break;
             default:
                 x = (x + MOVE_CONSTANT + image.getWidth()/2 >= game.getWidth()) ? 0: x + MOVE_CONSTANT;
+                break;
         }
     }
 
@@ -106,16 +107,13 @@ public abstract class GameObject {
                 return inBound(x,y + MOVE_CONSTANT);
             case LEFT:
                 return inBound(x - MOVE_CONSTANT, y);
-            case RIGHT:
-                return inBound(x + MOVE_CONSTANT, y);
             default:
                 return inBound(x + MOVE_CONSTANT, y);
         }
-
     }
 
     public boolean inBound(int x, int y) {
         Game game = Game.getInstance();
-        return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - image.getHeight();
+        return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - (image.getHeight()*2);
     }
 }

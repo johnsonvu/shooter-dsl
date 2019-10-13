@@ -38,7 +38,7 @@ public class Main {
         Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
         Main.gameObjects.add(player);
 
-        new Window(640, 480, "TEST GAME!", game);
+        new Window(game.getWidth(), game.getHeight(), "TEST GAME!", game);
         System.out.println("dones");
     }
 }

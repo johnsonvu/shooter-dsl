@@ -9,6 +9,8 @@ import game.controller.Handler;
 import game.controller.KeyInput;
 import ui.Main;
 
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Game extends JPanel implements ActionListener {
@@ -25,12 +27,19 @@ public class Game extends JPanel implements ActionListener {
 
     private Game() {
         name = "ShootingGame";
-        height = 800;
-        width = 800;
+        width = 1024;
+        height = 768;
 
         sprite = new Sprite();
         handler = new Handler();
-        level = sprite.loadImage(this);
+
+        // set bg image to 2x by 2x scaling
+        BufferedImage tempBgImg = sprite.loadImage(this);
+        AffineTransform at = new AffineTransform();
+        at.scale(1.6, 1.6);
+        AffineTransformOp scaleOp =
+                new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        level = scaleOp.filter(tempBgImg, level);
 
         this.setFocusable(true);
         this.setDoubleBuffered(true);
@@ -83,5 +92,13 @@ public class Game extends JPanel implements ActionListener {
         } else {
             stop();
         }
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
     }
 }

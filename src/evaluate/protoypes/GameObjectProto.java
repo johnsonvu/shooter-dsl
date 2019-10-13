@@ -8,7 +8,7 @@ public abstract class GameObjectProto {
     public int health;
     public Identifier behaviour;
 
-    GameObjectProto(String name, int health, int damage)
+    GameObjectProto(String name, int damage, int health)
     {
         this.name = name;
         this.damage = damage;

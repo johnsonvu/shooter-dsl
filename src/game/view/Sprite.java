@@ -20,6 +20,8 @@ public class Sprite {
 
     private List<Integer> playerSpritIndex;
 
+    private static BufferedImage projectiles;
+
     public Sprite() {
         playerSpritIndex= new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
     }

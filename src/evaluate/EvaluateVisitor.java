@@ -91,6 +91,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
                 for(int i =0; i< number; i++){
                     Player player = new Player(playerProto, ms.identifier.name);
+                    // TODO: make projectile proto w/ buffered image, so players shoot same projectile
                     Main.gameObjects.add(player);
                 }
                 break;
@@ -107,10 +108,10 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 ProjectileProto projectileProto = new ProjectileProto(ms.identifier.name,1, 1);
                 objectProtoTable.put(ms.identifier.name, projectileProto);
 
-                for(int i =0; i< number; i++){
-                    Projectile projectile = new Projectile(projectileProto, ms.identifier.name, DIRECTION.UP);
-                    Main.gameObjects.add(projectile);
-                }
+//                for(int i =0; i< number; i++){
+//                    Projectile projectile = new Projectile(projectileProto, ms.identifier.name, DIRECTION.UP);
+//                    Main.gameObjects.add(projectile);
+//                }
                 break;
 
             case ITEM:

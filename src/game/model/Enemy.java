@@ -32,19 +32,19 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    public void move(DIRECTION dir){
+    public void move(DIRECTION dir) {
         switch (dir) {
             case UP:
+                y -= MOVE_CONSTANT;
+                break;
             case DOWN:
-                if (checkBound(x, y, dir)) {
-                    super.move(dir);
-                } else {
-                    Main.gameObjects.remove(this);
-                }
+                y += MOVE_CONSTANT;
+                break;
+            case LEFT:
+                x -= MOVE_CONSTANT;
                 break;
             default:
-                super.move(dir);
-                x = x % Game.getInstance().getWidth();
+                x += MOVE_CONSTANT;
         }
     }
 
