@@ -67,12 +67,10 @@ public class Player extends GameObject {
         }
 
         if (map.containsKey(KEYINPUTTYPE.LEFT) && map.get(KEYINPUTTYPE.LEFT)) {
-            if (checkBound(x, y, DIRECTION.LEFT))
                 move(DIRECTION.LEFT);
         }
 
         if (map.containsKey(KEYINPUTTYPE.RIGHT) && map.get(KEYINPUTTYPE.RIGHT)) {
-            if (checkBound(x, y, DIRECTION.RIGHT))
                 move(DIRECTION.RIGHT);
         }
 

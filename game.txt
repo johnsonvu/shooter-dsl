@@ -1,7 +1,7 @@
 make game SampleGame
 {
     width = 800
-    height = 600
+    height = 800
 }
 {
     // create game objects

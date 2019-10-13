@@ -26,7 +26,7 @@ public class Game extends JPanel implements ActionListener {
     private Game() {
         name = "ShootingGame";
         height = 800;
-        width = 600;
+        width = 800;
 
         sprite = new Sprite();
         handler = new Handler();
