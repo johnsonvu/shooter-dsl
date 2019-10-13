@@ -34,7 +34,7 @@ public class Player extends GameObject {
     public void shoot() {
         Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
         temp.x = x;
-        temp.y = y;
+        temp.y = y - temp.image.getHeight();
         Main.gameObjects.add(temp);
     }
 
