@@ -34,38 +34,20 @@ public class Enemy extends GameObject {
         this.damage = damage;
     }
 
+    public int getHealth() { return health; }
+
     public void shoot(DIRECTION dir) {
         handler.objects.add(new Projectile(x, y, id, damage, dir));
     }
 
-    public void move(DIRECTION dir) {
-        switch (dir) {
-            case UP:
-                y -= MOVE_CONSTANT;
-                break;
-            case DOWN:
-                y += MOVE_CONSTANT;
-                break;
-            case LEFT:
-                x -= MOVE_CONSTANT;
-                break;
-            default:
-                x += MOVE_CONSTANT;
-        }
-    }
-
     @Override
     public void tick() {
-
+        EvaluateVisitor eval = EvaluateVisitor.getInstance();
+        eval.run(this.behaviour, this);
     }
 
     @Override
     public void render(Graphics g) {
 
-    }
-
-    @Override
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, image.getWidth(), image.getHeight());
     }
 }

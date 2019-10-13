@@ -28,18 +28,38 @@ public class Projectile extends GameObject {
         image = Game.sprit.loadImage(this);
     }
 
+    public int getDamage() { return damage; }
+
     @Override
     public void tick() {
-
+        collision();
+        move(dir);
     }
+
+    private void collision() {
+        for (int i = 0; i < handler.objects.size(); i++) {
+            GameObject obj = handler.objects.get(i);
+
+            if (obj instanceof Player) {
+                if (this.getBounds().intersects(obj.getBounds())) {
+                    Player p = (Player) obj;
+                    p.setHealth(p.getHealth() - damage);
+                }
+            }
+
+            if (obj instanceof Enemy) {
+                if (this.getBounds().intersects(obj.getBounds())) {
+                    Enemy e = (Enemy) obj;
+                    e.setHealth(e.getHealth() - damage);
+                }
+            }
+
+        }
+    }
+
 
     @Override
     public void render(Graphics g) {
 
-    }
-
-    @Override
-    public Rectangle getBounds() {
-        return null;
     }
 }

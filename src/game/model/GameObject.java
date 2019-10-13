@@ -1,5 +1,7 @@
 package game.model;
 
+import lib.DIRECTION;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -25,7 +27,9 @@ public abstract class GameObject {
 
     public abstract void render(Graphics g);
 
-    public abstract Rectangle getBounds();
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, image.getWidth(), image.getHeight());
+    }
 
     public int getX() {
         return x;
@@ -66,5 +70,22 @@ public abstract class GameObject {
     public void setId(String id) {
         this.id = id;
     }
+
+    public void move(DIRECTION dir) {
+        switch (dir) {
+            case UP:
+                y -= MOVE_CONSTANT;
+                break;
+            case DOWN:
+                y += MOVE_CONSTANT;
+                break;
+            case LEFT:
+                x -= MOVE_CONSTANT;
+                break;
+            default:
+                x += MOVE_CONSTANT;
+        }
+    }
+
 
 }

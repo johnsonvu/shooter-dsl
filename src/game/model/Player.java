@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class Player extends GameObject {
     private int number;
-    private Projectile projectile;
     private int health;
     private int damage;
 
@@ -26,10 +25,6 @@ public class Player extends GameObject {
         this.number = number;
     }
 
-    public void setProjectile(Projectile projectile) {
-        this.projectile = projectile;
-    }
-
     public void setHealth(int health) {
         this.health = health;
     }
@@ -38,35 +33,55 @@ public class Player extends GameObject {
         this.damage = damage;
     }
 
-    public void shoot(DIRECTION dir) {
-        handler.objects.add(new Projectile(x, y, id, damage, dir));
+    public int getHealth() { return health; }
+
+    public void shoot() {
+        handler.objects.add(new Projectile(x, y, id, damage, DIRECTION.UP));
     }
 
     @Override
     public void tick() {
-        collision();
-        movement();
+        //collision();
+        act();
     }
 
-    private void collision() {
+//    private void collision() {
 //        for (int i = 0; i < handler.objects.size(); i++) {
 //            GameObject obj = handler.objects.get(i);
-//
+//            if (obj instanceof Projectile) {
+//                if (this.getBounds().intersects(obj.getBounds()))
+//                    health -= ((Projectile) obj).getDamage();
+//            }
+//            if (obj instanceof Enemy) {
+//                if (this.getBounds().intersects(obj.getBounds()))
+//                    health = 0;
+//            }
 //
 //        }
-    }
+//    }
 
-    private void movement() {
-
+    private void act() {
+        HashMap<KEYINPUTTYPE, Boolean> map = handler.objectStates.get(this);
+        switch (KEYINPUTTYPE) {
+            case UP:
+                move(DIRECTION.UP);
+                break;
+            case DOWN:
+                move(DIRECTION.DOWN);
+                break;
+            case LEFT:
+                move(DIRECTION.LEFT);
+                break;
+            case RIGHT:
+                move(DIRECTION.RIGHT);
+                break;
+            default:
+                shoot();
+        }
     }
 
     @Override
     public void render(Graphics g) {
 
-    }
-
-    @Override
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, image.getWidth(), image.getHeight());
     }
 }
