@@ -134,7 +134,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(PropertyStatement ps) {
-        GameObjectProto go = objectProtoTable.get(ps.property.toString());
+        GameObjectProto go = objectPrototype;
 
         switch (ps.property.property){
             case DAMAGE:
