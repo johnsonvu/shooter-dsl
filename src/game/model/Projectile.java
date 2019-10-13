@@ -4,6 +4,7 @@ import game.view.Game;
 import lib.DIRECTION;
 
 import evaluate.protoypes.ProjectileProto;
+import ui.Main;
 
 import java.awt.*;
 
@@ -26,8 +27,8 @@ public class Projectile extends GameObject {
 
     private void collision() {
         boolean remove = false;
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject obj = handler.objects.get(i);
+        for (int i = 0; i < Main.gameObjects.size(); i++) {
+            GameObject obj = Main.gameObjects.get(i);
 
             if (obj instanceof Player) {
                 if (this.getBounds().intersects(obj.getBounds())) {
@@ -48,7 +49,7 @@ public class Projectile extends GameObject {
             }
         }
         if (remove)
-            handler.objects.remove(this);
+            Main.gameObjects.remove(this);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class Projectile extends GameObject {
         if (checkBound(x, y, dir)) {
             super.move(dir);
         } else {
-            handler.objects.remove(this);
+            Main.gameObjects.remove(this);
         }
     }
 

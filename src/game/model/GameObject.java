@@ -23,7 +23,6 @@ public abstract class GameObject {
     protected float velY = 0;
     protected String id;
     protected BufferedImage image;
-    protected Handler handler;
 //    protected SpriteSheet ss;
 
     public static final int MOVE_CONSTANT = 5;
@@ -32,7 +31,6 @@ public abstract class GameObject {
         this.x = 1;
         this.y = 1;
         this.id = name;
-        handler = new Handler();
     }
 
     public abstract void tick();

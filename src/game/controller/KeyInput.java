@@ -15,6 +15,7 @@ public class KeyInput extends KeyAdapter {
 
     public KeyInput(Handler handler) {
         // queue of keyevents {up, left, down, right}
+        keyMap = new HashMap<>();
         playerKeyEventsQueue = new LinkedList<>();
         playerKeyEventsQueue.add(new LinkedList<Integer>(Arrays.asList(KeyEvent.VK_W,KeyEvent.VK_A,KeyEvent.VK_S,KeyEvent.VK_D, KeyEvent.VK_C)));
         playerKeyEventsQueue.add(new LinkedList<Integer>(Arrays.asList(KeyEvent.VK_Y,KeyEvent.VK_G,KeyEvent.VK_H,KeyEvent.VK_J, KeyEvent.VK_M)));

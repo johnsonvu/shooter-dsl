@@ -13,7 +13,7 @@ public class Handler {
     public LinkedList<GameObject> objects = new LinkedList<GameObject>();
 
     // Object states for moving: up, down, left, right and shooting
-    public HashMap<GameObject, HashMap<KEYINPUTTYPE, Boolean>> objectStates;
+    public HashMap<GameObject, HashMap<KEYINPUTTYPE, Boolean>> objectStates = new HashMap<>();
 
     public void tick() {
         for (int i = 0; i < objects.size(); i++) {

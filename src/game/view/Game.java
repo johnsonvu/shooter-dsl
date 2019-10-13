@@ -17,7 +17,7 @@ public class Game extends JPanel implements ActionListener {
     public static Sprite sprite;
     private boolean isRunning = false;
     private Timer timer;
-    private Handler handler;
+    private static Handler handler;
     private BufferedImage level;
 
     public Game() {
@@ -41,6 +41,10 @@ public class Game extends JPanel implements ActionListener {
             game = new Game();
 
         return game;
+    }
+
+    public Handler getHandler() {
+        return this.handler;
     }
 
     public void setWindow(String name, int height, int width){

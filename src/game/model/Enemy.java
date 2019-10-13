@@ -5,6 +5,7 @@ import evaluate.protoypes.ProjectileProto;
 import game.view.Game;
 import lib.DIRECTION;
 import evaluate.protoypes.EnemyProto;
+import ui.Main;
 
 import java.awt.*;
 
@@ -27,7 +28,7 @@ public class Enemy extends GameObject {
     public int getHealth() { return health; }
 
     public void shoot(DIRECTION dir) {
-        handler.objects.add(new Projectile(new ProjectileProto(id, damage, health), id, dir));
+        Main.gameObjects.add(new Projectile(new ProjectileProto(id, damage, health), id, dir));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class Enemy extends GameObject {
                 if (checkBound(x, y, dir)) {
                     super.move(dir);
                 } else {
-                    handler.objects.remove(this);
+                    Main.gameObjects.remove(this);
                 }
                 break;
             default:

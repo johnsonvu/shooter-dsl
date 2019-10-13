@@ -26,8 +26,9 @@ public class Sprite {
 
     public BufferedImage loadImage(Object obj) {
         try {
+            String cwd = System.getProperty("user.dir");
             String path = getPath(obj);
-            return ImageIO.read(new File(path));
+            return ImageIO.read(new File(cwd.replaceAll("/src", "") + "/" + path));
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

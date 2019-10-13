@@ -1,5 +1,9 @@
 package game.view;
 
+import evaluate.protoypes.PlayerProto;
+import game.model.Player;
+import ui.Main;
+
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -20,6 +24,10 @@ public class Window {
     }
 
     public static void main(String[] args) {
+        Main.game = new Game();
+        Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
+        Main.game.getHandler().objects.add(player);
 
+        new Window(1200, 800, "TEST GAME!", Main.game);
     }
 }

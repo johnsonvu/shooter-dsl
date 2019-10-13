@@ -1,10 +1,12 @@
 package game.model;
 
 import evaluate.protoypes.ProjectileProto;
+import game.controller.Handler;
 import game.view.Game;
 import lib.DIRECTION;
 import lib.KEYINPUTTYPE;
 import evaluate.protoypes.PlayerProto;
+import ui.Main;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -15,6 +17,8 @@ public class Player extends GameObject {
         this.damage = proto.damage;
         this.health = proto.health;
         image = Game.sprite.loadImage(this);
+
+        Main.game.getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
     }
 
     public void setHealth(int health) {
@@ -28,7 +32,7 @@ public class Player extends GameObject {
     public int getHealth() { return health; }
 
     public void shoot() {
-        handler.objects.add(new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP));
+        Main.gameObjects.add(new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP));
     }
 
     @Override
@@ -38,8 +42,8 @@ public class Player extends GameObject {
     }
 
     private void collision() {
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject obj = handler.objects.get(i);
+        for (int i = 0; i < Main.gameObjects.size(); i++) {
+            GameObject obj = Main.gameObjects.get(i);
             if (obj instanceof Enemy) {
 //                if (this.getBounds().intersects(obj.getBounds()))
 //                    gameOver();
@@ -48,29 +52,29 @@ public class Player extends GameObject {
     }
 
     private void act() {
-        HashMap<KEYINPUTTYPE, Boolean> map = handler.objectStates.get(this);
-        if (map.get(KEYINPUTTYPE.UP)) {
+        HashMap<KEYINPUTTYPE, Boolean> map = Main.game.getHandler().objectStates.get(this);
+        if (map.containsKey(KEYINPUTTYPE.UP) && map.get(KEYINPUTTYPE.UP)) {
             if (checkBound(x, y, DIRECTION.UP)) {
                 move(DIRECTION.UP);
             }
         }
 
-        if (map.get(KEYINPUTTYPE.DOWN)) {
+        if (map.containsKey(KEYINPUTTYPE.DOWN) && map.get(KEYINPUTTYPE.DOWN)) {
             if (checkBound(x, y, DIRECTION.DOWN))
                 move(DIRECTION.DOWN);
         }
 
-        if (map.get(KEYINPUTTYPE.LEFT)) {
+        if (map.containsKey(KEYINPUTTYPE.LEFT) && map.get(KEYINPUTTYPE.LEFT)) {
             if (checkBound(x, y, DIRECTION.LEFT))
                 move(DIRECTION.LEFT);
         }
 
-        if (map.get(KEYINPUTTYPE.RIGHT)) {
+        if (map.containsKey(KEYINPUTTYPE.RIGHT) && map.get(KEYINPUTTYPE.RIGHT)) {
             if (checkBound(x, y, DIRECTION.RIGHT))
                 move(DIRECTION.RIGHT);
         }
 
-        if (map.get(KEYINPUTTYPE.SHOOT))
+        if (map.containsKey(KEYINPUTTYPE.SHOOT) && map.get(KEYINPUTTYPE.SHOOT))
             shoot();
     }
 
