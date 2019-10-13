@@ -15,8 +15,24 @@ public class Projectile extends GameObject {
         this.number = 1;
     }
 
-    public Projectile(String id) {
-        this(1, 1);
+    public Projectile(int x, int y, String id, int number) {
+        this(x,y);
         this.projectileId = id;
+        this.number = number;
+    }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
     }
 }

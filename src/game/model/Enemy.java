@@ -20,8 +20,9 @@ public class Enemy extends GameObject {
         this.damage = 1;
     }
 
-    public Enemy(String id) {
-        this(1,1,id);
+    public Enemy(int x, int y, String id, int number) {
+        this(x,y,id);
+        this.number = number;
     }
 
     public void setProjectile(Projectile projectile) {
@@ -34,5 +35,20 @@ public class Enemy extends GameObject {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
     }
 }

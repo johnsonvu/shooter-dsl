@@ -18,8 +18,9 @@ public class Player extends GameObject {
         damage = 1;
     }
 
-    public Player(String id) {
-        this(1,1,id);
+    public Player(int x, int y, String id, int number) {
+        this(x,y,id);
+        this.number = number;
     }
 
     public void setProjectile(Projectile projectile) {
@@ -32,5 +33,20 @@ public class Player extends GameObject {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
     }
 }

@@ -7,12 +7,24 @@ public class Item extends GameObject {
     private int number;
     // add coordinate?
 
-    public Item(int x, int y, String id) {
-        super(x, y, id);
+    public Item(int x, int y, String id, int number) {
+        super(x,y,id);
         itemId = id;
         this.number = number;
     }
-    public Item(String id){
-        this(1,1,id);
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
     }
 }
