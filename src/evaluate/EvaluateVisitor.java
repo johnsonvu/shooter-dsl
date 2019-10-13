@@ -197,7 +197,6 @@ public class EvaluateVisitor implements Visitor<Integer> {
         gameObjects.stream()
                 .filter(go -> go.proto.equals(objectPrototype))
                 .forEach(go -> go.move(ms.direction.direction, ms.number.number));
-
         return null;
     }
 
@@ -206,7 +205,6 @@ public class EvaluateVisitor implements Visitor<Integer> {
         gameObjects.stream()
                 .filter(go -> go.proto.equals(objectPrototype))
                 .forEach(go -> go.shoot(ss.direction.direction));
-
         return null;
     }
 
