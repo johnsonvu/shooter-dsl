@@ -1,24 +1,20 @@
 package game.model;
 
+import evaluate.protoypes.ProjectileProto;
 import game.view.Game;
 import lib.DIRECTION;
 import lib.KEYINPUTTYPE;
+import evaluate.protoypes.PlayerProto;
 
 import java.awt.*;
 import java.util.HashMap;
 
 public class Player extends GameObject {
-    public Player(int x, int y, String id) {
-        super(x,y,id);
-
-        health = 1;
-        damage = 1;
+    public Player(PlayerProto proto, String name) {
+        super(proto, name);
+        this.damage = proto.damage;
+        this.health = proto.health;
         image = Game.sprite.loadImage(this);
-    }
-
-    public Player(int x, int y, String id, int number) {
-        this(x,y,id);
-        this.number = number;
     }
 
     public void setHealth(int health) {
@@ -32,7 +28,7 @@ public class Player extends GameObject {
     public int getHealth() { return health; }
 
     public void shoot() {
-        handler.objects.add(new Projectile(x, y, id, damage, DIRECTION.UP));
+        handler.objects.add(new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP));
     }
 
     @Override

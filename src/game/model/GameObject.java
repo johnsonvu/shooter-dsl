@@ -8,11 +8,14 @@ import lib.DIRECTION;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import evaluate.protoypes.GameObjectProto;
+
 public abstract class GameObject {
     public int number;
     public int damage;
     public int health;
     public Identifier behaviour;
+    public GameObjectProto proto;
 
     protected int x;
     protected int y;
@@ -25,11 +28,10 @@ public abstract class GameObject {
 
     public static final int MOVE_CONSTANT = 5;
 
-    public GameObject(int x, int y, String id) {
-        this.x = x;
-        this.y = y;
-        this.id = id;
-//        this.ss = ss;
+    public GameObject(GameObjectProto proto, String name) {
+        this.x = 1;
+        this.y = 1;
+        this.id = name;
         handler = new Handler();
     }
 

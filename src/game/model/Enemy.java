@@ -1,25 +1,19 @@
 package game.model;
 
 import evaluate.Evaluator;
+import evaluate.protoypes.ProjectileProto;
 import game.view.Game;
 import lib.DIRECTION;
+import evaluate.protoypes.EnemyProto;
 
 import java.awt.*;
 
 public class Enemy extends GameObject {
-    public Enemy(int x, int y, String id) {
-        super(x,y,id);
-        this.number = 1;
-
-        this.health = 1;
-        this.damage = 1;
-
+    public Enemy(EnemyProto proto, String name) {
+        super(proto,name);
+        this.health = proto.health;
+        this.damage = proto.damage;
         image = Game.sprite.loadImage(this);
-    }
-
-    public Enemy(int x, int y, String id, int number) {
-        this(x,y,id);
-        this.number = number;
     }
 
     public void setHealth(int health) {
@@ -33,7 +27,7 @@ public class Enemy extends GameObject {
     public int getHealth() { return health; }
 
     public void shoot(DIRECTION dir) {
-        handler.objects.add(new Projectile(x, y, id, damage, dir));
+        handler.objects.add(new Projectile(new ProjectileProto(id, damage, health), id, dir));
     }
 
     @Override

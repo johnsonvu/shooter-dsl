@@ -1,16 +1,14 @@
 package game.model;
 
 import game.view.Game;
+import evaluate.protoypes.ItemProto;
 
 import java.awt.*;
 
 public class Item extends GameObject {
-    public Item(int x, int y, String id, int number) {
-        super(x,y,id);
-        this.number = number;
-
+    public Item(ItemProto proto, String name) {
+        super(proto, name);
         image = Game.sprite.loadImage(this);
-
     }
 
     @Override

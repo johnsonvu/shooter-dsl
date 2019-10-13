@@ -3,25 +3,16 @@ package game.model;
 import game.view.Game;
 import lib.DIRECTION;
 
+import evaluate.protoypes.ProjectileProto;
+
 import java.awt.*;
 
 public class Projectile extends GameObject {
     private DIRECTION dir;
 
-    public Projectile(int x, int y, String id, int damage, DIRECTION dir) {
-        super(x, y, id + "_projectile");
-        this.number = 1;
-        this.damage = damage;
+    public Projectile(ProjectileProto proto, String name, DIRECTION dir) {
+        super(proto, name);
         this.dir = dir;
-
-        image = Game.sprite.loadImage(this);
-
-    }
-
-    public Projectile(int x, int y, String id, int number, int damage, DIRECTION dir) {
-        this(x,y, id, damage, dir);
-        this.number = number;
-
         image = Game.sprite.loadImage(this);
     }
 
