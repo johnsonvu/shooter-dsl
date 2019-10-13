@@ -1,23 +1,31 @@
 package game.model;
 
 
+import game.view.Game;
+import lib.DIRECTION;
+
 import java.awt.*;
 
 public class Projectile extends GameObject {
-    private static String DEFAULT_PROJECTILE = "bullet";
-    private String projectileId;
     private int number;
+    private int damage;
+    private DIRECTION dir;
 
-    public Projectile(int x, int y) {
-        super(x,y,DEFAULT_PROJECTILE);
-        this.projectileId = DEFAULT_PROJECTILE;
+    public Projectile(int x, int y, String id, int damage, DIRECTION dir) {
+        super(x, y, id + "_projectile");
         this.number = 1;
+        this.damage = damage;
+        this.dir = dir;
+
+        image = Game.sprit.loadImage(this);
+
     }
 
-    public Projectile(int x, int y, String id, int number) {
-        this(x,y);
-        this.projectileId = id;
+    public Projectile(int x, int y, String id, int number, int damage, DIRECTION dir) {
+        this(x,y, id, damage, dir);
         this.number = number;
+
+        image = Game.sprit.loadImage(this);
     }
 
     @Override

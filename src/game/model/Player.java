@@ -1,9 +1,11 @@
 package game.model;
 
+import game.view.Game;
+import lib.DIRECTION;
+
 import java.awt.*;
 
 public class Player extends GameObject {
-    private String playerId;
     private int number;
     private Projectile projectile;
     private int health;
@@ -11,11 +13,12 @@ public class Player extends GameObject {
 
     public Player(int x, int y, String id) {
         super(x,y,id);
-        playerId = id;
 
-        projectile = new Projectile(0,0); // is this needed?
         health = 1;
         damage = 1;
+
+        image = Game.sprit.loadImage(this);
+
     }
 
     public Player(int x, int y, String id, int number) {
@@ -35,8 +38,25 @@ public class Player extends GameObject {
         this.damage = damage;
     }
 
+    public void shoot(DIRECTION dir) {
+        handler.objects.add(new Projectile(x, y, id, damage, dir));
+    }
+
     @Override
     public void tick() {
+        collision();
+        movement();
+    }
+
+    private void collision() {
+//        for (int i = 0; i < handler.objects.size(); i++) {
+//            GameObject obj = handler.objects.get(i);
+//
+//
+//        }
+    }
+
+    private void movement() {
 
     }
 
@@ -47,6 +67,6 @@ public class Player extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return null;
+        return new Rectangle(x, y, image.getWidth(), image.getHeight());
     }
 }

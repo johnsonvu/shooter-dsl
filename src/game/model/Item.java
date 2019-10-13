@@ -1,16 +1,19 @@
 package game.model;
 
+import game.view.Game;
+
 import java.awt.*;
 
 public class Item extends GameObject {
-    private String itemId;
     private int number;
     // add coordinate?
 
     public Item(int x, int y, String id, int number) {
         super(x,y,id);
-        itemId = id;
         this.number = number;
+
+        image = Game.sprit.loadImage(this);
+
     }
 
     @Override

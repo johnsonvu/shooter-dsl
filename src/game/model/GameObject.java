@@ -1,6 +1,7 @@
 package game.model;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
     protected int x;
@@ -8,7 +9,10 @@ public abstract class GameObject {
     protected float velX = 0;
     protected float velY = 0;
     protected String id;
+    protected BufferedImage image;
 //    protected SpriteSheet ss;
+
+    public static final int MOVE_CONSTANT = 5;
 
     public GameObject(int x, int y, String id) {
         this.x = x;
