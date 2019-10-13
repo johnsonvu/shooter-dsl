@@ -337,10 +337,18 @@ public class EvaluateVisitor implements Visitor<Integer> {
         blockTable.get(id).accept(this);
     }
 
+
+    /***
+     * Takes a GameObjectPrototype and for every GameObject that has that prototype, we apply the function f.
+     * @param proto
+     * @param f
+     */
     public void applyAll(GameObjectProto proto, Consumer<GameObject> f){
 
-        Main.gameObjects.stream()
-                .filter(go -> go.proto.equals(objectPrototype))
-                .forEach(f);
+        List<GameObject> relevantObjects = Main.gameObjects.stream().filter(go -> go.proto.equals(proto)).collect(Collectors.toList());
+
+        for (GameObject g: relevantObjects) {
+            f.accept(g);
+        }
     }
 }
