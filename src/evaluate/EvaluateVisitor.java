@@ -13,21 +13,19 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EvaluateVisitor implements Visitor<Integer> {
-    private ASTNode ast;
     private Game game;
 
-    public static HashMap<String, Integer> varTable = null;
-    public static HashMap<String, Integer> globalVarTable = new HashMap<>();
+    private static HashMap<String, Integer> varTable = null;
+    private static HashMap<String, Integer> globalVarTable = new HashMap<>();
 
-    public static GameObjectProto objectPrototype = null; //Blueprints for an instance's properties (kind of like js prototypes?)
-    public static HashMap<String, GameObjectProto> objectProtoTable = new HashMap<>();
+    private static GameObjectProto objectPrototype = null; //Blueprints for an instance's properties (kind of like js prototypes?)
+    private static HashMap<String, GameObjectProto> objectProtoTable = new HashMap<>();
 
-    public static HashMap<String, FunctionBlock> blockTable = new HashMap<>();
+    private static HashMap<String, FunctionBlock> blockTable = new HashMap<>();
 
-    public static List<GameObject> gameObjects = new ArrayList<>(); //The actual instances of gameObjects
+    private static List<GameObject> gameObjects = new ArrayList<>(); //The actual instances of gameObjects
 
-    public EvaluateVisitor(ASTNode astNode){
-        ast = astNode;
+    private EvaluateVisitor(){
     }
 
     @Override
@@ -93,7 +91,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
         switch(ms.type.type){
             case PLAYER:
-                PlayerProto playerProto = new PlayerProto(1, 1);
+                PlayerProto playerProto = new PlayerProto(ms.identifier.name,1, 1);
                 objectProtoTable.put(ms.identifier.name, playerProto);
 
                 for(int i =0; i< number; i++){
@@ -102,7 +100,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 }
                 break;
             case ENEMY:
-                EnemyProto enemyProto = new EnemyProto(1, 1);
+                EnemyProto enemyProto = new EnemyProto(ms.identifier.name, 1, 1);
                 objectProtoTable.put(ms.identifier.name, enemyProto);  //enemy should implement GameObject
 
                 for(int i =0; i< number; i++){
@@ -111,7 +109,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 }
                 break;
             case PROJECTILE:
-                ProjectileProto projectileProto = new ProjectileProto(1, 1);
+                ProjectileProto projectileProto = new ProjectileProto(ms.identifier.name,1, 1);
                 objectProtoTable.put(ms.identifier.name, projectileProto);
 
                 for(int i =0; i< number; i++){
@@ -121,7 +119,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 break;
 
             case ITEM:
-                ItemProto itemProto = new ItemProto(1, 1);
+                ItemProto itemProto = new ItemProto(ms.identifier.name,1, 1);
                 objectProtoTable.put(ms.identifier.name, itemProto);
 
                 for(int i =0; i< number; i++){
@@ -196,15 +194,19 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        GameObject go = objectProtoTable.get(scope);
-        go.move(ms.direction.direction, ms.number.number);
+        gameObjects.stream()
+                .filter(go -> go.proto.equals(objectPrototype))
+                .forEach(go -> go.move(ms.direction.direction, ms.number.number));
+
         return null;
     }
 
     @Override
     public Integer visit(ShootStatement ss) {
-        GameObject go = objectProtoTable.get(scope);
-        go.shoot(ss.direction.direction);
+        gameObjects.stream()
+                .filter(go -> go.proto.equals(objectPrototype))
+                .forEach(go -> go.shoot(ss.direction.direction));
+
         return null;
     }
 
