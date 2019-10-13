@@ -1,3 +1,4 @@
+
 package game.model;
 
 
@@ -5,7 +6,6 @@ import game.view.Game;
 import lib.DIRECTION;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Projectile extends GameObject {
     private int number;

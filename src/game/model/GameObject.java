@@ -1,11 +1,18 @@
 package game.model;
 
+import ast.Identifier;
 import lib.DIRECTION;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
+    public String name;
+    public int number;
+    public int damage;
+    public int health;
+    public Identifier behaviour;
+
     protected int x;
     protected int y;
     protected float velX = 0;
@@ -71,6 +78,7 @@ public abstract class GameObject {
         this.id = id;
     }
 
+<<<<<<< HEAD
     public void move(DIRECTION dir) {
         switch (dir) {
             case UP:
@@ -89,3 +97,6 @@ public abstract class GameObject {
 
 
 }
+=======
+}
+>>>>>>> master
