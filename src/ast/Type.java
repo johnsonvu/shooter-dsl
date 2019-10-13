@@ -7,7 +7,7 @@ public class Type extends ASTNode{
     public TYPE type;
 
     public Type(String type) {
-        this.type = TYPE.valueOf(type);
+        this.type = TYPE.valueOf(type.toUpperCase());
     }
     @Override
     public <T> T accept(Visitor<T> v) {

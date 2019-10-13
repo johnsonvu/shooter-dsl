@@ -75,7 +75,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
                 gd.statements.add((GameStatement) (new GameStatement()).accept(this));
             else if (tokenizer.checkNext("new"))
                 gd.statements.add((VarDec) (new VarDec()).accept(this));
-            else if (tokenizer.checkNext("[A-Z|a-z|0-9]+"))
+            else if (tokenizer.checkNext("[A-Z|a-z][A-Z|a-z|0-9]*"))
                 gd.statements.add((VarSet) (new VarSet()).accept(this));
         }
         tokenizer.getAndCheckNext("}");
@@ -85,7 +85,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
     @Override
     public ASTNode visit(ObjectModifier om) {
         if(tokenizer.getAndCheckNext("set")){
-            if(tokenizer.checkNext("[A-Z|a-z|0-9]+")){
+            if(tokenizer.checkNext("[A-Z|a-z][A-Z|a-z|0-9]*")){
                 Identifier id = new Identifier(tokenizer.getNext());
                 om.identifier = id;
 
@@ -123,7 +123,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
             PropertyStatement ps = new PropertyStatement();
             s = (PropertyStatement) ps.accept(this);
         }
-        else if(tokenizer.checkNext("[A-Z|a-z|0-9]+") && tokenizer.checkNext("=",2)){
+        else if(tokenizer.checkNext("[A-Z|a-z][A-Z|a-z|0-9]*") && tokenizer.checkNext("=",2)){
             VarSet vs = new VarSet();
             s = (VarSet) vs.accept(this);
         }
@@ -179,6 +179,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
         fd.name = new Identifier(tokenizer.getNext());
         tokenizer.getAndCheckNext("(");
 
+        fd.functionBlock = new FunctionBlock();
         fd.functionBlock.params = new ArrayList<>();
         while (!tokenizer.checkNext("\\)")) {
             Identifier param = new Identifier(tokenizer.getNext());
@@ -301,7 +302,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
     @Override
     public ASTNode visit(Identifier id) {
-        if(tokenizer.checkNext(" [A-Z|a-z|0-9]+")){
+        if(tokenizer.checkNext(" [A-Z|a-z][A-Z|a-z|0-9]*")){
             id.name = tokenizer.getNext();
         }
         return id;
@@ -330,7 +331,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
     }
 
     public ASTNode visit(Expression expr) {
-        if(tokenizer.checkNext("\\d")){
+        if(tokenizer.checkNext("\\d+")){
             expr.ex1 = new Number(Integer.valueOf(tokenizer.getNext()));
         }
 
@@ -339,7 +340,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
             expr.ex1 = (FunctionCall) fc.accept(this);
         }
 
-        else if(tokenizer.checkNext("[A-Z|a-z|0-9]*")){
+        else if(tokenizer.checkNext("[A-Z|a-z][A-Z|a-z|0-9]*")){
             expr.ex1 = new Identifier(tokenizer.getNext());
         }
 

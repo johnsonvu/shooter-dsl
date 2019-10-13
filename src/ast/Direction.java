@@ -7,7 +7,7 @@ public class Direction extends ASTNode{
     public DIRECTION direction;
 
     public Direction(String direction) {
-        this.direction = DIRECTION.valueOf(direction);
+        this.direction = DIRECTION.valueOf(direction.toUpperCase());
     }
     
     @Override
