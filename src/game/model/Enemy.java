@@ -1,5 +1,6 @@
 package game.model;
 
+import ast.Direction;
 import evaluate.Evaluator;
 import evaluate.protoypes.ProjectileProto;
 import game.view.Game;
@@ -37,7 +38,7 @@ public class Enemy extends GameObject {
             case UP:
             case DOWN:
                 if (checkBound(x, y, dir)) {
-                    //super.move(dir); // too fast
+                    //super.move(dir);/
                     this.y = y + MOVE_CONSTANT/5;
                 } else {
                     Main.gameObjects.remove(this);
