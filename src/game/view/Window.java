@@ -34,6 +34,6 @@ public class Window {
         Main.gameObjects.add(player2);
         Main.gameObjects.add(enemy);
 
-        new Window(Main.game.getWidth(), Main.game.getHeight(), "TEST GAME!", Main.game);
+        new Window(Main.game.getWidth(), Main.game.getHeight(), Main.game.getName(), Main.game);
     }
 }
