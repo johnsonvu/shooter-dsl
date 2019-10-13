@@ -6,8 +6,6 @@ import lib.DIRECTION;
 
 import java.awt.*;
 
-import static lib.DIRECTION.DOWN;
-
 public class Enemy extends GameObject {
     public Enemy(int x, int y, String id) {
         super(x,y,id);

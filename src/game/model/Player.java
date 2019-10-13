@@ -4,7 +4,6 @@ import game.view.Game;
 import lib.DIRECTION;
 import lib.KEYINPUTTYPE;
 
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.util.HashMap;
 

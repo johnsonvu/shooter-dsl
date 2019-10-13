@@ -1,8 +1,5 @@
-
 package game.model;
 
-
-import ast.Direction;
 import game.view.Game;
 import lib.DIRECTION;
 
