@@ -1,8 +1,16 @@
 package game.model;
 
-import java.awt.*;
+import ast.FunctionBlock;
+import ast.Identifier;
+import lib.DIRECTION;
 
 public abstract class GameObject {
+    public String name;
+    public int number;
+    public int damage;
+    public int health;
+    public Identifier behaviour;
+
     protected int x;
     protected int y;
     protected float velX = 0;

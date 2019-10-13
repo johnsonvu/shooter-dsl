@@ -4,11 +4,11 @@ import visitor.Visitor;
 
 import java.util.List;
 
-public class GameDef extends ASTNode{
-    public String name;
-    public int width;
-    public int height;
-    public List<GameStatement> statements;
+public class FunctionBlock extends ASTNode {
+    public Block block;
+    public Expression retExpr;
+    public List<Identifier> params;
+
 
     @Override
     public <T> T accept(Visitor<T> v) {

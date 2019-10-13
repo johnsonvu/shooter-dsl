@@ -5,9 +5,7 @@ import java.util.List;
 
 public class FunctionDec extends ASTNode{
     public Identifier name;
-    public List<Identifier> parameters;
-    public Block block;
-    public Expression retExpr;
+    public FunctionBlock functionBlock;
 
     @Override
     public <T> T accept(Visitor<T> v) {
