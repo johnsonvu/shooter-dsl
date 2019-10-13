@@ -14,7 +14,6 @@ public class Enemy extends GameObject {
         this.damage = proto.damage;
 
         //this.projectile = new Projectile(0,0); // is this needed?
-
     }
 
     public void setProjectile(Projectile projectile) {
@@ -27,5 +26,20 @@ public class Enemy extends GameObject {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
     }
 }

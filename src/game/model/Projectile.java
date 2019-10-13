@@ -12,4 +12,19 @@ public class Projectile extends GameObject {
     public Projectile(ProjectileProto proto, String name) {
         super(proto, name);
     }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
+    }
 }
