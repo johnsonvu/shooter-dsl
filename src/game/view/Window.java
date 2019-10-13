@@ -34,6 +34,6 @@ public class Window {
         Main.gameObjects.add(player2);
         Main.gameObjects.add(enemy);
 
-        new Window(1200, 800, "TEST GAME!", Main.game);
+        new Window(800, 800, "TEST GAME!", Main.game);
     }
 }

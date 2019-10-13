@@ -33,7 +33,6 @@ public class Player extends GameObject {
 
     public void shoot() {
         Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
-
         temp.x = x;
         temp.y = y - temp.image.getHeight();
         Main.gameObjects.add(temp);
@@ -68,12 +67,10 @@ public class Player extends GameObject {
         }
 
         if (map.containsKey(KEYINPUTTYPE.LEFT) && map.get(KEYINPUTTYPE.LEFT)) {
-            if (checkBound(x, y, DIRECTION.LEFT))
                 move(DIRECTION.LEFT);
         }
 
         if (map.containsKey(KEYINPUTTYPE.RIGHT) && map.get(KEYINPUTTYPE.RIGHT)) {
-            if (checkBound(x, y, DIRECTION.RIGHT))
                 move(DIRECTION.RIGHT);
         }
 
@@ -85,7 +82,6 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
-//        System.out.println(x + " " + y);
         g.drawImage(image, x,y, null);
     }
 }
