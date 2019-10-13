@@ -6,6 +6,7 @@ import java.util.*;
 
 import game.model.GameObject;
 import game.model.Player;
+import ui.Main;
 
 public class KeyInput extends KeyAdapter {
 
@@ -28,8 +29,8 @@ public class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        for(int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObj = handler.objects.get(i);
+        for(int i = 0; i < Main.gameObjects.size(); i++) {
+            GameObject tempObj = Main.gameObjects.get(i);
 
             if (tempObj instanceof Player) {
                 List<Integer> keyEvents;
@@ -68,8 +69,8 @@ public class KeyInput extends KeyAdapter {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
 
-        for(int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObj = handler.objects.get(i);
+        for(int i = 0; i < Main.gameObjects.size(); i++) {
+            GameObject tempObj = Main.gameObjects.get(i);
 
             if (tempObj instanceof Player) {
                 List<Integer> keyEvents;

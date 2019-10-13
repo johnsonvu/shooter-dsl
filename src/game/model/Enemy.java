@@ -50,12 +50,12 @@ public class Enemy extends GameObject {
 
     @Override
     public void tick() {
-        Evaluator eval = Evaluator.getInstance();
-        eval.run(this.behaviour, this);
+//        Evaluator eval = Evaluator.getInstance();
+//        eval.run(this.behaviour, this);
     }
 
     @Override
     public void render(Graphics g) {
-
+        g.drawImage(image, x,y, null);
     }
 }

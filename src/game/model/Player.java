@@ -32,7 +32,8 @@ public class Player extends GameObject {
     public int getHealth() { return health; }
 
     public void shoot() {
-        Main.gameObjects.add(new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP));
+        Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
+        Main.gameObjects.add(temp);
     }
 
     @Override
@@ -73,8 +74,10 @@ public class Player extends GameObject {
                 move(DIRECTION.RIGHT);
         }
 
-        if (map.containsKey(KEYINPUTTYPE.SHOOT) && map.get(KEYINPUTTYPE.SHOOT))
+        if (map.containsKey(KEYINPUTTYPE.SHOOT) && map.get(KEYINPUTTYPE.SHOOT)) {
             shoot();
+        }
+
     }
 
     @Override
