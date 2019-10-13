@@ -28,6 +28,7 @@ public abstract class GameObject {
     public static final int MOVE_CONSTANT = 5;
 
     public GameObject(GameObjectProto proto, String name) {
+        this.proto = proto;
         this.x = 1;
         this.y = 1;
         this.id = name;

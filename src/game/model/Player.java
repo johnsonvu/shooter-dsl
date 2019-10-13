@@ -18,7 +18,7 @@ public class Player extends GameObject {
         this.health = proto.health;
         image = Game.sprite.loadImage(this);
 
-        Main.game.getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
+        Game.getInstance().getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
     }
 
     public void setHealth(int health) {
@@ -33,6 +33,9 @@ public class Player extends GameObject {
 
     public void shoot() {
         Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
+
+        temp.x = x;
+        temp.y = y - temp.image.getHeight();
         Main.gameObjects.add(temp);
     }
 

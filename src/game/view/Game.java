@@ -49,11 +49,22 @@ public class Game extends JPanel implements ActionListener {
         return this.handler;
     }
 
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
     public void setWindow(String name, int height, int width){
         this.name = name;
         this.height = height;
         this.width = width;
     }
+
 
     private void start() {
         isRunning = true;

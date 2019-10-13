@@ -10,11 +10,14 @@ import lib.DIRECTION;
 import ui.Main;
 import visitor.Visitor;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EvaluateVisitor implements Visitor<Integer> {
     private static HashMap<String, Integer> varTable = null;
     private static HashMap<String, Integer> globalVarTable = new HashMap<>();
 
+    private static GameObject gameObject = null; //for changing instances
     private static GameObjectProto objectPrototype = null; //Blueprints for an instance's properties (kind of like js prototypes?)
     private static HashMap<String, GameObjectProto> objectProtoTable = new HashMap<>();
 
@@ -133,7 +136,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
         switch (ps.property.property){
             case DAMAGE:
-                go.damage = ps.expr.accept(this);
+                go.damage = ps.expr.accept(this); //this is wrong because it's doing prototype, not instance
                 break;
             case HEALTH:
                 go.damage = ps.expr.accept(this);
@@ -152,21 +155,24 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     public Integer visit(FunctionBlock fb) {
         fb.block.accept(this);
-        return fb.retExpr.accept(this);
+        return fb.retExpr == null? null : fb.retExpr.accept(this);
     }
 
     @Override
     public Integer visit(FunctionCall fc) {
-        HashMap<String, Integer> currentScope = varTable;
-        varTable = new HashMap<>();
         FunctionBlock fb =  blockTable.get(fc.name.name);
         String key;
         Integer value;
+        List<Integer> args = fc.arguments.stream().map(arg -> arg.accept(this)).collect(Collectors.toList());
+
         for (int i=0; i<fc.arguments.size(); i++) {
             key = fb.params.get(i).name;
-            value = fc.arguments.get(i).accept(this);
+            value = args.get(i);
             store(key, value);
         }
+
+        HashMap<String, Integer> currentScope = varTable;
+        varTable = new HashMap<>();
 
         Integer retVal = fb.accept(this);
 
@@ -192,7 +198,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
         Main.gameObjects.stream()
                 .filter(go -> go.proto.equals(objectPrototype))
                 .forEach(go -> {
-                    int times = ms.expr.accept(this);
+                    int times = ms.expr == null? 1 : ms.expr.accept(this);
                     for(int i=0; i<times;i++) {
                         go.move(ms.direction.direction);
                     }
@@ -202,9 +208,10 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(ShootStatement ss) {
-        Main.gameObjects.stream()
-                .filter(go -> go.proto.equals(objectPrototype))
-                .forEach(go -> ((Enemy) go).shoot(ss.direction.direction));
+        List<GameObject> relevantgameObjects = Main.gameObjects.stream()
+                .filter(go -> go.proto.equals(objectPrototype)).collect(Collectors.toList());
+
+        relevantgameObjects.forEach(go -> ((Enemy) go).shoot(ss.direction.direction));
         return null;
     }
 
@@ -239,10 +246,11 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 case MINUS:
                     return expr.ex1.accept(this) - expr.ex2.accept(this);
                 case MULTIPLY:
-                    myExpr.ex1 = new Number(expr.ex1.accept(this) * expr.ex2.ex1.accept(this));
-                    myExpr.op = expr.ex2.op;
-                    myExpr.ex2 = expr.ex2.ex2;
-                    return myExpr.accept(this);
+//                    myExpr.ex1 = new Number(expr.ex1.accept(this) * expr.ex2.ex1.accept(this));
+//                    myExpr.op = expr.ex2.op;
+//                    myExpr.ex2 = expr.ex2.ex2;
+//                    return myExpr.accept(this);
+                    return expr.ex1.accept(this) * expr.ex2.accept(this); //TODO: fix this hack lmao
                 case DIVIDE:
                     myExpr.ex1 = new Number(expr.ex1.accept(this) / expr.ex2.ex1.accept(this));
                     myExpr.op = expr.ex2.op;
@@ -271,31 +279,58 @@ public class EvaluateVisitor implements Visitor<Integer> {
     }
 
     private Integer lookup(String key){
-        Integer value = varTable.get(key);
+        if(key.equals("damage")) return gameObject.damage;
+        if(key.equals("health")) return gameObject.health;
+
+        Integer value = null;
+        if(varTable != null) value = varTable.get(key);
         if(value == null) value = globalVarTable.get(key);
 
         return value;
     }
 
     private Integer lookup(Identifier id){
-        Integer value = varTable.get(id.name);
+        if(id.name.equals("damage")) return gameObject.damage;
+        if(id.name.equals("health")) return gameObject.health;
+
+        Integer value = null;
+        if(varTable != null) value = varTable.get(id.name);
         if(value == null) value = globalVarTable.get(id.name);
 
         return value;
     }
 
     private void store(String key, Integer value){
+        if(key.equals("damage")) {
+            gameObject.damage=value;
+            return;
+        }
+        if(key.equals("health")) {
+            gameObject.health=value;
+            return;
+        }
+
         if(varTable == null) globalVarTable.put(key, value);
         else varTable.put(key, value);
     }
 
     private void store(Identifier key, Integer value){
+        if(key.equals("damage")) {
+            gameObject.damage=value;
+            return;
+        }
+        if(key.equals("health")) {
+            gameObject.health=value;
+            return;
+        }
+
         if(varTable == null) globalVarTable.put(key.name, value);
         else varTable.put(key.name, value);
     }
 
     public void run(Identifier behaviour, GameObject go){
         String id = behaviour.name;
+        gameObject = go;
 
         objectPrototype = go.proto;
 
