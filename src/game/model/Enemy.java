@@ -37,7 +37,8 @@ public class Enemy extends GameObject {
             case UP:
             case DOWN:
                 if (checkBound(x, y, dir)) {
-                    super.move(dir);
+                    //super.move(dir); // too fast
+                    this.y = y + MOVE_CONSTANT/5;
                 } else {
                     Main.gameObjects.remove(this);
                 }
@@ -50,6 +51,7 @@ public class Enemy extends GameObject {
 
     @Override
     public void tick() {
+        move(DIRECTION.DOWN);
 //        Evaluator eval = Evaluator.getInstance();
 //        eval.run(this.behaviour, this);
     }
