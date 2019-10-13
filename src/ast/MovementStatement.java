@@ -3,7 +3,7 @@ package ast;
 import visitor.Visitor;
 
 public class MovementStatement extends BehaveStatement {
-    public Number number;
+    public Expression expr;
     public Direction direction;
 
     @Override

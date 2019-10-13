@@ -6,6 +6,8 @@ import evaluate.protoypes.*;
 import game.model.*;
 import game.view.Game;
 
+import lib.DIRECTION;
+import ui.Main;
 import visitor.Visitor;
 
 import java.util.ArrayList;
@@ -23,9 +25,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     private static HashMap<String, FunctionBlock> blockTable = new HashMap<>();
 
-    private static List<GameObject> gameObjects = new ArrayList<>(); //The actual instances of gameObjects
-
-    private EvaluateVisitor(){
+    public EvaluateVisitor(){
     }
 
     @Override
@@ -96,7 +96,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
                 for(int i =0; i< number; i++){
                     Player player = new Player(playerProto, ms.identifier.name);
-                    gameObjects.add(player);
+                    Main.gameObjects.add(player);
                 }
                 break;
             case ENEMY:
@@ -105,7 +105,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
                 for(int i =0; i< number; i++){
                     Enemy enemy = new Enemy(enemyProto, ms.identifier.name);
-                    gameObjects.add(enemy);
+                    Main.gameObjects.add(enemy);
                 }
                 break;
             case PROJECTILE:
@@ -113,8 +113,8 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 objectProtoTable.put(ms.identifier.name, projectileProto);
 
                 for(int i =0; i< number; i++){
-                    Projectile projectile = new Projectile(projectileProto, ms.identifier.name);
-                    gameObjects.add(projectile);
+                    Projectile projectile = new Projectile(projectileProto, ms.identifier.name, DIRECTION.UP);
+                    Main.gameObjects.add(projectile);
                 }
                 break;
 
@@ -124,7 +124,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
                 for(int i =0; i< number; i++){
                     Item item = new Item(itemProto, ms.identifier.name);
-                    gameObjects.add(item);
+                    Main.gameObjects.add(item);
                 }
                 break;
         }
@@ -194,17 +194,22 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        gameObjects.stream()
+        Main.gameObjects.stream()
                 .filter(go -> go.proto.equals(objectPrototype))
-                .forEach(go -> go.move(ms.direction.direction, ms.number.number));
+                .forEach(go -> {
+                    int times = ms.expr.accept(this);
+                    for(int i=0; i<times;i++) {
+                        go.move(ms.direction.direction);
+                    }
+                });
         return null;
     }
 
     @Override
     public Integer visit(ShootStatement ss) {
-        gameObjects.stream()
+        Main.gameObjects.stream()
                 .filter(go -> go.proto.equals(objectPrototype))
-                .forEach(go -> go.shoot(ss.direction.direction));
+                .forEach(go -> ((Enemy) go).shoot(ss.direction.direction));
         return null;
     }
 
@@ -294,4 +299,11 @@ public class EvaluateVisitor implements Visitor<Integer> {
         else varTable.put(key.name, value);
     }
 
+    public void run(Identifier behaviour, GameObject go){
+        String id = behaviour.name;
+
+        objectPrototype = go.proto;
+
+        blockTable.get(id).accept(this);
+    }
 }

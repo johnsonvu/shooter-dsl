@@ -41,8 +41,8 @@ public class Player extends GameObject {
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject obj = handler.objects.get(i);
             if (obj instanceof Enemy) {
-                if (this.getBounds().intersects(obj.getBounds()))
-                    gameOver();
+//                if (this.getBounds().intersects(obj.getBounds()))
+//                    gameOver();
             }
         }
     }

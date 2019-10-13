@@ -255,7 +255,8 @@ public class ParseVisitor implements Visitor<ASTNode> {
     public ASTNode visit(MovementStatement ms) {
         tokenizer.getAndCheckNext("move");
         if (tokenizer.checkNext("[0-9]+")) {
-            ms.number = new Number(Integer.valueOf(tokenizer.getNext()));
+            Expression ex = new Expression();
+            ms.expr = (Expression) ex.accept(this);
         }
         ms.direction = new Direction(tokenizer.getNext());
 
