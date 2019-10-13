@@ -19,7 +19,7 @@ public class Player extends GameObject {
         this.moveSpeed = 6;
         image = Game.sprite.loadImage(this);
 
-        Main.game.getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
+        Game.getInstance().getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
     }
 
     public void setHealth(int health) {

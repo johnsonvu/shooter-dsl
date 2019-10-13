@@ -30,10 +30,10 @@ public class Main {
         Parser parser = new Parser();
         ASTNode ast = parser.parse();
 
-        game = Game.getInstance();
-
         Evaluator evaluate = Evaluator.getInstance(ast);
         evaluate.evaluate();
+
+        game = Game.getInstance();
 
         Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
         Main.gameObjects.add(player);
