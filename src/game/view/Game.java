@@ -1,11 +1,14 @@
 package game.view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import game.controller.BufferedImageLoader;
+
 import game.controller.Handler;
 import game.controller.KeyInput;
+import ui.Main;
+
 import java.awt.image.BufferedImage;
 
 public class Game extends JPanel implements ActionListener {
@@ -27,7 +30,6 @@ public class Game extends JPanel implements ActionListener {
 
         sprite = new Sprite();
         handler = new Handler();
-        BufferedImageLoader loader = new BufferedImageLoader();
         level = sprite.loadImage(this);
 
         this.setFocusable(true);
@@ -68,8 +70,9 @@ public class Game extends JPanel implements ActionListener {
     }
 
     // TODO: add health bar for all players
-    public void paint() {
-
+    public void paint(Graphics g) {
+        g.drawImage(level, 0,0,null);
+        Main.game.getHandler().render(g);
     }
 
     @Override

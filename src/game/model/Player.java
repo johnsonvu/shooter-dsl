@@ -80,6 +80,7 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
-
+//        System.out.println(x + " " + y);
+        g.drawImage(image, x,y, null);
     }
 }
