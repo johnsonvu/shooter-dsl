@@ -33,6 +33,8 @@ public class Player extends GameObject {
 
     public void shoot() {
         Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
+        temp.x = x;
+        temp.y = y;
         Main.gameObjects.add(temp);
     }
 
@@ -82,7 +84,6 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
-//        System.out.println(x + " " + y);
         g.drawImage(image, x,y, null);
     }
 }
