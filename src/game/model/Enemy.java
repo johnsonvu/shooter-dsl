@@ -14,6 +14,7 @@ public class Enemy extends GameObject {
         super(proto,name);
         this.health = proto.health;
         this.damage = proto.damage;
+        this.moveSpeed = 3;
         image = Game.sprite.loadImage(this);
     }
 
@@ -32,26 +33,10 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    public void move(DIRECTION dir) {
-        switch (dir) {
-            case UP:
-                y -= MOVE_CONSTANT;
-                break;
-            case DOWN:
-                y += MOVE_CONSTANT;
-                break;
-            case LEFT:
-                x -= MOVE_CONSTANT;
-                break;
-            default:
-                x += MOVE_CONSTANT;
-        }
-    }
-
-    @Override
     public void tick() {
 //        Evaluator eval = Evaluator.getInstance();
 //        eval.run(this.behaviour, this);
+        move(DIRECTION.RIGHT);
     }
 
     @Override

@@ -25,12 +25,13 @@ public abstract class GameObject {
     protected BufferedImage image;
 //    protected SpriteSheet ss;
 
-    public static final int MOVE_CONSTANT = 10;
+    protected int moveSpeed;
 
     public GameObject(GameObjectProto proto, String name) {
         this.x = 1;
         this.y = 1;
         this.id = name;
+        this.moveSpeed = 4;
     }
 
     public abstract void tick();
@@ -85,16 +86,16 @@ public abstract class GameObject {
         Game game = Game.getInstance();
         switch (dir) {
             case UP:
-                y -= MOVE_CONSTANT;
+                y -= moveSpeed;
                 break;
             case DOWN:
-                y += MOVE_CONSTANT;
+                y += moveSpeed;
                 break;
             case LEFT:
-                x = (x - MOVE_CONSTANT + image.getWidth()/2 <= 0) ? game.getWidth() : x - MOVE_CONSTANT;
+                x = (x + image.getWidth()/2 < 0) ? game.getWidth() : x - moveSpeed;
                 break;
             default:
-                x = (x + MOVE_CONSTANT + image.getWidth()/2 >= game.getWidth()) ? 0: x + MOVE_CONSTANT;
+                x = (x + image.getWidth()/2 > game.getWidth()) ? 0 : x + moveSpeed;
                 break;
         }
     }
@@ -102,13 +103,13 @@ public abstract class GameObject {
     public boolean checkBound(int x, int y, DIRECTION dir) {
         switch (dir) {
             case UP:
-                return inBound(x, y - MOVE_CONSTANT);
+                return inBound(x, y - moveSpeed);
             case DOWN:
-                return inBound(x,y + MOVE_CONSTANT);
+                return inBound(x,y + moveSpeed);
             case LEFT:
-                return inBound(x - MOVE_CONSTANT, y);
+                return inBound(x - moveSpeed, y);
             default:
-                return inBound(x + MOVE_CONSTANT, y);
+                return inBound(x + moveSpeed, y);
         }
     }
 

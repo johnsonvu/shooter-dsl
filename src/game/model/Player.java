@@ -16,6 +16,7 @@ public class Player extends GameObject {
         super(proto, name);
         this.damage = proto.damage;
         this.health = proto.health;
+        this.moveSpeed = 6;
         image = Game.sprite.loadImage(this);
 
         Main.game.getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());

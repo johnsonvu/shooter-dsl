@@ -14,6 +14,7 @@ public class Projectile extends GameObject {
     public Projectile(ProjectileProto proto, String name, DIRECTION dir) {
         super(proto, name);
         this.dir = dir;
+        this.moveSpeed = 10;
         image = Game.sprite.loadImage(this);
     }
 
