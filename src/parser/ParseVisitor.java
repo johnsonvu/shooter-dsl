@@ -67,12 +67,16 @@ public class ParseVisitor implements Visitor<ASTNode> {
         tokenizer.getAndCheckNext("}");
         tokenizer.getAndCheckNext("{");
 
-        gd.statements = new ArrayList<GameStatement>();
+        gd.statements = new ArrayList<Statement>();
 
         // TODO: Add support for LOOPS
         while(!tokenizer.checkNext("\\}")){
-            GameStatement gs = new GameStatement();
-            gd.statements.add((GameStatement) gs.accept(this));
+            if (tokenizer.checkNext("make"))
+                gd.statements.add((GameStatement) (new GameStatement()).accept(this));
+            else if (tokenizer.checkNext("new"))
+                gd.statements.add((VarDec) (new VarDec()).accept(this));
+            else if (tokenizer.checkNext("[A-Z|a-z|0-9]+"))
+                gd.statements.add((VarSet) (new VarSet()).accept(this));
         }
         tokenizer.getAndCheckNext("}");
         return gd;

@@ -51,8 +51,8 @@ public class EvaluateVisitor implements Visitor<Integer> {
     //GAME_DEF ::= "make game" IDENTIFIER "{" "height = " NUMBER ", width = " NUMBER" "}" "{" GAME_STATEMENT* "}"
     public Integer visit(GameDef gd) {
         game.setWindow(gd.name, gd.height, gd.width);
-        for(GameStatement gs : gd.statements) {
-            gs.accept(this);
+        for(Statement s : gd.statements) {
+            s.accept(this);
         }
         return 0;
     }
