@@ -27,11 +27,13 @@ public class Window {
 
     public static void main(String[] args) {
         Main.game = Game.getInstance();
-        Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
-        Player player2 = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
+        Player player = new Player(new PlayerProto("Leo", 100, 100), "Leo");
+        Player player2 = new Player(new PlayerProto("Justina", 100, 100), "Justina");
+        Player player3 = new Player(new PlayerProto("Bob", 100, 100), "Bob");
         Enemy enemy = new Enemy(new EnemyProto("jkwansa", 100, 100), "jkwansa");
         Main.gameObjects.add(player);
         Main.gameObjects.add(player2);
+        Main.gameObjects.add(player3);
         Main.gameObjects.add(enemy);
 
         new Window(Main.game.getWidth(), Main.game.getHeight(), Main.game.getName(), Main.game);

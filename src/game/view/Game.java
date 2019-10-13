@@ -7,11 +7,14 @@ import java.awt.event.ActionListener;
 
 import game.controller.Handler;
 import game.controller.KeyInput;
+import game.model.GameObject;
+import game.model.Player;
 import ui.Main;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 public class Game extends JPanel implements ActionListener {
     private static Game game;
@@ -24,6 +27,8 @@ public class Game extends JPanel implements ActionListener {
     private Timer timer;
     private static Handler handler;
     private BufferedImage level;
+    private HashMap<GameObject, Integer> players;
+    private int numPlayers;
 
     private Game() {
         name = "ShootingGame";
@@ -32,8 +37,9 @@ public class Game extends JPanel implements ActionListener {
 
         sprite = new Sprite();
         handler = new Handler();
+        players = new HashMap<>();
 
-        // set bg image to 2x by 2x scaling
+        // set bg image to 1.6x by 1.6x scaling
         BufferedImage tempBgImg = sprite.loadImage(this);
         AffineTransform at = new AffineTransform();
         at.scale(1.6, 1.6);
@@ -77,11 +83,31 @@ public class Game extends JPanel implements ActionListener {
     public void tick() {
         this.handler.tick();
     }
-
-    // TODO: add health bar for all players
+    
     public void paint(Graphics g) {
+        // bg
         g.drawImage(level, 0,0,null);
+
+        // renders hp bars
         Main.game.getHandler().render(g);
+        for (GameObject go : Main.gameObjects) {
+            if (go instanceof Player) {
+                // assigns each player a unique player number
+                if(!players.containsKey(go)) {
+                    players.put(go, players.size() + 1);
+                }
+
+                // renders hp bar for each player
+                g.setFont(new Font("Arial", 0, 18));
+                g.setColor(Color.white.brighter());
+                g.drawString("Health Player " + players.get(go) +" : " + go.getId(), 20+ ((players.get(go)-1)*280), Main.game.getHeight() - 100);
+                g.setColor(Color.red.darker());
+                g.fillRect(20 + ((players.get(go)-1)*280), Main.game.getHeight() - 90, 200, 30);
+                g.setColor(Color.green.darker());
+                g.fillRect(20 + ((players.get(go)-1)*280), Main.game.getHeight() - 90, ((Player) go).getHealth() * 2, 30);
+                g.setColor(Color.white);
+            }
+        }
     }
 
     @Override
