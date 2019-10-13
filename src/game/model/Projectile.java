@@ -8,8 +8,6 @@ import lib.DIRECTION;
 import java.awt.*;
 
 public class Projectile extends GameObject {
-    private int number;
-    private int damage;
     private DIRECTION dir;
 
     public Projectile(int x, int y, String id, int damage, DIRECTION dir) {

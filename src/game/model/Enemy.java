@@ -7,11 +7,6 @@ import lib.DIRECTION;
 import java.awt.*;
 
 public class Enemy extends GameObject {
-    private int number;
-
-    private int health;
-    private int damage;
-
     public Enemy(int x, int y, String id) {
         super(x,y,id);
         this.number = 1;

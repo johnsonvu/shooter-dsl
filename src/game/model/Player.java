@@ -7,21 +7,13 @@ import lib.KEYINPUTTYPE;
 import java.awt.*;
 import java.util.HashMap;
 
-import static lib.KEYINPUTTYPE.*;
-
 public class Player extends GameObject {
-    private int number;
-    private int health;
-    private int damage;
-
     public Player(int x, int y, String id) {
         super(x,y,id);
 
         health = 1;
         damage = 1;
-
         image = Game.sprit.loadImage(this);
-
     }
 
     public Player(int x, int y, String id, int number) {
@@ -45,24 +37,19 @@ public class Player extends GameObject {
 
     @Override
     public void tick() {
-        //collision();
+        collision();
         act();
     }
 
-//    private void collision() {
-//        for (int i = 0; i < handler.objects.size(); i++) {
-//            GameObject obj = handler.objects.get(i);
-//            if (obj instanceof Projectile) {
-//                if (this.getBounds().intersects(obj.getBounds()))
-//                    health -= ((Projectile) obj).getDamage();
-//            }
-//            if (obj instanceof Enemy) {
-//                if (this.getBounds().intersects(obj.getBounds()))
-//                    health = 0;
-//            }
-//
-//        }
-//    }
+    private void collision() {
+        for (int i = 0; i < handler.objects.size(); i++) {
+            GameObject obj = handler.objects.get(i);
+            if (obj instanceof Enemy) {
+                if (this.getBounds().intersects(obj.getBounds()))
+                    gameOver();
+            }
+        }
+    }
 
     private void act() {
         HashMap<KEYINPUTTYPE, Boolean> map = handler.objectStates.get(this);

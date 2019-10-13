@@ -1,13 +1,13 @@
 package game.model;
 
 import ast.Identifier;
+import game.controller.Handler;
 import lib.DIRECTION;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
-    public String name;
     public int number;
     public int damage;
     public int health;
@@ -19,6 +19,7 @@ public abstract class GameObject {
     protected float velY = 0;
     protected String id;
     protected BufferedImage image;
+    protected Handler handler;
 //    protected SpriteSheet ss;
 
     public static final int MOVE_CONSTANT = 5;
@@ -28,6 +29,7 @@ public abstract class GameObject {
         this.y = y;
         this.id = id;
 //        this.ss = ss;
+        handler = new Handler();
     }
 
     public abstract void tick();
