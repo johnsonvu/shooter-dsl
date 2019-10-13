@@ -1,5 +1,6 @@
 package game.model;
 
+import ast.Direction;
 import evaluate.Evaluator;
 import evaluate.protoypes.ProjectileProto;
 import game.view.Game;
@@ -33,10 +34,28 @@ public class Enemy extends GameObject {
     }
 
     @Override
+    public void move(DIRECTION dir){
+        switch (dir) {
+            case UP:
+            case DOWN:
+                if (checkBound(x, y, dir)) {
+                    //super.move(dir);/
+                    this.y += moveSpeed/5;
+                } else {
+                    Main.gameObjects.remove(this);
+                }
+                break;
+            default:
+                super.move(dir);
+                x = x % Game.getInstance().getWidth();
+        }
+    }
+
+    @Override
     public void tick() {
+        move(DIRECTION.RIGHT);
 //        Evaluator eval = Evaluator.getInstance();
 //        eval.run(this.behaviour, this);
-        move(DIRECTION.RIGHT);
     }
 
     @Override
