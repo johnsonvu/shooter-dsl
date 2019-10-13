@@ -83,6 +83,7 @@ public abstract class GameObject {
     }
 
     public void move(DIRECTION dir) {
+        Game game = Game.getInstance();
         switch (dir) {
             case UP:
                 y -= MOVE_CONSTANT;
@@ -91,10 +92,10 @@ public abstract class GameObject {
                 y += MOVE_CONSTANT;
                 break;
             case LEFT:
-                x -= MOVE_CONSTANT;
+                x = (x - MOVE_CONSTANT + image.getWidth()/2 <= 0) ? game.getWidth() : x - MOVE_CONSTANT;
                 break;
             default:
-                x += MOVE_CONSTANT;
+                x = (x + MOVE_CONSTANT + image.getWidth()/2 >= game.getWidth()) ? 0: x + MOVE_CONSTANT;
         }
     }
 
@@ -103,9 +104,11 @@ public abstract class GameObject {
             case UP:
                 return inBound(x, y - MOVE_CONSTANT);
             case DOWN:
-                return inBound(x, y + MOVE_CONSTANT);
+                return inBound(x,y + MOVE_CONSTANT);
             case LEFT:
                 return inBound(x - MOVE_CONSTANT, y);
+            case RIGHT:
+                return inBound(x + MOVE_CONSTANT, y);
             default:
                 return inBound(x + MOVE_CONSTANT, y);
         }
@@ -114,6 +117,9 @@ public abstract class GameObject {
 
     public boolean inBound(int x, int y) {
         Game game = Game.getInstance();
+        if(game.getHeight() == 0) // For some reason the game height = 0 during first 2 seconds of initialization, this is to bypass that
+            return true;
+
         return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - image.getHeight();
     }
 }
