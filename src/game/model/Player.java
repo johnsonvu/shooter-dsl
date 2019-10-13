@@ -1,26 +1,18 @@
 package game.model;
 
+import evaluate.protoypes.PlayerProto;
+
 import java.awt.*;
 
 public class Player extends GameObject {
     private String playerId;
     private int number;
     private Projectile projectile;
-    private int health;
-    private int damage;
 
-    public Player(int x, int y, String id) {
-        super(x,y,id);
-        playerId = id;
-
-        projectile = new Projectile(0,0); // is this needed?
-        health = 1;
-        damage = 1;
-    }
-
-    public Player(int x, int y, String id, int number) {
-        this(x,y,id);
-        this.number = number;
+    public Player(PlayerProto proto, String name) {
+        super(proto, name);
+        this.damage = proto.damage;
+        this.health = proto.health;
     }
 
     public void setProjectile(Projectile projectile) {
