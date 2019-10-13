@@ -45,7 +45,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     //GAME_DEF ::= "make game" IDENTIFIER "{" "height = " NUMBER ", width = " NUMBER" "}" "{" GAME_STATEMENT* "}"
     public Integer visit(GameDef gd) {
-        (new Game()).setWindow(gd.name, gd.height, gd.width);
+        Game.getInstance().setWindow(gd.name, gd.height, gd.width);
         for(Statement s : gd.statements) {
             s.accept(this);
         }

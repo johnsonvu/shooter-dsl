@@ -24,7 +24,7 @@ public class Window {
     }
 
     public static void main(String[] args) {
-        Main.game = new Game();
+        Main.game = Game.getInstance();
         Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
         Main.game.getHandler().objects.add(player);
 

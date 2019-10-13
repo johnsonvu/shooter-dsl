@@ -30,7 +30,7 @@ public class Main {
         Parser parser = new Parser();
         ASTNode ast = parser.parse();
 
-        game = new Game();
+        game = Game.getInstance();
 
         Evaluator evaluate = Evaluator.getInstance(ast);
         evaluate.evaluate();

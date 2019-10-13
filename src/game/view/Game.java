@@ -23,7 +23,7 @@ public class Game extends JPanel implements ActionListener {
     private static Handler handler;
     private BufferedImage level;
 
-    public Game() {
+    private Game() {
         name = "ShootingGame";
         height = 800;
         width = 600;
