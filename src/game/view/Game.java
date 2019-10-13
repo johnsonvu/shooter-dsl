@@ -83,7 +83,7 @@ public class Game extends JPanel implements ActionListener {
     public void tick() {
         this.handler.tick();
     }
-    
+
     public void paint(Graphics g) {
         // bg
         g.drawImage(level, 0,0,null);
@@ -100,11 +100,11 @@ public class Game extends JPanel implements ActionListener {
                 // renders hp bar for each player
                 g.setFont(new Font("Arial", 0, 18));
                 g.setColor(Color.white.brighter());
-                g.drawString("Health Player " + players.get(go) +" : " + go.getId(), 20+ ((players.get(go)-1)*280), Main.game.getHeight() - 100);
+                g.drawString("Health Player " + players.get(go) +" : " + go.getId(), 80+ ((players.get(go)-1)*250), Main.game.getHeight() - 100);
                 g.setColor(Color.red.darker());
-                g.fillRect(20 + ((players.get(go)-1)*280), Main.game.getHeight() - 90, 200, 30);
+                g.fillRect(80 + ((players.get(go)-1)*250), Main.game.getHeight() - 90, 200, 30);
                 g.setColor(Color.green.darker());
-                g.fillRect(20 + ((players.get(go)-1)*280), Main.game.getHeight() - 90, ((Player) go).getHealth() * 2, 30);
+                g.fillRect(80 + ((players.get(go)-1)*250), Main.game.getHeight() - 90, ((Player) go).getHealth() * 2, 30);
                 g.setColor(Color.white);
             }
         }
