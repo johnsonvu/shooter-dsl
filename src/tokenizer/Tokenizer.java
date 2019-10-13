@@ -45,7 +45,7 @@ public class Tokenizer {
     }
 
     private void removeComments() {
-        program = program.replaceAll("\\/\\/.*\\r\\n", "");
+        program = program.replaceAll("\\/\\/.*(\\n|\\r\\n)", "");
     }
 
     public static Tokenizer getInstance() {

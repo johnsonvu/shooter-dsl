@@ -131,14 +131,6 @@ public class Game extends JPanel implements ActionListener {
         }
     }
 
-    public int getWidth() {
-        return this.width;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
     public String getName() {
         return this.name;
     }
