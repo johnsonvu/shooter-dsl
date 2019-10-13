@@ -63,6 +63,6 @@ public class Projectile extends GameObject {
 
     @Override
     public void render(Graphics g) {
-
+        g.drawImage(image, x,y, null);
     }
 }

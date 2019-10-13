@@ -36,7 +36,7 @@ public class Main {
         evaluate.evaluate();
 
         Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
-        game.getHandler().objects.add(player);
+        Main.gameObjects.add(player);
 
         new Window(1200, 800, "TEST GAME!", game);
         System.out.println("dones");

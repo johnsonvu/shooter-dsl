@@ -1,6 +1,8 @@
 package game.view;
 
+import evaluate.protoypes.EnemyProto;
 import evaluate.protoypes.PlayerProto;
+import game.model.Enemy;
 import game.model.Player;
 import ui.Main;
 
@@ -26,7 +28,11 @@ public class Window {
     public static void main(String[] args) {
         Main.game = Game.getInstance();
         Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
-        Main.game.getHandler().objects.add(player);
+        Player player2 = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
+        Enemy enemy = new Enemy(new EnemyProto("jkwansa", 100, 100), "jkwansa");
+        Main.gameObjects.add(player);
+        Main.gameObjects.add(player2);
+        Main.gameObjects.add(enemy);
 
         new Window(1200, 800, "TEST GAME!", Main.game);
     }

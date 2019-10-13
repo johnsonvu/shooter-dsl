@@ -2,29 +2,26 @@ package game.controller;
 
 import game.model.GameObject;
 import lib.KEYINPUTTYPE;
+import ui.Main;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Handler {
-
-    // TODO: change to reference main.objectlist
-    public LinkedList<GameObject> objects = new LinkedList<GameObject>();
-
     // Object states for moving: up, down, left, right and shooting
     public HashMap<GameObject, HashMap<KEYINPUTTYPE, Boolean>> objectStates = new HashMap<>();
 
     public void tick() {
-        for (int i = 0; i < objects.size(); i++) {
-            GameObject tempObject = objects.get(i);
+        for (int i = 0; i < Main.gameObjects.size(); i++) {
+            GameObject tempObject = Main.gameObjects.get(i);
             tempObject.tick();
         }
     }
 
     public void render(Graphics g) {
-        for (int i = 0; i < objects.size(); i++) {
-            GameObject tempObject = objects.get(i);
+        for (int i = 0; i < Main.gameObjects.size(); i++) {
+            GameObject tempObject = Main.gameObjects.get(i);
             tempObject.render(g);
         }
     }
