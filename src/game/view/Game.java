@@ -9,6 +9,7 @@ import evaluate.protoypes.GameObjectProto;
 import game.controller.Audio;
 import game.controller.Handler;
 import game.controller.KeyInput;
+import game.model.Enemy;
 import game.model.GameObject;
 import game.model.Player;
 import ui.Main;
@@ -123,6 +124,17 @@ public class Game extends JPanel implements ActionListener {
                 g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, 200, 30);
                 g.setColor(Color.green.darker());
                 g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, 200*((Player) go).getHealth()/go.proto.health, 30);
+                g.setColor(Color.white);
+            }
+
+            if (go instanceof Enemy) {
+                // renders hp bar for each enemy
+                g.setFont(new Font("Arial", 0, 18));
+                g.setColor(Color.white.brighter());
+                g.setColor(Color.red.darker());
+                g.fillRect(go.getX()-20, go.getY()-go.image.getHeight(), 40, 5);
+                g.setColor(Color.green.darker());
+                g.fillRect(go.getX()-20, go.getY()-go.image.getHeight(), 40*((Enemy) go).getHealth()/go.proto.health, 5);
                 g.setColor(Color.white);
             }
         }

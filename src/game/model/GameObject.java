@@ -26,7 +26,7 @@ public abstract class GameObject {
     protected float velX = 0;
     protected float velY = 0;
     protected String id;
-    protected BufferedImage image;
+    public BufferedImage image;
     protected Direction facing;
 //    protected SpriteSheet ss;
 
