@@ -8,6 +8,8 @@ import game.view.Game;
 
 import ui.Main;
 import visitor.Visitor;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
@@ -24,6 +26,15 @@ public class EvaluateVisitor implements Visitor<Integer> {
     private static HashMap<String, FunctionBlock> blockTable = new HashMap<>();
 
     public EvaluateVisitor(){
+        FunctionBlock defaultFB = new FunctionBlock();
+        defaultFB.params = new ArrayList<>();
+        defaultFB.block = new Block();
+        defaultFB.block.statements = new ArrayList<>();
+        ShootStatement ss = new ShootStatement();
+        ss.direction = new Direction("down");
+        defaultFB.block.statements.add(ss);
+
+        blockTable.put("default", defaultFB);
     }
 
     @Override
@@ -90,6 +101,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
         switch(ms.type.type){
             case PLAYER:
                 PlayerProto playerProto = new PlayerProto(ms.identifier.name,1, 1);
+                playerProto.behaviour = new Identifier("default");
                 objectProtoTable.put(ms.identifier.name, playerProto);
 
                 for(int i =0; i< number; i++){
@@ -100,6 +112,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 break;
             case ENEMY:
                 EnemyProto enemyProto = new EnemyProto(ms.identifier.name, 1, 1);
+                enemyProto.behaviour = new Identifier("default");
                 objectProtoTable.put(ms.identifier.name, enemyProto);  //enemy should implement GameObject
 
                 for(int i =0; i< number; i++){

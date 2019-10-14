@@ -1,0 +1,17 @@
+make game SampleGame
+{
+    width = 1024
+    height = 768
+}
+{
+    // create game objects
+	make player buddy
+	make projectile lazers
+	make enemy ian
+	make 5 enemy justin
+	make item powerUp
+	make 20 enemy circleBuddy
+	new myVariable
+	myVariable = 0
+}
+

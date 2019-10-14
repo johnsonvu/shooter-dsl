@@ -63,7 +63,7 @@ public class Tokenizer {
 
     public boolean checkNext(String expectedTokenRegExp)
     {
-        return tokens[currentToken].matches(expectedTokenRegExp);
+        return hasMoreTokens() && tokens[currentToken].matches(expectedTokenRegExp);
     }
 
     /**
