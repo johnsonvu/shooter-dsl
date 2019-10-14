@@ -3,7 +3,7 @@ package ast;
 import visitor.Visitor;
 
 public class MakeStatement extends GameStatement {
-    public Number number;
+    public Expression number;
     public Type type;
     public Identifier identifier;
 

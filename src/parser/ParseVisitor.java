@@ -147,8 +147,8 @@ public class ParseVisitor implements Visitor<ASTNode> {
     @Override
     public ASTNode visit(MakeStatement ms) {
         tokenizer.getAndCheckNext("make");
-        if(tokenizer.checkNext("\\d+")){
-            tokenizer.getNext();
+        if(!tokenizer.checkNext("enemy|player|item|projectile")){
+            ms.number = (Expression) (new Expression()).accept(this);
         }
 
         Type type = new Type(tokenizer.getNext());
