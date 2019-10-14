@@ -39,6 +39,10 @@ set circleBuddy{
     behave = circleBuddyBehaviour    //Run after every tick in the game
 }
 
+set powerUp{
+    health = 1000
+}
+
 define ianBehaviour() {
     move down
     shoot down
