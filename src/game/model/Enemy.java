@@ -52,20 +52,15 @@ public class Enemy extends GameObject {
                 x = (x <= 0) ? Game.getInstance().getWidth() : x - moveSpeed;
                 break;
             default:
-                System.out.println(x);
                 x = (x >= Game.getInstance().getWidth()) ? 0 : x + moveSpeed;
-                System.out.println(x);
-                if(x>1020){
-                    System.out.println("lmao");
-                }
                 break;
         }
     }
 
     @Override
     public void tick() {
-//        Evaluator eval = Evaluator.getInstance();
-//        eval.run(this.proto.behaviour, this);
+        Evaluator eval = Evaluator.getInstance();
+        eval.run(this.proto.behaviour, this);
     }
 
     @Override

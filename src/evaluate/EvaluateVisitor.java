@@ -210,10 +210,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(ShootStatement ss) {
-        List<GameObject> relevantgameObjects = Main.gameObjects.stream()
-                .filter(go -> go.proto.equals(objectPrototype)).collect(Collectors.toList());
-
-        relevantgameObjects.forEach(go -> ((Enemy) go).shoot(ss.direction.direction));
+        applyAll(objectPrototype, go -> ((Enemy) go).shoot(ss.direction.direction));
         return null;
     }
 
