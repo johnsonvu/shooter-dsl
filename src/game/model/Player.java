@@ -41,7 +41,7 @@ public class Player extends GameObject {
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        this.health = (health < 0) ? 0 : health;
     }
 
     public void setDamage(int damage) {
@@ -69,9 +69,13 @@ public class Player extends GameObject {
     public void tick() {
         collision();
         act();
-        //System.out.println(id + "= " + health);
+        checkDeath();
     }
 
+    private void checkDeath(){
+        if(health <= 0)
+            Main.gameObjects.remove(this);
+    }
 
     private void collision() {
         if (collisionDelay == collisionCounter) {
@@ -83,7 +87,6 @@ public class Player extends GameObject {
                             this.health -= obj.damage;
                         } else {
                             this.health = 0;
-                            Main.gameObjects.remove(this);
                         }
                     }
                 }

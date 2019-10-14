@@ -39,8 +39,8 @@ public class Game extends JPanel implements ActionListener {
 
     private Game() {
         name = "ShootingGame";
-        width = 1024;
-        height = 768;
+        width = 2000;
+        height = 2000;
 
         sprite = new Sprite();
         handler = new Handler();
@@ -48,10 +48,12 @@ public class Game extends JPanel implements ActionListener {
         audio = new Audio("media/Audio/BG/1.wav");
         audio.setLoop(true);
 
-        // set bg image to 1.6x by 1.6x scaling
+        // scale image
         BufferedImage tempBgImg = sprite.loadImage(this);
         AffineTransform at = new AffineTransform();
-        at.scale(1.6, 1.6);
+        double scaleX = (double) width/640;
+        double scaleY = (double) height/480;
+        at.scale(scaleX, scaleY);
         AffineTransformOp scaleOp =
                 new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         level = scaleOp.filter(tempBgImg, level);
