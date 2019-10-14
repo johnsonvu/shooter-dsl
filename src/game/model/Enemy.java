@@ -30,7 +30,10 @@ public class Enemy extends GameObject {
     public int getHealth() { return health; }
 
     public void shoot(DIRECTION dir) {
-        Main.gameObjects.add(new Projectile(new ProjectileProto(id, damage, health), id, dir));
+        Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, dir);
+        p.x = x;
+        p.y = y + image.getHeight();
+        Main.gameObjects.add(p);
     }
 
     @Override
@@ -52,6 +55,9 @@ public class Enemy extends GameObject {
                 System.out.println(x);
                 x = (x >= Game.getInstance().getWidth()) ? 0 : x + moveSpeed;
                 System.out.println(x);
+                if(x>1020){
+                    System.out.println("lmao");
+                }
                 break;
         }
     }

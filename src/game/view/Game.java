@@ -100,7 +100,7 @@ public class Game extends JPanel implements ActionListener {
         g.drawImage(level, 0,0,null);
 
         // game objects
-        Main.game.getHandler().render(g);
+        Game.getInstance().getHandler().render(g);
 
         // hp bars
         for (GameObject go : Main.gameObjects) {
@@ -113,11 +113,11 @@ public class Game extends JPanel implements ActionListener {
                 // renders hp bar for each player
                 g.setFont(new Font("Arial", 0, 18));
                 g.setColor(Color.white.brighter());
-                g.drawString("Health Player " + players.get(go) +" : " + go.getId(), 80+ ((players.get(go)-1)*250), Main.game.getHeight() - 100);
+                g.drawString("Health Player " + players.get(go) +" : " + go.getId(), 80+ ((players.get(go)-1)*250), Game.getInstance().getHeight() - 100);
                 g.setColor(Color.red.darker());
-                g.fillRect(80 + ((players.get(go)-1)*250), Main.game.getHeight() - 90, 200, 30);
+                g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, 200, 30);
                 g.setColor(Color.green.darker());
-                g.fillRect(80 + ((players.get(go)-1)*250), Main.game.getHeight() - 90, ((Player) go).getHealth() * 2, 30);
+                g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, ((Player) go).getHealth() * 2, 30);
                 g.setColor(Color.white);
             }
         }

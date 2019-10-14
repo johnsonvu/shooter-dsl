@@ -56,7 +56,7 @@ public class Player extends GameObject {
     }
 
     private void act() {
-        HashMap<KEYINPUTTYPE, Boolean> map = Main.game.getHandler().objectStates.get(this);
+        HashMap<KEYINPUTTYPE, Boolean> map = Game.getInstance().getHandler().objectStates.get(this);
         if (map.containsKey(KEYINPUTTYPE.UP) && map.get(KEYINPUTTYPE.UP)) {
             if (checkBound(x, y, DIRECTION.UP))
                 move(DIRECTION.UP);
