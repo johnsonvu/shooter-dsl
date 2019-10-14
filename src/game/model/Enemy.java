@@ -1,16 +1,15 @@
 package game.model;
 
-import ast.Direction;
 import evaluate.Evaluator;
 import evaluate.protoypes.ProjectileProto;
 import game.view.Game;
-import lib.DIRECTION;
+import lib.enums.Direction;
 import evaluate.protoypes.EnemyProto;
 import ui.Main;
 
 import java.awt.*;
 
-import static lib.DIRECTION.*;
+import static lib.enums.Direction.*;
 import static lib.Util.randomInt;
 
 public class Enemy extends GameObject {
@@ -40,7 +39,7 @@ public class Enemy extends GameObject {
 
     public int getHealth() { return health; }
 
-    public void shoot(DIRECTION dir) {
+    public void shoot(Direction dir) {
         if (shootingCounter == shootingDelay) {
             Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, dir, this);
             p.x = dir == RIGHT? x + image.getWidth() : dir == LEFT? x - image.getWidth(): x;
@@ -54,7 +53,7 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    public void move(DIRECTION dir){
+    public void move(Direction dir){
         switch (dir) {
             case UP:
                 if (checkBound(x, y, dir)) {

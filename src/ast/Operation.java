@@ -1,25 +1,23 @@
 package ast;
 
-import lib.DIRECTION;
-import lib.OPERATION;
 import visitor.Visitor;
 
 public class Operation extends ASTNode{
-    public OPERATION operation;
+    public lib.enums.Operation operation;
 
     public Operation(String direction) {
         switch (direction.toLowerCase()) {
             case "+":
-                this.operation = OPERATION.PLUS;
+                this.operation = lib.enums.Operation.PLUS;
                 break;
             case "-":
-                this.operation = OPERATION.MINUS;
+                this.operation = lib.enums.Operation.MINUS;
                 break;
             case "/":
-                this.operation = OPERATION.DIVIDE;
+                this.operation = lib.enums.Operation.DIVIDE;
                 break;
             case "*":
-                this.operation = OPERATION.MULTIPLY;
+                this.operation = lib.enums.Operation.MULTIPLY;
                 break;
         }
     }

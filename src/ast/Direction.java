@@ -1,13 +1,12 @@
 package ast;
 
-import lib.DIRECTION;
 import visitor.Visitor;
 
 public class Direction extends ASTNode{
-    public DIRECTION direction;
+    public lib.enums.Direction direction;
 
     public Direction(String direction) {
-        this.direction = DIRECTION.valueOf(direction.toUpperCase());
+        this.direction = lib.enums.Direction.valueOf(direction.toUpperCase());
     }
     
     @Override

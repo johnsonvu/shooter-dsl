@@ -1,13 +1,12 @@
 package ast;
 
-import lib.TYPE;
 import visitor.Visitor;
 
 public class Type extends ASTNode{
-    public TYPE type;
+    public lib.enums.Type type;
 
     public Type(String type) {
-        this.type = TYPE.valueOf(type.toUpperCase());
+        this.type = lib.enums.Type.valueOf(type.toUpperCase());
     }
     @Override
     public <T> T accept(Visitor<T> v) {

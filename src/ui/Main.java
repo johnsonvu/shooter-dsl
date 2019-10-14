@@ -24,7 +24,7 @@ public class Main {
     public static Game game;
 
     public static void main(String[] args) {
-        String[] reservedWords = {"\\(", "\\)", "\\{", "\\}", ",","\\+", "\\-", "\\*", "\\/"};
+        String[] reservedWords = {"\\(", "\\)", "\\{", "\\}", ",","\\+", "\\-", "\\*", "\\/", "\\<", "\\>", "\\="};
         Tokenizer tokenizer = Tokenizer.getInstance("game.txt", reservedWords);
         tokenizer.tokenize();
 

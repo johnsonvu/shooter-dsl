@@ -2,17 +2,16 @@ package game.model;
 
 import evaluate.protoypes.ProjectileProto;
 import game.controller.Audio;
-import game.controller.Handler;
 import game.view.Game;
-import lib.DIRECTION;
-import lib.KEYINPUTTYPE;
+import lib.enums.Direction;
+import lib.enums.KeyInputType;
 import evaluate.protoypes.PlayerProto;
 import ui.Main;
 
 import java.awt.*;
 import java.util.HashMap;
 
-import static lib.DIRECTION.*;
+import static lib.enums.Direction.*;
 import static lib.Util.randomInt;
 import static lib.Util.rotate;
 
@@ -21,7 +20,7 @@ public class Player extends GameObject {
     private int shootingDelay = 4;
     private int shootingCounter = 0;
     private int shootingSpeed = 7;
-    private DIRECTION facing;
+    private Direction facing;
 
     public Player(PlayerProto proto, String name) {
         super(proto, name);
@@ -36,7 +35,7 @@ public class Player extends GameObject {
         image = Game.sprite.loadImage(this);
 
         audio = new Audio("media/Audio/Shoot/3.wav");
-        Game.getInstance().getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
+        Game.getInstance().getHandler().objectStates.put(this, new HashMap<KeyInputType, Boolean>());
     }
 
     public void setHealth(int health) {
@@ -146,7 +145,7 @@ public class Player extends GameObject {
             facing = RIGHT;
         }
 
-        if (map.containsKey(KEYINPUTTYPE.SHOOT) && map.get(KEYINPUTTYPE.SHOOT)) {
+        if (map.containsKey(KeyInputType.SHOOT) && map.get(KeyInputType.SHOOT)) {
             shoot();
         }
     }
