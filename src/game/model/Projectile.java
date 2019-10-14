@@ -1,7 +1,7 @@
 package game.model;
 
 import game.view.Game;
-import lib.DIRECTION;
+import lib.enums.Direction;
 
 import evaluate.protoypes.ProjectileProto;
 import ui.Main;
@@ -9,10 +9,10 @@ import ui.Main;
 import java.awt.*;
 
 public class Projectile extends GameObject {
-    private DIRECTION dir;
+    private Direction dir;
     private GameObject source;
 
-    public Projectile(ProjectileProto proto, String name, DIRECTION dir, GameObject source) {
+    public Projectile(ProjectileProto proto, String name, Direction dir, GameObject source) {
         super(proto, name);
         this.damage = proto.damage;
         this.dir = dir;
@@ -77,7 +77,7 @@ public class Projectile extends GameObject {
     }
 
     @Override
-    public void move(DIRECTION dir) {
+    public void move(Direction dir) {
         if (checkBound(x, y, dir)) {
             super.move(dir);
         } else {

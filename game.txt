@@ -10,6 +10,9 @@ make game SampleGame
 	make enemy ian
 	make 5 enemy justin
 	make item powerUp
+	make 20 enemy circleBuddy
+	new myVariable
+	myVariable = 0
 }
 
 // modify objects
@@ -30,6 +33,12 @@ set justin{
     behave = justinBehaviour    //Run after every tick in the game
 }
 
+set circleBuddy{
+    damage = 100
+    health = 1
+    behave = circleBuddyBehaviour    //Run after every tick in the game
+}
+
 define ianBehaviour() {
     move down
     shoot down
@@ -41,6 +50,38 @@ define justinBehaviour() {
     move right
     shoot down
     damage = call doubleDamage(damage)
+}
+
+define circleBuddyBehaviour() {
+    if(myVariable>0){
+        if(myVariable<100){
+            move down
+            shoot down
+        }
+    }
+    if(myVariable>100){
+        if(myVariable<200){
+            move right
+            shoot right
+        }
+    }
+    if(myVariable>200){
+        if(myVariable<300){
+            move up
+            shoot up
+        }
+    }
+    if(myVariable>300){
+        if(myVariable<400){
+            move left
+            shoot left
+        }
+    }
+    if(myVariable>400){
+        myVariable = 0
+    }
+
+    myVariable = myVariable + 1
 }
 
 // function def

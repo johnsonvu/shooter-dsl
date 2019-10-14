@@ -2,7 +2,7 @@ package ast;
 
 import visitor.Visitor;
 
-public class IfStatement extends Statement{
+public class IfStatement extends GameStatement{
     public Condition condition;
     public Block block;
 

@@ -6,13 +6,11 @@ import evaluate.protoypes.*;
 import game.model.*;
 import game.view.Game;
 
-import lib.DIRECTION;
 import ui.Main;
 import visitor.Visitor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class EvaluateVisitor implements Visitor<Integer> {
@@ -217,6 +215,31 @@ public class EvaluateVisitor implements Visitor<Integer> {
 //        applyAll(objectPrototype, go -> ((Enemy) go).shoot(ss.direction.direction));
         ((Enemy) gameObject).shoot(ss.direction.direction);
         return null;
+    }
+
+    @Override
+    public Integer visit(IfStatement iffy) {
+        if(iffy.condition.accept(this) == 1){
+            iffy.block.accept(this);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Integer visit(Condition cond) {
+        int num1 = cond.ex1.accept(this);
+        int num2 = cond.ex2.accept(this);
+
+        switch(cond.comparator){
+            case GREATER_THAN:
+                return num1 > num2 ? 1 : 0;
+            case LESS_THAN:
+                return num1 < num2 ? 1 : 0;
+            case EQUAL:
+                return num1 == num2 ? 1 : 0;
+        }
+        return 0;
     }
 
     @Override

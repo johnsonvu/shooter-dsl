@@ -2,15 +2,15 @@ package parser;
 
 import ast.*;
 import ast.Number;
-import lib.OPERATION;
-import lib.PROPERTY;
-import lib.TYPE;
+import lib.enums.Comparator;
+import lib.enums.Property;
+import lib.enums.Type;
 import tokenizer.Tokenizer;
 import visitor.Visitor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import static lib.enums.Comparator.*;
 
 public class ParseVisitor implements Visitor<ASTNode> {
     Tokenizer tokenizer;
@@ -111,9 +111,9 @@ public class ParseVisitor implements Visitor<ASTNode> {
     @Override
     public ASTNode visit(Statement s) {
 
-        if(tokenizer.checkNext("make")){
-            GameStatement gs = new MakeStatement();
-            s =  (MakeStatement) gs.accept(this);
+        if(tokenizer.checkNext("make") || tokenizer.checkNext("if")){
+            GameStatement gs = new GameStatement();
+            s =  (GameStatement) gs.accept(this);
         }
         else if(tokenizer.checkNext("move") || tokenizer.checkNext("shoot")){
             BehaveStatement bs = new BehaveStatement();
@@ -141,6 +141,10 @@ public class ParseVisitor implements Visitor<ASTNode> {
             MakeStatement makeStatement = new MakeStatement();
             gs = (MakeStatement) makeStatement.accept(this);
         }
+        else if(tokenizer.checkNext("if")){
+            IfStatement ifStatement = new IfStatement();
+            gs = (IfStatement) ifStatement.accept(this);
+        }
         return gs;
     }
 
@@ -151,7 +155,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
             ms.number = (Expression) (new Expression()).accept(this);
         }
 
-        Type type = new Type(tokenizer.getNext());
+        ast.Type type = new ast.Type(tokenizer.getNext());
         ms.type = type;
 
         Identifier id = new Identifier(tokenizer.getNext());
@@ -162,7 +166,7 @@ public class ParseVisitor implements Visitor<ASTNode> {
     @Override
     public ASTNode visit(PropertyStatement ps) {
         String property = tokenizer.getNext();
-        ps.property = new Property(property);
+        ps.property = new ast.Property(property);
         tokenizer.getAndCheckNext("=");
         // TODO: Add support for DIRECTION
 //        if (tokenizer.checkNext("[0-9]+")) {
@@ -273,28 +277,64 @@ public class ParseVisitor implements Visitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visit(Property p) {
+    public ASTNode visit(IfStatement iffy) {
+        tokenizer.getAndCheckNext("if");
+        tokenizer.getAndCheckNext("(");
+
+        iffy.condition = (Condition) (new Condition()).accept(this);
+
+        tokenizer.getAndCheckNext(")");
+
+        iffy.block = (Block) (new Block()).accept(this);
+
+        return iffy;
+    }
+
+    @Override
+    public ASTNode visit(Condition cond) {
+        cond.ex1 = (Expression) (new Expression()).accept(this);
+        String comp = tokenizer.getNext();
+
+        switch (comp){
+            case ">":
+                cond.comparator = GREATER_THAN;
+                break;
+            case "<":
+                cond.comparator = LESS_THAN;
+                break;
+            case "=":
+                cond.comparator = EQUAL;
+                break;
+        }
+
+        cond.ex2 = (Expression) (new Expression()).accept(this);
+
+        return cond;
+    }
+
+    @Override
+    public ASTNode visit(ast.Property p) {
         String property = tokenizer.getNext().toLowerCase();
         if (property.equals("health")) {
-            p.property = PROPERTY.HEALTH;
+            p.property = Property.HEALTH;
         } else if (property.equals("damage")) {
-            p.property = PROPERTY.DAMAGE;
+            p.property = Property.DAMAGE;
         }
 
         return p;
     }
 
     @Override
-    public ASTNode visit(Type t) {
+    public ASTNode visit(ast.Type t) {
         String type = tokenizer.getNext().toLowerCase();
         if (type.equals("player")) {
-            t.type = TYPE.PLAYER;
+            t.type = Type.PLAYER;
         } else if (type.equals("projectile")) {
-            t.type = TYPE.PROJECTILE;
+            t.type = Type.PROJECTILE;
         } else if (type.equals("enemy")) {
-            t.type = TYPE.ENEMY;
+            t.type = Type.ENEMY;
         } else if (type.equals("item")) {
-            t.type = TYPE.ITEM;
+            t.type = Type.ITEM;
         }
 
         return t;

@@ -1,6 +1,6 @@
-package lib;
+package lib.enums;
 
-public enum OPERATION {
+public enum Operation {
     // how to do operation enumerator?
     PLUS,MINUS,DIVIDE,MULTIPLY;
 }

@@ -1,6 +1,5 @@
 package ast;
 
-import lib.OPERATION;
 import visitor.Visitor;
 
 public class Expression extends ASTNode{

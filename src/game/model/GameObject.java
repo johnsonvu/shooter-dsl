@@ -1,9 +1,8 @@
 package game.model;
 
 import ast.Identifier;
-import game.controller.Handler;
 import game.view.Game;
-import lib.DIRECTION;
+import lib.enums.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -86,7 +85,7 @@ public abstract class GameObject {
         this.id = id;
     }
 
-    public void move(DIRECTION dir) {
+    public void move(Direction dir) {
         Game game = Game.getInstance();
         switch (dir) {
             case UP:
@@ -104,7 +103,7 @@ public abstract class GameObject {
         }
     }
 
-    public boolean checkBound(int x, int y, DIRECTION dir) {
+    public boolean checkBound(int x, int y, Direction dir) {
         switch (dir) {
             case UP:
                 return inBound(x, y - moveSpeed);

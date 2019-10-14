@@ -1,16 +1,15 @@
 package game.controller;
 
 import game.model.GameObject;
-import lib.KEYINPUTTYPE;
+import lib.enums.KeyInputType;
 import ui.Main;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class Handler {
     // Object states for moving: up, down, left, right and shooting
-    public HashMap<GameObject, HashMap<KEYINPUTTYPE, Boolean>> objectStates = new HashMap<>();
+    public HashMap<GameObject, HashMap<KeyInputType, Boolean>> objectStates = new HashMap<>();
 
     public void tick() {
         for (int i = 0; i < Main.gameObjects.size(); i++) {
@@ -28,8 +27,8 @@ public class Handler {
 
     public boolean isUp(GameObject obj) {
         // object has a state stored
-        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KEYINPUTTYPE.UP)) {
-            return objectStates.get(obj).get(KEYINPUTTYPE.UP);
+        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KeyInputType.UP)) {
+            return objectStates.get(obj).get(KeyInputType.UP);
         }
         // no state, default to false
         return false;
@@ -38,15 +37,15 @@ public class Handler {
     public void setUp(GameObject obj, boolean up) {
         // object has no state
         if(!objectStates.containsKey(obj)) {
-            objectStates.put(obj, new HashMap<KEYINPUTTYPE, Boolean>());
+            objectStates.put(obj, new HashMap<KeyInputType, Boolean>());
         }
-        objectStates.get(obj).put(KEYINPUTTYPE.UP, up);
+        objectStates.get(obj).put(KeyInputType.UP, up);
     }
 
     public boolean isDown(GameObject obj) {
         // object has a state stored
-        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KEYINPUTTYPE.DOWN)) {
-            return objectStates.get(obj).get(KEYINPUTTYPE.DOWN);
+        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KeyInputType.DOWN)) {
+            return objectStates.get(obj).get(KeyInputType.DOWN);
         }
         // no state, default to false
         return false;
@@ -55,16 +54,16 @@ public class Handler {
     public void setDown(GameObject obj, boolean down) {
         // object has no state
         if(!objectStates.containsKey(obj)) {
-            objectStates.put(obj, new HashMap<KEYINPUTTYPE, Boolean>());
+            objectStates.put(obj, new HashMap<KeyInputType, Boolean>());
         }
-        objectStates.get(obj).put(KEYINPUTTYPE.DOWN, down);
+        objectStates.get(obj).put(KeyInputType.DOWN, down);
 
     }
 
     public boolean isLeft(GameObject obj) {
         // object has a state stored
-        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KEYINPUTTYPE.LEFT)) {
-            return objectStates.get(obj).get(KEYINPUTTYPE.LEFT);
+        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KeyInputType.LEFT)) {
+            return objectStates.get(obj).get(KeyInputType.LEFT);
         }
         // no state, default to false
         return false;
@@ -73,15 +72,15 @@ public class Handler {
     public void setLeft(GameObject obj, boolean left) {
         // object has no state
         if(!objectStates.containsKey(obj)) {
-            objectStates.put(obj, new HashMap<KEYINPUTTYPE, Boolean>());
+            objectStates.put(obj, new HashMap<KeyInputType, Boolean>());
         }
-        objectStates.get(obj).put(KEYINPUTTYPE.LEFT, left);
+        objectStates.get(obj).put(KeyInputType.LEFT, left);
     }
 
     public boolean isRight(GameObject obj) {
         // object has a state stored
-        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KEYINPUTTYPE.RIGHT)) {
-            return objectStates.get(obj).get(KEYINPUTTYPE.RIGHT);
+        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KeyInputType.RIGHT)) {
+            return objectStates.get(obj).get(KeyInputType.RIGHT);
         }
         // no state, default to false
         return false;
@@ -90,15 +89,15 @@ public class Handler {
     public void setRight(GameObject obj, boolean right) {
         // object has no state
         if(!objectStates.containsKey(obj)) {
-            objectStates.put(obj, new HashMap<KEYINPUTTYPE, Boolean>());
+            objectStates.put(obj, new HashMap<KeyInputType, Boolean>());
         }
-        objectStates.get(obj).put(KEYINPUTTYPE.RIGHT, right);
+        objectStates.get(obj).put(KeyInputType.RIGHT, right);
     }
 
     public boolean isShoot(GameObject obj) {
         // object has a state stored
-        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KEYINPUTTYPE.SHOOT)) {
-            return objectStates.get(obj).get(KEYINPUTTYPE.SHOOT);
+        if(objectStates.containsKey(obj) && objectStates.get(obj).containsKey(KeyInputType.SHOOT)) {
+            return objectStates.get(obj).get(KeyInputType.SHOOT);
         }
         // no state, default to false
         return false;
@@ -107,8 +106,8 @@ public class Handler {
     public void setShoot(GameObject obj, boolean shoot) {
         // object has no state
         if(!objectStates.containsKey(obj)) {
-            objectStates.put(obj, new HashMap<KEYINPUTTYPE, Boolean>());
+            objectStates.put(obj, new HashMap<KeyInputType, Boolean>());
         }
-        objectStates.get(obj).put(KEYINPUTTYPE.SHOOT, shoot);
+        objectStates.get(obj).put(KeyInputType.SHOOT, shoot);
     }
 }

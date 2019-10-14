@@ -34,7 +34,9 @@ public interface Visitor<T> {
 
     public T visit(ShootStatement ss);
 
-//    public T visit(IfStatement is);
+    public T visit(IfStatement iffy);
+
+    public T visit(Condition cond);
 
     public T visit(Property p);
 
