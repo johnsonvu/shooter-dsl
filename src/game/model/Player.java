@@ -1,6 +1,7 @@
 package game.model;
 
 import evaluate.protoypes.ProjectileProto;
+import game.controller.Audio;
 import game.controller.Handler;
 import game.view.Game;
 import lib.DIRECTION;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import static lib.Util.randomInt;
 
 public class Player extends GameObject {
+    private Audio audio;
     private int shootingDelay = 4;
     private int shootingCounter = 0;
     private int shootingSpeed = 7;
@@ -29,6 +31,7 @@ public class Player extends GameObject {
         super.y = Game.getInstance().getHeight() - 100;
         image = Game.sprite.loadImage(this);
 
+        audio = new Audio("media/Audio/Shoot/3.wav");
         Game.getInstance().getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
     }
 
@@ -50,6 +53,7 @@ public class Player extends GameObject {
             p.y = y - p.image.getHeight();
             p.moveSpeed = this.shootingSpeed;
             Main.gameObjects.add(p);
+            audio.play();
             shootingCounter = 0;
         } else {
             shootingCounter++;

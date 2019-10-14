@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import game.controller.Audio;
 import game.controller.Handler;
 import game.controller.KeyInput;
 import game.model.GameObject;
@@ -14,6 +15,7 @@ import ui.Main;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.HashMap;
 
 public class Game extends JPanel implements ActionListener {
@@ -28,7 +30,7 @@ public class Game extends JPanel implements ActionListener {
     private static Handler handler;
     private BufferedImage level;
     private HashMap<GameObject, Integer> players;
-    private int numPlayers;
+    private Audio audio;
 
     private Game() {
         name = "ShootingGame";
@@ -38,6 +40,7 @@ public class Game extends JPanel implements ActionListener {
         sprite = new Sprite();
         handler = new Handler();
         players = new HashMap<>();
+        audio = new Audio("media/Audio/BG/1.wav");
 
         // set bg image to 1.6x by 1.6x scaling
         BufferedImage tempBgImg = sprite.loadImage(this);
@@ -50,7 +53,6 @@ public class Game extends JPanel implements ActionListener {
         this.setFocusable(true);
         this.setDoubleBuffered(true);
         this.addKeyListener(new KeyInput(handler));
-        this.start();
     }
 
     public static Game getInstance() {
@@ -81,10 +83,11 @@ public class Game extends JPanel implements ActionListener {
     }
 
 
-    private void start() {
+    public void start() {
         isRunning = true;
         timer = new Timer(15, this);
         timer.start();
+        audio.play();
     }
 
     private void stop() {

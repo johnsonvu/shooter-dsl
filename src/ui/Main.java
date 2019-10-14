@@ -37,5 +37,6 @@ public class Main {
         // render the game
         game = Game.getInstance();
         new Window(game.getWidth(), game.getHeight(), game.getName(), game);
+        game.start();
     }
 }
