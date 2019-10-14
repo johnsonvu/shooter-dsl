@@ -1,5 +1,12 @@
 # shooter-dsl
-A DSL to quickly prototype shooter games. A CPSC 410 project.
+A DSL to quickly prototype shooter games (a CPSC 410 project).
+
+## Group members
+1. Johnson Vu
+2. Justin Kwan
+3. Leon Lui
+4. MengXin Zhao
+5. Varun Belani
 
 ## EBNF
 ```
@@ -59,11 +66,17 @@ OP ::= "+" | "-" | "/" | "*"
 
 ```
 
-## Group members
-1. Johnson Vu
-2. Justin Kwan
-3. Leon Lui
-4. MengXin Zhao
-5. Varun Belani
+## Preview
+![Alt text](media/Preview/1.png "SampleGame")
+
+## Controls
+Default controls are assigned for up to 3 players
+- Player 1 - **WASD** for Up, Left, Down, Right and **C** for Shoot
+- Player 2 - **YGHJ** for Up, Left, Down, Right and **M** for Shoot
+- Player 3 - **PL;'** for Up, Left, Down, Right and **Shift** for Shoot
+
+## Credits
+1. Game Architecture and design heavily inspired by derickfelix's WizardTDS: https://github.com/derickfelix/WizardTDS
+2. Sprites and game visuals by Sparklin Labs: https://www.patreon.com/SparklinLabs
 
 
