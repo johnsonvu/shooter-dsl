@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static lib.Util.randomInt;
+
 public class Sprite {
     private static final String PLAYER_PATH = "media/Player/";
     private static final String ENEMY_PATH = "media/Enemy/";
@@ -54,9 +56,5 @@ public class Sprite {
 //            return PROJECTILE_PATH + randomInt(1, 14) + ".png";
             return PROJECTILE_PATH + 1 + ".png";
         }
-    }
-
-    private int randomInt(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
     }
 }

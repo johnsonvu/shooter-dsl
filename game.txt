@@ -8,7 +8,7 @@ make game SampleGame
 	make player buddy
 	make projectile lazers
 	make enemy ian
-	make enemy justin
+	make 5 enemy justin
 	make item powerUp
 }
 

@@ -10,12 +10,18 @@ import ui.Main;
 
 import java.awt.*;
 
+import static lib.Util.randomInt;
+
 public class Enemy extends GameObject {
     public Enemy(EnemyProto proto, String name) {
         super(proto,name);
         this.health = proto.health;
         this.damage = proto.damage;
         this.moveSpeed = 3;
+
+        // randomly spawn in the top quarter of the map
+        super.x = randomInt(100, Game.getInstance().getWidth() - 100);
+        super.y = randomInt(100, Game.getInstance().getHeight()/4);
         image = Game.sprite.loadImage(this);
     }
 

@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 
 import evaluate.protoypes.GameObjectProto;
 
+import static lib.Util.randomInt;
+
 public abstract class GameObject {
     public int number;
     public int damage;
@@ -29,8 +31,9 @@ public abstract class GameObject {
 
     public GameObject(GameObjectProto proto, String name) {
         this.proto = proto;
-        this.x = 1;
-        this.y = 1;
+        // randomly spawn game objects
+        this.x = randomInt(100, Game.getInstance().getWidth() - 100);
+        this.y = randomInt(100, Game.getInstance().getHeight() - 100);
         this.id = name;
         this.moveSpeed = 4;
     }

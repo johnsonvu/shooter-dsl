@@ -11,6 +11,8 @@ import ui.Main;
 import java.awt.*;
 import java.util.HashMap;
 
+import static lib.Util.randomInt;
+
 public class Player extends GameObject {
     private int shootingDelay = 4;
     private int shootingCounter = 0;
@@ -20,6 +22,10 @@ public class Player extends GameObject {
         this.damage = proto.damage;
         this.health = proto.health;
         this.moveSpeed = 6;
+
+        // spawn at middle of the bottom of the game
+        super.x = Game.getInstance().getWidth()/2;
+        super.y = Game.getInstance().getHeight() - 100;
         image = Game.sprite.loadImage(this);
 
         Game.getInstance().getHandler().objectStates.put(this, new HashMap<KEYINPUTTYPE, Boolean>());
@@ -38,6 +44,7 @@ public class Player extends GameObject {
     public void shoot() {
         if (shootingCounter == shootingDelay) {
             Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
+            // set projectile to shoot from player
             temp.x = x;
             temp.y = y - temp.image.getHeight();
             Main.gameObjects.add(temp);
