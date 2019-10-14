@@ -34,7 +34,8 @@ public class Game extends JPanel implements ActionListener {
     private BufferedImage level;
     private HashMap<GameObject, Integer> players;
     private Audio audio;
-    private boolean EndGame = false;
+    private boolean endGame = false;
+    private boolean winGame = false;
 
     private Game() {
         name = "ShootingGame";
@@ -102,6 +103,7 @@ public class Game extends JPanel implements ActionListener {
     public void tick() {
         this.handler.tick();
         checkEndGame();
+        checkWinGame();
     }
 
     public void paint(Graphics g) {
@@ -146,12 +148,21 @@ public class Game extends JPanel implements ActionListener {
                 g.setColor(Color.white);
             }
         }
-        if(EndGame) {
+        if(endGame) {
+            String gameMessage = "Game Over";
             g.setFont(new Font("Arial", 0, 60));
             g.setColor(Color.white.brighter());
             Game ga = Game.getInstance();
-            g.drawString("Game Over ", ga.getWidth()/ 3, ga.getHeight() / 2);
+            g.drawString(gameMessage, ga.getWidth()/ 2 - gameMessage.length()/2*30, ga.getHeight() / 2);
         }
+        if(winGame) {
+            String gameMessage = "Victory!";
+            g.setFont(new Font("Arial", 0, 60));
+            g.setColor(Color.white.brighter());
+            Game ga = Game.getInstance();
+            g.drawString(gameMessage, ga.getWidth()/ 2 - gameMessage.length()/2*30, ga.getHeight() / 2);
+        }
+
     }
 
     @Override
@@ -168,7 +179,14 @@ public class Game extends JPanel implements ActionListener {
     private void checkEndGame(){
         java.util.List<GameObject> relevantObjects = Main.gameObjects.stream().filter(go -> go.getClass() == Player.class).collect(Collectors.toList());
         if(relevantObjects.size() == 0){
-            this.EndGame = true;
+            this.endGame = true;
+        }
+    }
+
+    private void checkWinGame(){
+        java.util.List<GameObject> relevantObjects = Main.gameObjects.stream().filter(go -> go.getClass() == Enemy.class).collect(Collectors.toList());
+        if(relevantObjects.size() == 0){
+            this.winGame = true;
         }
     }
 
