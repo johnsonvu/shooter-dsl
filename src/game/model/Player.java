@@ -12,6 +12,9 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class Player extends GameObject {
+    private int shootingDelay = 4;
+    private int shootingCounter = 0;
+
     public Player(PlayerProto proto, String name) {
         super(proto, name);
         this.damage = proto.damage;
@@ -33,10 +36,15 @@ public class Player extends GameObject {
     public int getHealth() { return health; }
 
     public void shoot() {
-        Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
-        temp.x = x;
-        temp.y = y - temp.image.getHeight();
-        Main.gameObjects.add(temp);
+        if (shootingCounter == shootingDelay) {
+            Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
+            temp.x = x;
+            temp.y = y - temp.image.getHeight();
+            Main.gameObjects.add(temp);
+            shootingCounter = 0;
+        } else {
+            shootingCounter++;
+        }
     }
 
     @Override

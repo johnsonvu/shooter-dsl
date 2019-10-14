@@ -83,7 +83,7 @@ public class Game extends JPanel implements ActionListener {
 
     private void start() {
         isRunning = true;
-        timer = new Timer(10, this);
+        timer = new Timer(15, this);
         timer.start();
     }
 

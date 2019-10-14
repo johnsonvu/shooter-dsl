@@ -34,12 +34,8 @@ public class Main {
         Evaluator evaluate = Evaluator.getInstance(ast);
         evaluate.evaluate();
 
+        // render the game
         game = Game.getInstance();
-
-        Player player = new Player(new PlayerProto("jkwansa", 100, 100), "jkwansa");
-        Main.gameObjects.add(player);
-
         new Window(game.getWidth(), game.getHeight(), game.getName(), game);
-        System.out.println("dones");
     }
 }
