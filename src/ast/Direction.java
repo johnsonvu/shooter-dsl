@@ -6,7 +6,13 @@ public class Direction extends ASTNode{
     public lib.enums.Direction direction;
 
     public Direction(String direction) {
-        this.direction = lib.enums.Direction.valueOf(direction.toUpperCase());
+        try {
+            this.direction = lib.enums.Direction.valueOf(direction.toUpperCase());
+        }catch (Exception e){
+            System.err.println("Expected \"down\", \"up\", \"left\", or \"right\" but found \"" + direction + "\"");
+            System.exit(0);
+        }
+
     }
     
     @Override

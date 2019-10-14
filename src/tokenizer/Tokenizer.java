@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -82,10 +83,26 @@ public class Tokenizer {
         return tokens[currentToken++];
     }
 
+    public String getNext(String pattern){
+        Pattern regex =  Pattern.compile(pattern);
+        String next = tokens[currentToken++];
+
+        if(!regex.matcher(next).matches()){
+            System.err.println("Expected \""+ pattern + "\" but found \"" + next + "\"");
+            System.exit(0);
+        };
+        return next;
+    }
+
     public Boolean getAndCheckNext(String expectedToken)
     {
-        return tokens[currentToken++].equals(expectedToken);
+        if(!tokens[currentToken++].equals(expectedToken)){
+            System.err.println("Expected \""+ expectedToken + "\" but found \"" + tokens[currentToken++] + "\"");
+            System.exit(0);
+        }
+        return true;
     }
+
 
     public Boolean hasMoreTokens ()
     {
