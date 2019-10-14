@@ -11,9 +11,11 @@ public class Audio {
 
     private File file;
     private Clip clip;
+    private Boolean loop;
 
     public Audio(String path) {
         this.file = new File(path);
+        loop = false;
     }
 
     public void play() {
@@ -21,6 +23,9 @@ public class Audio {
             clip = AudioSystem.getClip();
 
             clip.open(AudioSystem.getAudioInputStream(file));
+            if(loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
             clip.start();
 
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
@@ -28,6 +33,10 @@ public class Audio {
             e.printStackTrace();
         }
 
+    }
+
+    public void setLoop(Boolean set) {
+        loop = set;
     }
 
     public void stop() {

@@ -41,6 +41,7 @@ public class Game extends JPanel implements ActionListener {
         handler = new Handler();
         players = new HashMap<>();
         audio = new Audio("media/Audio/BG/1.wav");
+        audio.setLoop(true);
 
         // set bg image to 1.6x by 1.6x scaling
         BufferedImage tempBgImg = sprite.loadImage(this);
