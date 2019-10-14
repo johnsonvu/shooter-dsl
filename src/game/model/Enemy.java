@@ -124,6 +124,12 @@ public class Enemy extends GameObject {
     public void tick() {
         Evaluator eval = Evaluator.getInstance();
         eval.run(this.proto.behaviour, this);
+        checkDeath();
+    }
+
+    private void checkDeath(){
+        if(health <= 0)
+            Main.gameObjects.remove(this);
     }
 
     @Override

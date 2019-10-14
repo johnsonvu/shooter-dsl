@@ -10,6 +10,8 @@ import ui.Main;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static lib.enums.Direction.*;
 import static lib.Util.randomInt;
@@ -67,7 +69,9 @@ public class Player extends GameObject {
     public void tick() {
         collision();
         act();
+        //System.out.println(id + "= " + health);
     }
+
 
     private void collision() {
         if (collisionDelay == collisionCounter) {
@@ -79,6 +83,7 @@ public class Player extends GameObject {
                             this.health -= obj.damage;
                         } else {
                             this.health = 0;
+                            Main.gameObjects.remove(this);
                         }
                     }
                 }
@@ -90,6 +95,7 @@ public class Player extends GameObject {
     }
 
     private void act() {
+
         HashMap<KeyInputType, Boolean> map = Game.getInstance().getHandler().objectStates.get(this);
         if (map.containsKey(KeyInputType.UP) && map.get(KeyInputType.UP)) {
             // boundary condition for top

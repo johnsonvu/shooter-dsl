@@ -38,11 +38,7 @@ public class Projectile extends GameObject {
             if (obj instanceof Player) {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Player p = (Player) obj;
-                    if(p.getHealth() - damage <= 0) {
-                        p.setHealth(0);
-                    } else {
-                        p.setHealth(p.getHealth() - damage);
-                    }
+                    p.setHealth(p.getHealth() - damage);
                     remove = true;
                     break;
                 }
@@ -53,9 +49,7 @@ public class Projectile extends GameObject {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Enemy e = (Enemy) obj;
                     e.setHealth(e.getHealth() - damage);
-                    if(e.getHealth() <= 0){
-                        Main.gameObjects.remove(e);
-                    }
+                    Main.gameObjects.remove(e);
                     remove = true;
                     break;
                 }

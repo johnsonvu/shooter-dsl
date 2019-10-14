@@ -159,8 +159,6 @@ public abstract class GameObject {
 
     public boolean inBound(int x, int y) {
         Game game = Game.getInstance();
-        if(game.getHeight() == 0) // For some reason the game height = 0 during first 2 seconds of initialization, this is to bypass that
-            return true;
-        return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - (image.getHeight()*2);
+        return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - image.getHeight();
     }
 }

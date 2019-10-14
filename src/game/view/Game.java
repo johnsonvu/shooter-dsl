@@ -19,6 +19,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Game extends JPanel implements ActionListener {
     private static Game game;
@@ -33,6 +34,7 @@ public class Game extends JPanel implements ActionListener {
     private BufferedImage level;
     private HashMap<GameObject, Integer> players;
     private Audio audio;
+    private boolean EndGame = false;
 
     private Game() {
         name = "ShootingGame";
@@ -99,6 +101,7 @@ public class Game extends JPanel implements ActionListener {
 
     public void tick() {
         this.handler.tick();
+        checkEndGame();
     }
 
     public void paint(Graphics g) {
@@ -143,6 +146,12 @@ public class Game extends JPanel implements ActionListener {
                 g.setColor(Color.white);
             }
         }
+        if(EndGame) {
+            g.setFont(new Font("Arial", 0, 60));
+            g.setColor(Color.white.brighter());
+            Game ga = Game.getInstance();
+            g.drawString("Game Over ", ga.getWidth()/ 3, ga.getHeight() / 2);
+        }
     }
 
     @Override
@@ -152,6 +161,14 @@ public class Game extends JPanel implements ActionListener {
             repaint();
         } else {
             stop();
+        }
+    }
+
+
+    private void checkEndGame(){
+        java.util.List<GameObject> relevantObjects = Main.gameObjects.stream().filter(go -> go.getClass() == Player.class).collect(Collectors.toList());
+        if(relevantObjects.size() == 0){
+            this.EndGame = true;
         }
     }
 
