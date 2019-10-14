@@ -80,8 +80,8 @@ public class Player extends GameObject {
     }
 
     private void act() {
-        HashMap<KEYINPUTTYPE, Boolean> map = Game.getInstance().getHandler().objectStates.get(this);
-        if (map.containsKey(KEYINPUTTYPE.UP) && map.get(KEYINPUTTYPE.UP)) {
+        HashMap<KeyInputType, Boolean> map = Game.getInstance().getHandler().objectStates.get(this);
+        if (map.containsKey(KeyInputType.UP) && map.get(KeyInputType.UP)) {
             // image rotation
             if(facing == LEFT) {
                 image = rotate(image, 90);
@@ -98,7 +98,7 @@ public class Player extends GameObject {
             }
         }
 
-        if (map.containsKey(KEYINPUTTYPE.DOWN) && map.get(KEYINPUTTYPE.DOWN)) {
+        if (map.containsKey(KeyInputType.DOWN) && map.get(KeyInputType.DOWN)) {
             // image rotation
             if(facing == LEFT) {
                 image = rotate(image, -90);
@@ -115,7 +115,7 @@ public class Player extends GameObject {
             }
         }
 
-        if (map.containsKey(KEYINPUTTYPE.LEFT) && map.get(KEYINPUTTYPE.LEFT)) {
+        if (map.containsKey(KeyInputType.LEFT) && map.get(KeyInputType.LEFT)) {
             // image rotation
             if(facing == RIGHT) {
                 image = rotate(image, 180);
@@ -130,7 +130,7 @@ public class Player extends GameObject {
             facing = LEFT;
         }
 
-        if (map.containsKey(KEYINPUTTYPE.RIGHT) && map.get(KEYINPUTTYPE.RIGHT)) {
+        if (map.containsKey(KeyInputType.RIGHT) && map.get(KeyInputType.RIGHT)) {
             // image rotation
             if(facing == LEFT) {
                 image = rotate(image, 180);
