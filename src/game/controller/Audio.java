@@ -1,9 +1,6 @@
 package game.controller;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -26,10 +23,15 @@ public class Audio {
             if(loop) {
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
+
+            // reduce audio by 40 decibals
+            FloatControl gainControl =
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-40.0f); // Reduce volume by 10 decibels.
+
             clip.start();
 
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

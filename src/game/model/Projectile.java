@@ -34,8 +34,8 @@ public class Projectile extends GameObject {
         for (int i = 0; i < Main.gameObjects.size(); i++) {
             GameObject obj = Main.gameObjects.get(i);
 
-            // enemy projectiles do damage to players
-            if (obj instanceof Player && this.source instanceof Enemy) {
+            // player + enemy projectiles do damage to players
+            if (obj instanceof Player) {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Player p = (Player) obj;
                     if(p.getHealth() - damage <= 0) {

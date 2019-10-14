@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import evaluate.protoypes.GameObjectProto;
 import game.controller.Audio;
 import game.controller.Handler;
 import game.controller.KeyInput;
@@ -121,7 +122,7 @@ public class Game extends JPanel implements ActionListener {
                 g.setColor(Color.red.darker());
                 g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, 200, 30);
                 g.setColor(Color.green.darker());
-                g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, ((Player) go).getHealth() * 2, 30);
+                g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, 200*((Player) go).getHealth()/go.proto.health, 30);
                 g.setColor(Color.white);
             }
         }

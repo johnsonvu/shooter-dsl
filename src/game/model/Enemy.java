@@ -9,6 +9,7 @@ import ui.Main;
 
 import java.awt.*;
 
+import static lib.Util.rotate;
 import static lib.enums.Direction.*;
 import static lib.Util.randomInt;
 
@@ -56,6 +57,16 @@ public class Enemy extends GameObject {
     public void move(Direction dir){
         switch (dir) {
             case UP:
+                // image rotation
+                if(facing == LEFT) {
+                    image = rotate(image, 90);
+                } else if (facing == RIGHT) {
+                    image = rotate(image, -90);
+                } else if (facing == DOWN) {
+                    image = rotate(image, 180);
+                }
+                facing = UP;
+
                 if (checkBound(x, y, dir)) {
                     //super.move(dir);/
                     this.y -= moveSpeed/2;
@@ -64,6 +75,16 @@ public class Enemy extends GameObject {
                 }
                 break;
             case DOWN:
+                // image rotation
+                if(facing == LEFT) {
+                    image = rotate(image, -90);
+                } else if (facing == RIGHT) {
+                    image = rotate(image, 90);
+                } else if (facing == UP) {
+                    image = rotate(image, 180);
+                }
+                facing = DOWN;
+
                 if (checkBound(x, y, dir)) {
                     //super.move(dir);/
                     this.y += moveSpeed/2;
@@ -72,9 +93,28 @@ public class Enemy extends GameObject {
                 }
                 break;
             case LEFT:
+                // image rotation
+                if(facing == RIGHT) {
+                    image = rotate(image, 180);
+                } else if (facing == UP) {
+                    image = rotate(image, -90);
+                } else if (facing == DOWN) {
+                    image = rotate(image, 90);
+                }
+                facing = LEFT;
+
                 x = (x <= 0) ? Game.getInstance().getWidth() : x - moveSpeed;
                 break;
             default:
+                // image rotation
+                if(facing == LEFT) {
+                    image = rotate(image, 180);
+                } else if (facing == UP) {
+                    image = rotate(image, 90);
+                } else if (facing == DOWN) {
+                    image = rotate(image, -90);
+                }
+                facing = RIGHT;
                 x = (x >= Game.getInstance().getWidth()) ? 0 : x + moveSpeed;
                 break;
         }
