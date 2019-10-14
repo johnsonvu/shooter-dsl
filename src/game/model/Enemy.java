@@ -31,7 +31,7 @@ public class Enemy extends GameObject {
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        this.health = (health < 0) ? 0 : health;
     }
 
     public void setDamage(int damage) {
