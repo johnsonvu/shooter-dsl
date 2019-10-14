@@ -125,6 +125,11 @@ public class Game extends JPanel implements ActionListener {
                 g.setColor(Color.green.darker());
                 g.fillRect(80 + ((players.get(go)-1)*250), Game.getInstance().getHeight() - 90, 200*((Player) go).getHealth()/go.proto.health, 30);
                 g.setColor(Color.white);
+
+                // render name above
+                g.setFont(new Font("Arial", 0, 12));
+                g.setColor(Color.white.brighter());
+                g.drawString(go.getId(), go.getX()-go.image.getWidth()/2, go.getY()-go.image.getHeight());
             }
 
             if (go instanceof Enemy) {

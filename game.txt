@@ -6,7 +6,8 @@ make game SampleGame
 {
     // create game objects
 	make player buddy
-	make projectile lazers
+	make player aaron
+	// make projectile lazers
 	make enemy ian
 	make 5 enemy justin
 	make item powerUp
