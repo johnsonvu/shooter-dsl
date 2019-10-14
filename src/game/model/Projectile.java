@@ -10,11 +10,13 @@ import java.awt.*;
 
 public class Projectile extends GameObject {
     private DIRECTION dir;
+    private GameObject source;
 
-    public Projectile(ProjectileProto proto, String name, DIRECTION dir) {
+    public Projectile(ProjectileProto proto, String name, DIRECTION dir, GameObject source) {
         super(proto, name);
         this.damage = proto.damage;
         this.dir = dir;
+        this.source = source;
         this.moveSpeed = 10;
         image = Game.sprite.loadImage(this);
     }
@@ -32,7 +34,7 @@ public class Projectile extends GameObject {
         for (int i = 0; i < Main.gameObjects.size(); i++) {
             GameObject obj = Main.gameObjects.get(i);
 
-            if (obj instanceof Player) {
+            if (obj instanceof Player && !(this.source instanceof Player)) {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Player p = (Player) obj;
                     if(p.getHealth() - damage <= 0) {
@@ -45,7 +47,7 @@ public class Projectile extends GameObject {
                 }
             }
 
-            if (obj instanceof Enemy) {
+            if (obj instanceof Enemy && !(this.source instanceof Enemy)) {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Enemy e = (Enemy) obj;
                     e.setHealth(e.getHealth() - damage);

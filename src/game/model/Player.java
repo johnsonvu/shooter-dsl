@@ -44,7 +44,7 @@ public class Player extends GameObject {
 
     public void shoot() {
         if (shootingCounter == shootingDelay) {
-            Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
+            Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP, this);
             // set projectile to shoot from player
             p.x = x;
             p.y = y - p.image.getHeight();

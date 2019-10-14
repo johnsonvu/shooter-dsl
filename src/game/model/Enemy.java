@@ -41,7 +41,7 @@ public class Enemy extends GameObject {
 
     public void shoot(DIRECTION dir) {
         if (shootingCounter == shootingDelay) {
-            Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, dir);
+            Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, dir, this);
             p.x = x;
             p.y = y + image.getHeight();
             p.moveSpeed = this.shootingSpeed;
