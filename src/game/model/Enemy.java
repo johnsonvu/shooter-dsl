@@ -64,8 +64,8 @@ public class Enemy extends GameObject {
 
     @Override
     public void tick() {
-        Evaluator eval = Evaluator.getInstance();
-        eval.run(this.proto.behaviour, this);
+//        Evaluator eval = Evaluator.getInstance();
+//        eval.run(this.proto.behaviour, this);
     }
 
     @Override
