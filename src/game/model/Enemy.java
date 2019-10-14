@@ -10,6 +10,7 @@ import ui.Main;
 
 import java.awt.*;
 
+import static lib.DIRECTION.*;
 import static lib.Util.randomInt;
 
 public class Enemy extends GameObject {
@@ -42,8 +43,8 @@ public class Enemy extends GameObject {
     public void shoot(DIRECTION dir) {
         if (shootingCounter == shootingDelay) {
             Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, dir, this);
-            p.x = x;
-            p.y = y + image.getHeight();
+            p.x = dir == RIGHT? x + image.getWidth() : dir == LEFT? x - image.getWidth(): x;
+            p.y = dir == DOWN? y + image.getHeight() : dir == UP? y - image.getHeight(): y;
             p.moveSpeed = this.shootingSpeed;
             Main.gameObjects.add(p);
             shootingCounter = 0;
@@ -56,10 +57,17 @@ public class Enemy extends GameObject {
     public void move(DIRECTION dir){
         switch (dir) {
             case UP:
+                if (checkBound(x, y, dir)) {
+                    //super.move(dir);/
+                    this.y -= moveSpeed/2;
+                } else {
+                    Main.gameObjects.remove(this);
+                }
+                break;
             case DOWN:
                 if (checkBound(x, y, dir)) {
                     //super.move(dir);/
-                    this.y += moveSpeed/5;
+                    this.y += moveSpeed/2;
                 } else {
                     Main.gameObjects.remove(this);
                 }

@@ -33,6 +33,7 @@ set justin{
 define ianBehaviour() {
     move down
     shoot down
+    shoot right
     damage = damage+1
 }
 

@@ -200,17 +200,22 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(MovementStatement ms) {
-        applyAll(objectPrototype, go -> {
+//        applyAll(objectPrototype, go -> {
+//            int times = ms.expr == null? 1 : ms.expr.accept(this);
+//            for(int i=0; i<times;i++) {
+//                go.move(ms.direction.direction);
+//            }});
             int times = ms.expr == null? 1 : ms.expr.accept(this);
             for(int i=0; i<times;i++) {
-                go.move(ms.direction.direction);
-            }});
+                gameObject.move(ms.direction.direction);
+            }
         return null;
     }
 
     @Override
     public Integer visit(ShootStatement ss) {
-        applyAll(objectPrototype, go -> ((Enemy) go).shoot(ss.direction.direction));
+//        applyAll(objectPrototype, go -> ((Enemy) go).shoot(ss.direction.direction));
+        ((Enemy) gameObject).shoot(ss.direction.direction);
         return null;
     }
 
