@@ -13,8 +13,9 @@ import java.awt.*;
 import static lib.Util.randomInt;
 
 public class Enemy extends GameObject {
-    private int shootingDelay = 15;
+    private int shootingDelay = 40;
     private int shootingCounter = 0;
+    private int shootingSpeed = 3;
 
     public Enemy(EnemyProto proto, String name) {
         super(proto,name);
@@ -43,6 +44,7 @@ public class Enemy extends GameObject {
             Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, dir);
             p.x = x;
             p.y = y + image.getHeight();
+            p.moveSpeed = this.shootingSpeed;
             Main.gameObjects.add(p);
             shootingCounter = 0;
         } else {

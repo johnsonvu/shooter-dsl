@@ -16,6 +16,7 @@ import static lib.Util.randomInt;
 public class Player extends GameObject {
     private int shootingDelay = 4;
     private int shootingCounter = 0;
+    private int shootingSpeed = 7;
 
     public Player(PlayerProto proto, String name) {
         super(proto, name);
@@ -43,11 +44,12 @@ public class Player extends GameObject {
 
     public void shoot() {
         if (shootingCounter == shootingDelay) {
-            Projectile temp = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
+            Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP);
             // set projectile to shoot from player
-            temp.x = x;
-            temp.y = y - temp.image.getHeight();
-            Main.gameObjects.add(temp);
+            p.x = x;
+            p.y = y - p.image.getHeight();
+            p.moveSpeed = this.shootingSpeed;
+            Main.gameObjects.add(p);
             shootingCounter = 0;
         } else {
             shootingCounter++;
