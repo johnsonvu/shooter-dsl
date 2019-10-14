@@ -309,6 +309,13 @@ public class ParseVisitor implements Visitor<ASTNode> {
 
         cond.ex2 = (Expression) (new Expression()).accept(this);
 
+        if(tokenizer.checkNext("and")){
+            tokenizer.getNext();
+
+            Condition cond2 = new Condition();
+            cond.andCondition = (Condition) cond2.accept(this);
+        }
+
         return cond;
     }
 

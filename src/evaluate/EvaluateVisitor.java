@@ -228,6 +228,11 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     @Override
     public Integer visit(Condition cond) {
+        if(cond.andCondition != null) {
+            if (cond.andCondition.accept(this) == 0) return 0;
+
+        }
+
         int num1 = cond.ex1.accept(this);
         int num2 = cond.ex2.accept(this);
 

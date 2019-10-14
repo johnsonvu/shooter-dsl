@@ -60,22 +60,18 @@ define circleBuddyBehaviour() {
         }
     }
     if(myVariable>100){
-        if(myVariable<200){
+        if(myVariable<200){ //using 2 ifs like a peasant
             move right
             shoot right
         }
     }
-    if(myVariable>200){
-        if(myVariable<300){
-            move up
-            shoot up
-        }
+    if(myVariable>200 and myVariable<300){ //using and
+        move up
+        shoot up
     }
-    if(myVariable>300){
-        if(myVariable<400){
-            move left
-            shoot left
-        }
+    if(myVariable>300 and myVariable<400){
+        move left
+        shoot left
     }
     if(myVariable>400){
         myVariable = 0
