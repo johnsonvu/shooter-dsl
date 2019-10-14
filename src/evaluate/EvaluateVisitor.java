@@ -177,6 +177,10 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     public Integer visit(FunctionCall fc) {
         FunctionBlock fb =  blockTable.get(fc.name.name);
+        if(fb == null){
+            System.err.println("Cannot find identifier \"" + fc.name.name + "\" in declaration");
+            System.exit(0);
+        }
         String key;
         Integer value;
         List<Integer> args = fc.arguments.stream().map(arg -> arg.accept(this)).collect(Collectors.toList());
@@ -378,7 +382,12 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
         objectPrototype = go.proto;
 
-        blockTable.get(id).accept(this);
+        FunctionBlock block =  blockTable.get(id);
+        if(block == null){
+            System.err.println("Cannot find identifier \"" + id + "\" in declaration");
+            System.exit(0);
+        }
+        block.accept(this);
     }
 
 
