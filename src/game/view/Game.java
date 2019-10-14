@@ -148,19 +148,15 @@ public class Game extends JPanel implements ActionListener {
                 g.setColor(Color.white);
             }
         }
-        if(endGame) {
-            String gameMessage = "Game Over";
-            g.setFont(new Font("Arial", 0, 60));
+
+        if(endGame || winGame){
+            String gameMessage = (endGame) ? "Game Over":"Victory!";
+            Font f = new Font("Arial", 0, 60);
+            FontMetrics metrics = g.getFontMetrics(f);
+            g.setFont(f);
             g.setColor(Color.white.brighter());
             Game ga = Game.getInstance();
-            g.drawString(gameMessage, ga.getWidth()/ 2 - gameMessage.length()/2*30, ga.getHeight() / 2);
-        }
-        if(winGame) {
-            String gameMessage = "Victory!";
-            g.setFont(new Font("Arial", 0, 60));
-            g.setColor(Color.white.brighter());
-            Game ga = Game.getInstance();
-            g.drawString(gameMessage, ga.getWidth()/ 2 - gameMessage.length()/2*30, ga.getHeight() / 2);
+            g.drawString(gameMessage, ga.getWidth()/ 2 - metrics.stringWidth(gameMessage)/2, ga.getHeight()/2);
         }
 
     }
