@@ -34,7 +34,8 @@ public class Projectile extends GameObject {
         for (int i = 0; i < Main.gameObjects.size(); i++) {
             GameObject obj = Main.gameObjects.get(i);
 
-            if (obj instanceof Player && !(this.source instanceof Player)) {
+            // enemy projectiles do damage to players
+            if (obj instanceof Player && this.source instanceof Enemy) {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Player p = (Player) obj;
                     if(p.getHealth() - damage <= 0) {
@@ -47,13 +48,24 @@ public class Projectile extends GameObject {
                 }
             }
 
-            if (obj instanceof Enemy && !(this.source instanceof Enemy)) {
+            // player projectiles do damage to enemies
+            if (obj instanceof Enemy && this.source instanceof Player) {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Enemy e = (Enemy) obj;
                     e.setHealth(e.getHealth() - damage);
                     if(e.getHealth() <= 0){
                         Main.gameObjects.remove(e);
                     }
+                    remove = true;
+                    break;
+                }
+            }
+
+            // if player projectile hits enemy projectile, remove both
+            if (obj instanceof Projectile && this.source instanceof Player && ((Projectile) obj).source instanceof Enemy) {
+                if (this.getBounds().intersects(obj.getBounds())) {
+                    Projectile e = (Projectile) obj;
+                    Main.gameObjects.remove(e);
                     remove = true;
                     break;
                 }
