@@ -12,6 +12,7 @@ import ui.Main;
 import java.awt.*;
 import java.util.HashMap;
 
+import static lib.DIRECTION.*;
 import static lib.Util.randomInt;
 
 public class Player extends GameObject {
@@ -19,6 +20,7 @@ public class Player extends GameObject {
     private int shootingDelay = 4;
     private int shootingCounter = 0;
     private int shootingSpeed = 7;
+    private DIRECTION facing;
 
     public Player(PlayerProto proto, String name) {
         super(proto, name);
@@ -47,10 +49,10 @@ public class Player extends GameObject {
 
     public void shoot() {
         if (shootingCounter == shootingDelay) {
-            Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, DIRECTION.UP, this);
+            Projectile p = new Projectile(new ProjectileProto(id, damage, health), id, facing, this);
             // set projectile to shoot from player
-            p.x = x;
-            p.y = y - p.image.getHeight();
+            p.x = facing == RIGHT? x + image.getWidth() : facing == LEFT? x - image.getWidth(): x;
+            p.y = facing == DOWN? y + image.getHeight() : facing == UP? y - image.getHeight(): y;
             p.moveSpeed = this.shootingSpeed;
             Main.gameObjects.add(p);
             audio.play();
@@ -79,21 +81,27 @@ public class Player extends GameObject {
     private void act() {
         HashMap<KEYINPUTTYPE, Boolean> map = Game.getInstance().getHandler().objectStates.get(this);
         if (map.containsKey(KEYINPUTTYPE.UP) && map.get(KEYINPUTTYPE.UP)) {
-            if (checkBound(x, y, DIRECTION.UP))
-                move(DIRECTION.UP);
+            if (checkBound(x, y, UP)) {
+                move(UP);
+                facing = UP;
+            }
         }
 
         if (map.containsKey(KEYINPUTTYPE.DOWN) && map.get(KEYINPUTTYPE.DOWN)) {
-            if (checkBound(x, y, DIRECTION.DOWN))
-                move(DIRECTION.DOWN);
+            if (checkBound(x, y, DOWN)) {
+                move(DOWN);
+                facing = DOWN;
+            }
         }
 
         if (map.containsKey(KEYINPUTTYPE.LEFT) && map.get(KEYINPUTTYPE.LEFT)) {
-            move(DIRECTION.LEFT);
+            move(LEFT);
+            facing = LEFT;
         }
 
         if (map.containsKey(KEYINPUTTYPE.RIGHT) && map.get(KEYINPUTTYPE.RIGHT)) {
-            move(DIRECTION.RIGHT);
+            move(RIGHT);
+            facing = RIGHT;
         }
 
         if (map.containsKey(KEYINPUTTYPE.SHOOT) && map.get(KEYINPUTTYPE.SHOOT)) {
