@@ -8,13 +8,13 @@ A DSL to quickly prototype shooter games (a CPSC 410 project).
 4. MengXin Zhao
 5. Varun Belani
 
-## Build and Run
-```
-git clone https://github.com/johnsonvu/shooter-dsl
-cd shooter-dsl
-javac @sources.txt
-java -cp src/ ui.Main
-```
+## Project Design Video
+[![Alt text](media/Preview/DesignVideo.png "DesignVideo")](https://youtu.be/mVZ4WgDRH4k)
+
+[DEMO VIDEO: Making a game using ShooterDSL](https://youtu.be/8GgdpYIpHvM)
+
+## Preview
+![Alt text](media/Preview/1.png "SampleGame")
 
 ## EBNF
 ```
@@ -74,8 +74,13 @@ OP ::= "+" | "-" | "/" | "*"
 
 ```
 
-## Preview
-![Alt text](media/Preview/1.png "SampleGame")
+## Build and Run
+```
+git clone https://github.com/johnsonvu/shooter-dsl
+cd shooter-dsl
+javac @sources.txt
+java -cp src/ ui.Main
+```
 
 ## Controls
 Default controls are assigned for up to 3 players
