@@ -25,8 +25,8 @@ public class Enemy extends GameObject {
         this.moveSpeed = 3;
 
         // randomly spawn in the top quarter of the map
-        super.x = randomInt(100, Game.getInstance().getWidth() - 100);
-        super.y = randomInt(100, Game.getInstance().getHeight()/4);
+        super.x = randomInt(0, Game.getInstance().getWidth());
+        super.y = randomInt(0, (Game.getInstance().getHeight() * 2)/3);
         image = Game.sprite.loadImage(this);
     }
 
