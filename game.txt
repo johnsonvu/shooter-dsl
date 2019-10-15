@@ -23,7 +23,7 @@ make game TouHouV2
 
 // modify objects
 set Hero{
-    damage = 10
+    damage = 30
     health = 10000
 }
 
@@ -118,6 +118,10 @@ define evil(){
 		shoot right
 		
 		damage = call doubleDamage(damage)
+
+		if (damage > 1000){
+		    damage = 1000
+		}
 		
 	}
 	

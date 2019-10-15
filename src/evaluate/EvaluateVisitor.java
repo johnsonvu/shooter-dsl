@@ -16,6 +16,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class EvaluateVisitor implements Visitor<Integer> {
+    private static int MAX_NUMBER = 100000;
+
     private static HashMap<String, Integer> varTable = null;
     private static HashMap<String, Integer> globalVarTable = new HashMap<>();
 
@@ -313,22 +315,23 @@ public class EvaluateVisitor implements Visitor<Integer> {
             Expression myExpr = new Expression();
             switch (expr.op.operation) {
                 case PLUS:
-                    return expr.ex1.accept(this) + expr.ex2.accept(this);
+                    try {
+                        return Math.addExact(expr.ex1.accept(this), expr.ex2.accept(this));
+                    }catch(ArithmeticException ae){
+                        return MAX_NUMBER;
+                    }
                 case MINUS:
                     return expr.ex1.accept(this) - expr.ex2.accept(this);
                 case MULTIPLY:
-                    if(expr.ex2.op == null) {
-                        Integer lmao = expr.ex1.accept(this);
-                        Integer lmao2 = expr.ex2.accept(this);
-                        return lmao* lmao2;
-//                        return expr.ex1.accept(this) * expr.ex2.accept(this);
+                    try {
+                        myExpr.ex1 = new Number(Math.multiplyExact(expr.ex1.accept(this), expr.ex2.ex1.accept(this)));
+                    }catch(ArithmeticException ae){
+                        myExpr.ex1 = new Number(MAX_NUMBER);
                     }
-                    myExpr.ex1 = new Number(expr.ex1.accept(this) * expr.ex2.ex1.accept(this));
                     myExpr.op = expr.ex2.op;
                     myExpr.ex2 = expr.ex2.ex2;
                     return myExpr.accept(this);
                 case DIVIDE:
-                    if(expr.ex2.op == null) return expr.ex1.accept(this) / expr.ex2.accept(this);
                     myExpr.ex1 = new Number(expr.ex1.accept(this) / expr.ex2.ex1.accept(this));
                     myExpr.op = expr.ex2.op;
                     myExpr.ex2 = expr.ex2.ex2;

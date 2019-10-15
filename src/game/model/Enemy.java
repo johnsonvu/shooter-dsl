@@ -14,9 +14,9 @@ import static lib.enums.Direction.*;
 import static lib.Util.randomInt;
 
 public class Enemy extends GameObject {
-    private int shootingDelay = 40;
+    private int shootingDelay = 2;
     private int shootingCounter = 0;
-    private int shootingSpeed = 3;
+    private int shootingSpeed = 7;
 
     public Enemy(EnemyProto proto, String name) {
         super(proto,name);

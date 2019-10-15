@@ -19,7 +19,7 @@ import static lib.Util.rotate;
 
 public class Player extends GameObject {
     private Audio audio;
-    private int shootingDelay = 4;
+    private int shootingDelay = 2;
     private int shootingCounter = 0;
     private int shootingSpeed = 7;
     private int collisionDelay = 7;
