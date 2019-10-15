@@ -50,11 +50,11 @@ define circleBuddyBehaviour() {
             shoot down
         }
     }
-    if(myCounter>100 and myCounter<200){
+    if(myCounter>100 and myCounter<200){ //use "and" instead of nested if statements
 		move right
 		shoot right
     }
-    if(myCounter>200 and myCounter<300){ //using and
+    if(myCounter>200 and myCounter<300){
         move up
         shoot up
     }
@@ -88,26 +88,17 @@ define evil(){
 	}
 	if (timer > 2000)
 	{
-		move right
-		move right
-		move right
-		move right
+		move 4 right
 		
 		if (yourCounter = 41){
 			yourCounter = 0
 		}
 		
 		if (yourCounter < 20){
-			move down
-			move down
-			move down
-			move down
+			move 4 down
 		}
 		if (yourCounter > 19 and yourCounter < 40){
-			move up
-			move up
-			move up
-			move up
+			move 4 up
 		}
 		
 		yourCounter = yourCounter+1
