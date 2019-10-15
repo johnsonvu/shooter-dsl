@@ -8,6 +8,14 @@ A DSL to quickly prototype shooter games (a CPSC 410 project).
 4. MengXin Zhao
 5. Varun Belani
 
+## Build and Run
+```
+git clone https://github.com/johnsonvu/shooter-dsl
+cd shooter-dsl
+javac @sources.txt
+java -cp src/ ui.Main
+```
+
 ## EBNF
 ```
 PROGRAM ::= GAME_DEF OBJECT_MODIFIER* FUNCTION_DEC*
