@@ -90,6 +90,8 @@ define evil(){
 	{
 		move right
 		move right
+		move right
+		move right
 		
 		if (yourCounter = 41){
 			yourCounter = 0
@@ -98,8 +100,12 @@ define evil(){
 		if (yourCounter < 20){
 			move down
 			move down
+			move down
+			move down
 		}
 		if (yourCounter > 19 and yourCounter < 40){
+			move up
+			move up
 			move up
 			move up
 		}
