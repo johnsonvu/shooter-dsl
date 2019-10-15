@@ -78,22 +78,22 @@ public class Player extends GameObject {
     }
 
     private void collision() {
-        if (collisionDelay == collisionCounter) {
-            for (int i = 0; i < Main.gameObjects.size(); i++) {
-                GameObject obj = Main.gameObjects.get(i);
-                if (obj instanceof Enemy) {
-                    if (this.getBounds().intersects(obj.getBounds())) {
+        for (int i = 0; i < Main.gameObjects.size(); i++) {
+            GameObject obj = Main.gameObjects.get(i);
+            if (obj instanceof Enemy) {
+                if (this.getBounds().intersects(obj.getBounds())) {
+                    if (collisionCounter >= collisionDelay) {
                         if(this.health - obj.damage > 0) {
-                            this.health -= obj.damage;
+                            this.health -= obj.damage*5;
                         } else {
                             this.health = 0;
                         }
+                        collisionCounter = 0;
+                    } else {
+                        collisionCounter++;
                     }
                 }
             }
-            collisionCounter = 0;
-        } else {
-            collisionCounter++;
         }
     }
 
