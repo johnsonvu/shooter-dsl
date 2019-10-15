@@ -49,7 +49,6 @@ public class Projectile extends GameObject {
                 if (this.getBounds().intersects(obj.getBounds())) {
                     Enemy e = (Enemy) obj;
                     e.setHealth(e.getHealth() - damage);
-                    Main.gameObjects.remove(e);
                     remove = true;
                     break;
                 }
@@ -84,5 +83,11 @@ public class Projectile extends GameObject {
         int xCenter = x - image.getWidth(null)/2;
         int yCenter = y - image.getHeight(null)/2;
         g.drawImage(image, xCenter,yCenter, null);
+    }
+
+    @Override
+    public boolean inBound(int x, int y) {
+        Game game = Game.getInstance();
+        return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - image.getHeight();
     }
 }

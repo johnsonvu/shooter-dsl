@@ -69,6 +69,10 @@ public class EvaluateVisitor implements Visitor<Integer> {
     @Override
     public Integer visit(ObjectModifier om) {
         objectPrototype = objectProtoTable.get(om.identifier.name);
+        if (objectPrototype == null){
+            objectPrototype = new EnemyProto(om.identifier.name, 1, 1);
+            objectProtoTable.put(om.identifier.name, objectPrototype);
+        }
 
         for(PropertyStatement ps : om.propertyStatements){
             ps.accept(this);
@@ -101,22 +105,33 @@ public class EvaluateVisitor implements Visitor<Integer> {
         switch(ms.type.type){
             case PLAYER:
                 PlayerProto playerProto = new PlayerProto(ms.identifier.name,1, 1);
-                playerProto.behaviour = new Identifier("default");
-                objectProtoTable.put(ms.identifier.name, playerProto);
+                if(objectProtoTable.containsKey(ms.identifier.name)) {
+                    playerProto = (PlayerProto) objectProtoTable.get(ms.identifier.name);
+                }
+                else {
+                    playerProto.behaviour = new Identifier("default");
+                    objectProtoTable.put(ms.identifier.name, playerProto);
+                }
 
                 for(int i =0; i< number; i++){
                     Player player = new Player(playerProto, ms.identifier.name);
-                    // TODO: make projectile proto w/ buffered image, so players shoot same projectile
+                    player.apply(playerProto);
                     Main.gameObjects.add(player);
                 }
                 break;
             case ENEMY:
                 EnemyProto enemyProto = new EnemyProto(ms.identifier.name, 1, 1);
-                enemyProto.behaviour = new Identifier("default");
-                objectProtoTable.put(ms.identifier.name, enemyProto);  //enemy should implement GameObject
+                if(objectProtoTable.containsKey(ms.identifier.name)) {
+                    enemyProto = (EnemyProto) objectProtoTable.get(ms.identifier.name);
+                }
+                else {
+                    enemyProto.behaviour = new Identifier("default");
+                    objectProtoTable.put(ms.identifier.name, enemyProto);  //enemy should implement GameObject
+                }
 
                 for(int i =0; i< number; i++){
                     Enemy enemy = new Enemy(enemyProto, ms.identifier.name);
+                    enemy.apply(enemyProto);
                     Main.gameObjects.add(enemy);
                 }
                 break;
@@ -132,10 +147,17 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
             case ITEM:
                 ItemProto itemProto = new ItemProto(ms.identifier.name,1, 1);
-                objectProtoTable.put(ms.identifier.name, itemProto);
+                if(objectProtoTable.containsKey(ms.identifier.name)) {
+                    itemProto = (ItemProto) objectProtoTable.get(ms.identifier.name);
+                }
+                else {
+                    itemProto.behaviour = new Identifier("default");
+                    objectProtoTable.put(ms.identifier.name, itemProto);
+                }
 
                 for(int i =0; i< number; i++){
                     Item item = new Item(itemProto, ms.identifier.name);
+                    item.apply(itemProto);
                     Main.gameObjects.add(item);
                 }
                 break;
@@ -295,11 +317,18 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 case MINUS:
                     return expr.ex1.accept(this) - expr.ex2.accept(this);
                 case MULTIPLY:
+                    if(expr.ex2.op == null) {
+                        Integer lmao = expr.ex1.accept(this);
+                        Integer lmao2 = expr.ex2.accept(this);
+                        return lmao* lmao2;
+//                        return expr.ex1.accept(this) * expr.ex2.accept(this);
+                    }
                     myExpr.ex1 = new Number(expr.ex1.accept(this) * expr.ex2.ex1.accept(this));
                     myExpr.op = expr.ex2.op;
                     myExpr.ex2 = expr.ex2.ex2;
                     return myExpr.accept(this);
                 case DIVIDE:
+                    if(expr.ex2.op == null) return expr.ex1.accept(this) / expr.ex2.accept(this);
                     myExpr.ex1 = new Number(expr.ex1.accept(this) / expr.ex2.ex1.accept(this));
                     myExpr.op = expr.ex2.op;
                     myExpr.ex2 = expr.ex2.ex2;
@@ -378,6 +407,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
 
     public void run(Identifier behaviour, GameObject go){
         String id = behaviour.name;
+
         gameObject = go;
 
         objectPrototype = go.proto;

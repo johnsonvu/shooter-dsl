@@ -1,42 +1,41 @@
-make game SampleGame
+make game TouHouV2
 {
     width = 1024
     height = 768
 }
 {
-    // create game objects
-	make player buddy
-	make player aaron
-	// make projectile lazers
-	make enemy ian
-	make 5 enemy justin
-	make item powerUp
-	make 20 enemy circleBuddy
-	new myVariable
-	myVariable = 0
+	//create timer variable
+	new timer
+	timer = 0
+	
+    // create player
+	make player Hero
+	
+	// create boss
+	make enemy MasterMind
+	
+	//make some other counters
+	new myCounter
+	myCounter = 0
+	new yourCounter
+	yourCounter = 0
 }
 
 // modify objects
-set buddy{
-    damage = 5
+set Hero{
+    damage = 10
     health = 10000
 }
 
-set ian{
+set MasterMind{
     damage = 1
-    health = 100
-    behave = ianBehaviour    //Run after every tick in the game
-}
-
-set justin{
-    damage = 100
-    health = 1
-    behave = justinBehaviour    //Run after every tick in the game
+    health = 10000
+    behave = evil
 }
 
 set circleBuddy{
     damage = 100
-    health = 1
+    health = 100
     behave = circleBuddyBehaviour    //Run after every tick in the game
 }
 
@@ -44,45 +43,86 @@ set powerUp{
     health = 1000
 }
 
-define ianBehaviour() {
-    move down
-    shoot down
-    shoot right
-    damage = damage+1
-}
-
-define justinBehaviour() {
-    move right
-    shoot down
-    damage = call doubleDamage(damage)
-}
-
 define circleBuddyBehaviour() {
-    if(myVariable>0){
-        if(myVariable<100){
+    if(myCounter>0){
+        if(myCounter<100){
             move down
             shoot down
         }
     }
-    if(myVariable>100){
-        if(myVariable<200){ //using 2 ifs like a peasant
-            move right
-            shoot right
-        }
+    if(myCounter>100 and myCounter<200){
+		move right
+		shoot right
     }
-    if(myVariable>200 and myVariable<300){ //using and
+    if(myCounter>200 and myCounter<300){ //using and
         move up
         shoot up
     }
-    if(myVariable>300 and myVariable<400){
+    if(myCounter>300 and myCounter<400){
         move left
         shoot left
     }
-    if(myVariable>400){
-        myVariable = 0
+    if(myCounter>400){
+        myCounter = 0
     }
 
-    myVariable = myVariable + 1
+    myCounter = myCounter + 1
+}
+
+define evil(){
+	if (timer = 0)
+	{
+		make 10 enemy firstwave
+	}
+	if (timer = 500)
+	{
+		make 10 enemy secondwave
+	}
+	if (timer = 1000)
+	{
+		make 10 enemy thirdwave
+	}
+	if (timer = 1500)
+	{
+		make 10 enemy circleBuddy
+	}
+	if (timer > 2000)
+	{
+		move right
+		move right
+		
+		if (yourCounter = 41){
+			yourCounter = 0
+		}
+		
+		if (yourCounter < 20){
+			move down
+			move down
+		}
+		if (yourCounter > 19 and yourCounter < 40){
+			move up
+			move up
+		}
+		
+		yourCounter = yourCounter+1
+		
+		shoot up
+		shoot down
+		shoot left
+		shoot right
+		
+		damage = call doubleDamage(damage)
+		
+	}
+	
+	//if they can't kill the boss fast enough, MOAR ENEMIES =)
+	if (timer = 4000)
+	{
+		timer = 0
+	}
+	
+	timer = timer + 1
+
 }
 
 // function def
