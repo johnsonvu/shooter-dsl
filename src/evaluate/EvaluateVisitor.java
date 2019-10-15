@@ -110,6 +110,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 if(objectProtoTable.containsKey(ms.identifier.name)) {
                     GameObjectProto temp = objectProtoTable.get(ms.identifier.name);
                     playerProto = new PlayerProto(temp.name, temp.health, temp.damage);
+                    playerProto.behaviour = temp.behaviour;
                 }
                 else {
                     playerProto.behaviour = new Identifier("default");
@@ -127,6 +128,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 if(objectProtoTable.containsKey(ms.identifier.name)) {
                     GameObjectProto temp = objectProtoTable.get(ms.identifier.name);
                     enemyProto = new EnemyProto(temp.name, temp.damage, temp.health);
+                    enemyProto.behaviour = temp.behaviour;
                 }
                 else {
                     enemyProto.behaviour = new Identifier("default");
@@ -154,6 +156,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
                 if(objectProtoTable.containsKey(ms.identifier.name)) {
                     GameObjectProto temp = objectProtoTable.get(ms.identifier.name);
                     itemProto = new ItemProto(temp.name, temp.damage, temp.health);
+                    itemProto.behaviour = temp.behaviour;
                 }
                 else {
                     itemProto.behaviour = new Identifier("default");
