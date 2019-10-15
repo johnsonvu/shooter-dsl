@@ -1,0 +1,91 @@
+make game SampleGame
+{
+    width = 1024
+    height = 768
+}
+{
+    // create game objects
+	make player buddy
+	make player aaron
+	// make projectile lazers
+	make enemy ian
+	make 5 enemy justin
+	make item powerUp
+	make 20 enemy circleBuddy
+	new myVariable
+	myVariable = 0
+}
+
+// modify objects
+set buddy{
+    damage = 5
+    health = 10000
+}
+
+set ian{
+    damage = 1
+    health = 100
+    behave = ianBehaviour    //Run after every tick in the game
+}
+
+set justin{
+    damage = 100
+    health = 1
+    behave = justinBehaviour    //Run after every tick in the game
+}
+
+set circleBuddy{
+    damage = 100
+    health = 1
+    behave = circleBuddyBehaviour    //Run after every tick in the game
+}
+
+set powerUp{
+    health = 1000
+}
+
+define ianBehaviour() {
+    move down
+    shoot down
+    shoot right
+    damage = damage+1
+}
+
+define justinBehaviour() {
+    move right
+    shoot down
+    damage = call doubleDamage(damage)
+}
+
+define circleBuddyBehaviour() {
+    if(myVariable>0){
+        if(myVariable<100){
+            move down
+            shoot down
+        }
+    }
+    if(myVariable>100){
+        if(myVariable<200){ //using 2 ifs like a peasant
+            move right
+            shoot right
+        }
+    }
+    if(myVariable>200 and myVariable<300){ //using and
+        move up
+        shoot up
+    }
+    if(myVariable>300 and myVariable<400){
+        move left
+        shoot left
+    }
+    if(myVariable>400){
+        myVariable = 0
+    }
+
+    myVariable = myVariable + 1
+}
+
+// function def
+define doubleDamage(dmg){
+    return 2 * dmg
+}

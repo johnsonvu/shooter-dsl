@@ -159,6 +159,12 @@ public abstract class GameObject {
 
     public boolean inBound(int x, int y) {
         Game game = Game.getInstance();
-        return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - image.getHeight();
+        return /* 0 <= x && x <= game.getWidth() - image.getWidth() && */ 0 <= y && y <= game.getHeight() - image.getHeight();
+    }
+
+    public void apply(GameObjectProto gop) {
+        this.damage = gop.damage;
+        this.health = gop.health;
+        this.behaviour = gop.behaviour;
     }
 }
