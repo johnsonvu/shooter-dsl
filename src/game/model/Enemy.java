@@ -138,4 +138,8 @@ public class Enemy extends GameObject {
         int yCenter = y - image.getHeight(null)/2;
         g.drawImage(image, xCenter,yCenter, null);
     }
+
+    public EnemyProto makeProto(String name) {
+        return new EnemyProto(name, 1, 1);
+    }
 }

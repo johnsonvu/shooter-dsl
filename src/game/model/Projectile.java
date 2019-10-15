@@ -90,4 +90,8 @@ public class Projectile extends GameObject {
         Game game = Game.getInstance();
         return 0 <= x && x <= game.getWidth() - image.getWidth() && 0 <= y && y <= game.getHeight() - image.getHeight();
     }
+
+    public ProjectileProto makeProto(String name) {
+        return new ProjectileProto(name, 1, 1);
+    }
 }

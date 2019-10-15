@@ -72,7 +72,7 @@ public class EvaluateVisitor implements Visitor<Integer> {
     public Integer visit(ObjectModifier om) {
         objectPrototype = objectProtoTable.get(om.identifier.name);
         if (objectPrototype == null){
-            objectPrototype = new EnemyProto(om.identifier.name, 1, 1);
+            objectPrototype = new GameObjectProto(om.identifier.name, 1, 1);
             objectProtoTable.put(om.identifier.name, objectPrototype);
         }
 
@@ -108,12 +108,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
             case PLAYER:
                 PlayerProto playerProto = new PlayerProto(ms.identifier.name,1, 1);
                 if(objectProtoTable.containsKey(ms.identifier.name)) {
-                    playerProto = (PlayerProto) objectProtoTable.get(ms.identifier.name);
+                    GameObjectProto temp = objectProtoTable.get(ms.identifier.name);
+                    playerProto = new PlayerProto(temp.name, temp.health, temp.damage);
                 }
                 else {
                     playerProto.behaviour = new Identifier("default");
-                    objectProtoTable.put(ms.identifier.name, playerProto);
                 }
+                objectProtoTable.put(ms.identifier.name, playerProto);
 
                 for(int i =0; i< number; i++){
                     Player player = new Player(playerProto, ms.identifier.name);
@@ -124,12 +125,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
             case ENEMY:
                 EnemyProto enemyProto = new EnemyProto(ms.identifier.name, 1, 1);
                 if(objectProtoTable.containsKey(ms.identifier.name)) {
-                    enemyProto = (EnemyProto) objectProtoTable.get(ms.identifier.name);
+                    GameObjectProto temp = objectProtoTable.get(ms.identifier.name);
+                    enemyProto = new EnemyProto(temp.name, temp.damage, temp.health);
                 }
                 else {
                     enemyProto.behaviour = new Identifier("default");
-                    objectProtoTable.put(ms.identifier.name, enemyProto);  //enemy should implement GameObject
                 }
+                objectProtoTable.put(ms.identifier.name, enemyProto);
 
                 for(int i =0; i< number; i++){
                     Enemy enemy = new Enemy(enemyProto, ms.identifier.name);
@@ -150,12 +152,13 @@ public class EvaluateVisitor implements Visitor<Integer> {
             case ITEM:
                 ItemProto itemProto = new ItemProto(ms.identifier.name,1, 1);
                 if(objectProtoTable.containsKey(ms.identifier.name)) {
-                    itemProto = (ItemProto) objectProtoTable.get(ms.identifier.name);
+                    GameObjectProto temp = objectProtoTable.get(ms.identifier.name);
+                    itemProto = new ItemProto(temp.name, temp.damage, temp.health);
                 }
                 else {
                     itemProto.behaviour = new Identifier("default");
-                    objectProtoTable.put(ms.identifier.name, itemProto);
                 }
+                objectProtoTable.put(ms.identifier.name, itemProto);
 
                 for(int i =0; i< number; i++){
                     Item item = new Item(itemProto, ms.identifier.name);

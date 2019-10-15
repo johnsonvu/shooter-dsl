@@ -37,4 +37,8 @@ public class Item extends GameObject {
         int yCenter = y - image.getHeight(null)/2;
         g.drawImage(image, xCenter,yCenter, null);
     }
+
+    public ItemProto makeProto(String name) {
+        return new ItemProto(name, 1, 1);
+    }
 }

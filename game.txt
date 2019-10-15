@@ -39,7 +39,7 @@ set circleBuddy{
     behave = circleBuddyBehaviour    //Run after every tick in the game
 }
 
-set powerUp{
+set healItem{
     health = 1000
 }
 
@@ -73,18 +73,22 @@ define evil(){
 	if (timer = 0)
 	{
 		make 10 enemy firstwave
+		make 10 item healItem
 	}
 	if (timer = 500)
 	{
 		make 10 enemy secondwave
+		make 10 item healItem
 	}
 	if (timer = 1000)
 	{
 		make 10 enemy thirdwave
+		make 10 item healItem
 	}
 	if (timer = 1500)
 	{
 		make 10 enemy circleBuddy
+		make 10 item healItem
 	}
 	if (timer > 2000)
 	{

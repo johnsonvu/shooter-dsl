@@ -132,4 +132,8 @@ public class Player extends GameObject {
         int yCenter = y - image.getHeight(null)/2;
         g.drawImage(image, xCenter,yCenter, null);
     }
+
+    public PlayerProto makeProto(String name) {
+        return new PlayerProto(name, 1, 1);
+    }
 }

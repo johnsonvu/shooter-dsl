@@ -167,4 +167,8 @@ public abstract class GameObject {
         this.health = gop.health;
         this.behaviour = gop.behaviour;
     }
+
+    public GameObjectProto makeProto(String name) {
+        return new GameObjectProto(name, 1, 1);
+    }
 }
